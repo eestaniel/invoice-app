@@ -1,9 +1,12 @@
-import Image from 'next/image'
+import SiveNavigation from "@/app/components/SiveNavigation";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-11-light">
+    <main className="flex flex-row w-full min-h-screen bg-11-light">
       {/*Side Navigation*/}
+      <SiveNavigation />
+
+      {/*Content*/}
 
     </main>
   )
