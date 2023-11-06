@@ -2,26 +2,91 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+@layer base {
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 222.2 84% 4.9%;
+
+        --card: 0 0% 100%;
+        --card-foreground: 222.2 84% 4.9%;
+
+        --popover: 0 0% 100%;
+        --popover-foreground: 222.2 84% 4.9%;
+
+
+        --1-primary: 252, 94%, 67%; /* Vibrant Blue */
+        --2-highlight: 252, 100%, 73%; /* Brilliant Lavender */
+        --3-dark: 233, 31%, 17%; /* Deep Twilight */
+        --4-base: 233, 30%, 21%; /* Midnight Blue */
+        --5-secondary: 231, 73%, 93%; /* Soft Sky */
+        --6-muted: 231, 20%, 61%; /* Steel Blue */
+        --7-info: 231, 37%, 63%; /* Periwinkle */
+        --8-text: 228, 29%, 7%; /* Eclipse */
+        --9-accent: 0, 80%, 63%; /* Vivid Red */
+        --10-soft-red: 0, 100%, 80%; /* Soft/Pastel Red */
+        --11-light: 240, 27%, 98%; /* Pale Lavender */
+        --12-subtext: 233, 30%, 11%; /* Obsidian Blue */
+
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 210 40% 98%;
+
+        --border: 214.3 31.8% 91.4%;
+        --input: 214.3 31.8% 91.4%;
+        --ring: 222.2 84% 4.9%;
+
+        --radius: 0.5rem;
+
+        .heading-l {
+            @apply font-spartan font-bold;
+            font-size: 36px; /* Custom font size */
+            line-height: 33px; /* Custom line height */
+            letter-spacing: -1px; /* Custom letter spacing */
+        }
+
+        .heading-m {
+            @apply font-spartan font-bold;
+            font-size: 24px;
+            line-height: 22px;
+            letter-spacing: -0.75px;
+        }
+
+        .heading-s {
+            font-size: 15px;
+            line-height: 24px;
+            letter-spacing: -0.25px;
+        }
+
+        .heading-s-v{
+            font-size: 15px;
+            line-height: 15px;
+            letter-spacing: -0.25px;
+        }
+
+        .body{
+            font-size: 13px;
+            line-height: 18px;
+            letter-spacing: -0.1px;
+        }
+
+        .body-v{
+            font-size: 13px;
+            line-height: 15px;
+            letter-spacing: -0.25px;
+        }
+
+
+
+    }
+
+
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
+@layer base {
+    * {
+        @apply border-border;
+    }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    body {
+        @apply bg-background text-foreground;
+    }
 }
