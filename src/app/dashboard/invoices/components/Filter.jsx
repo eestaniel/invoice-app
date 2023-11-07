@@ -1,12 +1,23 @@
 "use client"
 import {Popover, PopoverContent, PopoverTrigger} from "@/@/components/ui/popover";
 import {Checkbox} from "@/@/components/ui/checkbox";
-import {useState} from "react";
+import {useState, useRef} from "react";
 
 
 export default function Filter() {
   const [filterState, setFilterState] = useState(false);
   const [filterSelection, setFilterSelection] = useState([]);
+  const filterRef = useRef(null);
+
+      // if filterPopup is not focused, set filterState to false
+    const handleOutsideClick = (event) => {
+      if (filterRef.current && !filterRef.current.contains(event.target)) {
+        setFilterState(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+
+
   return (
     <>
       {/* filter group */}
@@ -17,7 +28,8 @@ export default function Filter() {
               className="heading-s-v text-8-text flex flex-row justify-center items-center gap-[0.875rem] whitespace-nowrap hover:cursor-pointer"
               onClick={() => setFilterState(!filterState)}
             >
-              Filter by status {!filterState ?
+              Filter by status
+              {!filterState ?
               (
                 <svg width="11" height="7" xmlns="http://www.w3.org/2000/svg">
                   <path d="M1 1l4.228 4.228L9.456 1" stroke="#7C5DFA" strokeWidth="2" fill="none"
@@ -32,7 +44,7 @@ export default function Filter() {
           </PopoverTrigger>
           {/* Popover Contents */}
           <PopoverContent
-            className="w-[12rem] h-[8rem] flex flex-col items-start justify-center text-left gap-2 pl-[1.5rem]">
+            id="filterPopup" ref={filterRef} className=" w-[12rem] h-[8rem] flex flex-col items-start justify-center text-left gap-2 pl-[1.5rem]">
             <div className="flex items-center space-x-2  hover:cursor-pointer group ">
               {/* option 1*/}
               <Checkbox

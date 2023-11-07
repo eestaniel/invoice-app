@@ -5,7 +5,7 @@ export default function DashboardLayout({children}) {
   return (
 
 
-    <section className="invoice-container flex flex-row  m-0 p-0 justify-start gap-1">
+    <section className="invoice-container flex flex-row  m-0 p-0 justify-start gap-1 overflow-x-hidden">
       <SiveNavigation/>
       <div className="">
         <InvoiceProvider>
