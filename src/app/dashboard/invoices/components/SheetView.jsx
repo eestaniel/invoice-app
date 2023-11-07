@@ -116,7 +116,7 @@ export default function SheetView({setSheetOpen}) {
             {/* Bill from group */}
             <div id="thisForm"
                  ref={formRef}
-                 className="pl-[10.5rem] pr-[3.5rem] w-full] overflow-auto mt-10 flex flex-col flex-grow h-screen">
+                 className="pl-[10.5rem] pr-[3.5rem] w-full] overflow-auto mt-10 flex flex-col flex-grow h-fit">
                 <h1 className="heading-m">New Invoice</h1>
 
                 {/* Bill From*/}
