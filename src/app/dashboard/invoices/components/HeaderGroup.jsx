@@ -11,9 +11,7 @@ export default function HeaderGroup() {
   const [isSheetOpen, setSheetOpen] = useState(false);
 
 
-  useEffect(() => {
-    console.log(invoiceList)
-  }, [invoiceList])
+
 
   return (
     <div className="content px-[22rem] pt-[4.875rem] w-screen relative">
@@ -43,7 +41,7 @@ export default function HeaderGroup() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-[100%] overflow-y-auto max-h-screen web hide-scrollbar">
-              <SheetView/>
+              <SheetView setSheetOpen={setSheetOpen}/>
             </SheetContent>
 
           </Sheet>
