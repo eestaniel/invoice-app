@@ -83,7 +83,7 @@
 
             &::-webkit-scrollbar {
                 display: none;
-                width: 0px;
+                width: 0;
                 background: transparent; /* make scrollbar transparent */
             }
 
@@ -92,6 +92,20 @@
 
             /* Hide scrollbar for IE and Edge */
             -ms-overflow-style: none;
+        }
+
+        .hide-arrow-input {
+            /* Hide arrow for number input */
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+            /* Firefox */
+            &[type=number] {
+                -moz-appearance: textfield;
+            }
         }
 
     }

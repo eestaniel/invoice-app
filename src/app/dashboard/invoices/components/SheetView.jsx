@@ -3,11 +3,37 @@ import {useState, useEffect} from "react";
 import {Input} from "@/@/components/ui/input"
 import {Label} from "@/@/components/ui/label"
 import {Button} from "@/@/components/ui/button";
-import Image from "next/image";
 
 
 export default function SheetView() {
   const [todayDate, setTodaydate] = useState(new Date());
+  const [items, setItems] = useState([]);
+
+  const addItem = () => {
+    const newItem = {name: "", quantity: "", price: "", total: ""};
+    setItems([...items, newItem]);
+  };
+
+  const removeItem = (index) => {
+    const newItems = [...items];
+    newItems.splice(index, 1);
+    setItems(newItems);
+  };
+  const handleItemChange = (e, index, field) => {
+    const value = e.target.value;
+    console.log(value, index, field)
+    const newItems = [...items];
+    newItems[index][field] = value;
+    setItems(newItems);
+
+  };
+
+
+  const printItems = () => {
+    console.log(items)
+    console.log('clicked')
+  }
+
 
   useEffect(() => {
     /* get todays date dd/mon/yyyy*/
@@ -25,14 +51,14 @@ export default function SheetView() {
   return (
     <>
       {/* Bill from group */}
-      <div className="pl-[10.5rem] pr-[3.5rem] w-full] overflow-hidden">
+      <div className="pl-[10.5rem] pr-[3.5rem] w-full] overflow-auto mt-10 flex flex-col flex-grow h-screen">
         <h1 className="heading-m">New Invoice</h1>
 
         {/* Bill From*/}
         {/*Street address-input
       group: city-input, post code-input, country-input*/}
         <div className="bill-from-group flex flex-col">
-          <Label htmlFor="bill-from" className="heading-s-v text-1-primary mb-[1.5rem] mt-[4.875rem]">Bill From</Label>
+          <Label htmlFor="bill-from" className="heading-s-v text-1-primary mb-[1.5rem] mt-[3rem]">Bill From</Label>
 
           <div className="group flex flex-col w-full gap-[0.625rem]">
             <Label htmlFor="to_street_address" className="body-v text-7-info">Street Address</Label>
@@ -58,7 +84,7 @@ export default function SheetView() {
 
         {/* Bill to*/}
         <div className="bill-to-group flex flex-col">
-          <Label htmlFor="bill-to" className="heading-s-v text-1-primary mb-[1.5rem] mt-[4.875rem] gap-[0.625rem]">
+          <Label htmlFor="bill-to" className="heading-s-v text-1-primary mb-[1.5rem] mt-[3rem] gap-[0.625rem]">
             BillTo
           </Label>
           <div className="group flex flex-col w-full gap-[0.625rem]">
@@ -96,11 +122,12 @@ export default function SheetView() {
         {/* Invoice Details */}
         <div className="bill-to-group flex flex-col gap-[1.5rem] mb-[1.5rem] mt-[3rem]">
           <div className="invoice-date-term-group flex flex-row gap-[1.5rem]">
-            <div className="group flex flex-col w-full gap-[0.625rem] relative">
+            <div className="group flex flex-col w-full gap-[0.625rem] relative ">
               <Label htmlFor="to_country" className="body-v text-7-info">Invoice Date</Label>
-              <Input className="w-full heading-s-v text-8-text opacity-[50%] pl-[1.25rem] border-5-secondary"/>
+              <Input
+                className="w-full heading-s-v text-8-text opacity-[50%] pl-[1.25rem] border-5-secondary justify-between"/>
               <div
-                className="data-group flex flex-row justify-between pl-[1.25rem] pr-[1rem] absolute h-full top-[60%] gap-[5rem]">
+                className="data-group flex flex-row justify-between pl-[1.25rem] pr-[1rem] absolute h-full top-[60%] gap-[6rem]">
                 <p className="heading-s-v opacity-50 ">{todayDate.toString()}</p>
                 <svg className=""
                      width="16" height="16" xmlns="http://www.w3.org/2000/svg">
@@ -114,7 +141,7 @@ export default function SheetView() {
               <Label htmlFor="to_country" className="body-v text-7-info">Payment Terms</Label>
               <Input className="w-full heading-s-v text-8-text opacity-[50%] pl-[1.25rem] border-5-secondary"/>
               <div
-                className="data-group flex flex-row justify-between pl-[1.25rem] pr-[1rem] absolute h-full top-[60%] gap-[5rem]">
+                className="data-group flex flex-row justify-between pl-[1.25rem] pr-[1rem] absolute h-full top-[60%] gap-[6rem]">
                 <p className="heading-s-v ">Net 30 Days</p>
                 <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 10">
                   <path d="M1 1l4.228 4.228L9.456 1" stroke="#7C5DFA" strokeWidth="2" fill="none" fillRule="evenodd"/>
@@ -125,7 +152,7 @@ export default function SheetView() {
           <div className="group flex flex-col w-full gap-[0.625rem]">
             <Label htmlFor="to_country" className="body-v text-7-info">Project Description</Label>
             <Input className="w-full  border-5-secondary heading-s-v text-8-text"
-                   placeHolder="e.g Graphic Design Service"/>
+                   placeholder="e.g Graphic Design Service"/>
           </div>
         </div>
 
@@ -154,29 +181,65 @@ export default function SheetView() {
 
           </div>
 
+          {/* map items and display to screen*/}
+          <div className="item-row flex flex-col justify-start items-center gap-[1rem]">
+            {items.map((item, index) => (
+              <div key={index} className="item-row flex flex-row justify-start items-center gap-[1rem] w-full">
+                <Input className="w-[13.375rem] border-5-secondary" value={item.name}
+                       onChange={e => handleItemChange(e, index, 'name')}/>
+                {/*input, allow numeric values only*/}
+                <Input className="w-[3rem] border-5-secondary hide-arrow-input"
+                       value={item.quantity}
+                       type="number" min="0" max="100" step="1" required="required"
+                       pattern="[0-9]*"
+                       placeholder="0"
+                       onChange={e => handleItemChange(e, index, 'quantity')}
+                />
+
+                <Input className="w-[6.25rem] border-5-secondary hide-arrow-input"
+                       value={item.price}
+                       placeholder="0.00"
+                       type="number" min="0" max="100" step="0.01" required="required"
+                       onChange={e => handleItemChange(e, index, 'price')}/>
+                <p className="grow  h-full heading-s-v text-6-muted pl-2">{item.quantity * item.price}</p>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/delete.png" alt="delete icon" className="w-[1rem] h-[1rem]"
+                     onClick={() => removeItem(index)}/>
+              </div>
+            ))}
+          </div>
+
           <Button className="w-full h-[3rem] bg-[#F9FAFE] rounded-[1.5rem] heading-s-v text-7-info hover:cursor-pointer
-          hover:bg-5-secondary ">
+          hover:bg-5-secondary mt-[1rem]"
+                  onClick={() => addItem()}
+          >
             + Add New Item
           </Button>
 
-          <div className="group-buttons flex flex-row justify-between gap-[0.5rem] mt-[3rem]">
-            <Button className="w-[6rem] h-[3rem] rounded-[1.5rem] bg-[#F9FAFE] text-7-info heading-s-v">Discard</Button>
-            <div className="groupbuttons flex flex-row gap-[0.5rem]">
-              <Button className="w-[8.25rem] h-[3rem] rounded-[1.5rem] bg-[#373B53] heading-s-v text-6-muted ">Save as Draft</Button>
-              <Button className="w-[8rem] h-[3rem] rounded-[1.5rem] bg-1-primary text-white" >Save & Send</Button>
-            </div>
-          </div>
-
-          {/*          <div className="item-row flex flex-row justify-start items-center gap-[1rem]">
-            <Input className="w-[13.375rem]  border-5-secondary"/>
-            <Input className="w-[3rem]  border-5-secondary"/>
-            <Input className="w-[6.255rem]  border-5-secondary"/>
-            <Input className="w-[3.5rem]  border-5-secondary"/>
-             eslint-disable-next-line @next/next/no-img-element
-            <img src="/delete.png" alt="delete icon" className="w-[1rem] h-[1rem]"/>
-          </div>*/}
         </div>
 
+
+      </div>
+      <div className="container-bottom-nav w-full h-[6.875rem] sticky bottom-0 bg-white pl-[7rem]">
+        <div className="group-buttons flex flex-row justify-between gap-[0.5rem] mt-[3rem]  w-full
+      h-[6.875rem] grow p-[1.5rem]"
+        >
+          <Button
+            className="w-[6rem] h-[3rem] rounded-[1.5rem] bg-[#F9FAFE] text-7-info heading-s-v stick"
+          >
+            Discard
+          </Button>
+          <div className="groupbuttons flex flex-row gap-[0.5rem]">
+            <Button className="w-[8.25rem] h-[3rem] rounded-[1.5rem] bg-[#373B53] heading-s-v text-6-muted "
+            >Save as Draft
+            </Button>
+            <Button className="w-[8rem] h-[3rem] rounded-[1.5rem] bg-1-primary text-white"
+                    onClick={() => printItems()}
+
+            >Save & Send
+            </Button>
+          </div>
+        </div>
       </div>
 
     </>

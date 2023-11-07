@@ -7,7 +7,7 @@ import SheetView from "@/app/dashboard/invoices/components/SheetView";
 import {Sheet, SheetTrigger, SheetContent} from "@/@/components/ui/sheet";
 
 export default function HeaderGroup() {
-  const {invoiceList, addInvoice} = useContext(InvoiceContext);
+  const {invoiceList} = useContext(InvoiceContext);
   const [isSheetOpen, setSheetOpen] = useState(false);
 
 
@@ -45,7 +45,9 @@ export default function HeaderGroup() {
             <SheetContent side="left" className="w-[100%] overflow-y-auto max-h-screen web hide-scrollbar">
               <SheetView/>
             </SheetContent>
+
           </Sheet>
+
         </div>
       </div>
     </div>
