@@ -32,32 +32,41 @@ export default function SheetView({setSheetOpen}) {
 
     const addItem = () => {
         const newItem = {name: "", quantity: "", price: "", total: ""};
-        setInvoiceData({
-            ...invoiceData,
-            itemList: [...invoiceData.itemList, newItem]
-        });
+        setInvoiceData(prevData => ({
+            ...prevData,
+            itemList: [...prevData.itemList, newItem]
+        }));
     };
-
 
     const removeItem = (index) => {
-        const filteredItems = invoiceData.itemList.filter((item, i) => i !== index);
-        setInvoiceData({
-            ...invoiceData,
-            itemList: filteredItems
-        });
+        setInvoiceData(prevData => ({
+            ...prevData,
+            itemList: prevData.itemList.filter((_, i) => i !== index)
+        }));
     };
 
-    const handleItemChange = (e, index, field) => {
-        const newItems = [...invoiceData.itemList];
-        newItems[index] = {
-            ...newItems[index],
-            [field]: e.target.value
-        };
-
-        setInvoiceData({
-            ...invoiceData,
-            itemList: newItems
-        });
+    const handleChange = (section, field, value, index = null) => {
+        if (index != null) {
+            // Handle itemList array
+            const newItems = [...invoiceData[section]];
+            newItems[index] = {
+                ...newItems[index],
+                [field]: value
+            };
+            setInvoiceData({
+                ...invoiceData,
+                [section]: newItems
+            });
+        } else {
+            // Handle other fields
+            setInvoiceData({
+                ...invoiceData,
+                [section]: {
+                    ...invoiceData[section],
+                    [field]: value
+                }
+            });
+        }
     };
 
 
@@ -101,7 +110,7 @@ export default function SheetView({setSheetOpen}) {
                         <Input id="from_address"
                                className="w-full mb-[1.5rem] border-5-secondary"
                                value={invoiceData.billFrom.address}
-                               onChange={e => handleItemChange('billFrom', 'address', e.target.value)}
+                               onChange={e => handleChange('billFrom', 'address', e.target.value)}
                         />
                     </div>
                     <div className="bill-from-group__group2 flex flex-row justify-between w-full gap-[1.5rem]">
@@ -109,21 +118,21 @@ export default function SheetView({setSheetOpen}) {
                             <Label htmlFor="from_city" className="body-v text-7-info">City</Label>
                             <Input className="w-full border-5-secondary"
                                    value={invoiceData.billFrom.city}
-                                   onChange={e => handleItemChange('billFrom', 'city', e.target.value)}
+                                   onChange={e => handleChange('billFrom', 'city', e.target.value)}
                             />
                         </div>
                         <div className="group flex flex-col w-full gap-[0.625rem]">
                             <Label htmlFor="from_post_code" className="body-v text-7-info">Post Code</Label>
                             <Input className="w-full border-5-secondary"
                                    value={invoiceData.billFrom.postCode}
-                                   onChange={e => handleItemChange('billFrom', 'postCode', e.target.value)}
+                                   onChange={e => handleChange('billFrom', 'postCode', e.target.value)}
                             />
                         </div>
                         <div className="group flex flex-col w-full gap-[0.625rem]">
                             <Label htmlFor="from_country" className="body-v text-7-info">Country</Label>
                             <Input className="w-full border-5-secondary"
                                    value={invoiceData.billFrom.country}
-                                   onChange={e => handleItemChange('billFrom', 'country', e.target.value)}
+                                   onChange={e => handleChange('billFrom', 'country', e.target.value)}
                             />
                         </div>
                     </div>
@@ -141,7 +150,7 @@ export default function SheetView({setSheetOpen}) {
                         <Input id="bill-from"
                                className="w-full mb-[1.5rem] border-5-secondary"
                                value={invoiceData.billTo.clientName}
-                               onChange={e => handleItemChange('billTo', 'clientName', e.target.value)}
+                               onChange={e => handleChange('billTo', 'clientName', e.target.value)}
                         />
                     </div>
                     <div className="bill-from-group__group3 flex flex-col justify-between w-full gap-[1.5rem]">
@@ -150,14 +159,14 @@ export default function SheetView({setSheetOpen}) {
                             <Label htmlFor="to_city" className="body-v text-7-info">Client's Email</Label>
                             <Input className="w-full border-5-secondary"
                                    value={invoiceData.billTo.clientEmail}
-                                   onChange={e => handleItemChange('billTo', 'clientEmail', e.target.value)}
+                                   onChange={e => handleChange('billTo', 'clientEmail', e.target.value)}
                             />
                         </div>
                         <div className="group flex flex-col w-full gap-[0.625rem]">
                             <Label htmlFor="to_address" className="body-v text-7-info">Street Address</Label>
                             <Input className="w-full border-5-secondary"
                                    value={invoiceData.billTo.address}
-                                   onChange={e => handleItemChange('billTo', 'address', e.target.value)}
+                                   onChange={e => handleChange('billTo', 'address', e.target.value)}
                             />
                         </div>
                         <div className="bill-to-group__group3 flex flex-row justify-between w-full gap-[1.5rem]">
@@ -165,21 +174,21 @@ export default function SheetView({setSheetOpen}) {
                                 <Label htmlFor="to_city" className="body-v text-7-info">City</Label>
                                 <Input className="w-full border-5-secondary"
                                        value={invoiceData.billTo.city}
-                                       onChange={e => handleItemChange('billTo', 'city', e.target.value)}
+                                       onChange={e => handleChange('billTo', 'city', e.target.value)}
                                 />
                             </div>
                             <div className="group flex flex-col w-full gap-[0.625rem]">
                                 <Label htmlFor="to_post_code" className="body-v text-7-info">Post Code</Label>
                                 <Input className="w-full border-5-secondary"
                                        value={invoiceData.billTo.postCode}
-                                       onChange={e => handleItemChange('billTo', 'postCode', e.target.value)}
+                                       onChange={e => handleChange('billTo', 'postCode', e.target.value)}
                                 />
                             </div>
                             <div className="group flex flex-col w-full gap-[0.625rem]">
                                 <Label htmlFor="to_country" className="body-v text-7-info">Country</Label>
                                 <Input className="w-full  border-5-secondary "
                                        value={invoiceData.billTo.country}
-                                       onChange={e => handleItemChange('billTo', 'country', e.target.value)}
+                                       onChange={e => handleChange('billTo', 'country', e.target.value)}
                                 />
                             </div>
                         </div>
@@ -194,7 +203,7 @@ export default function SheetView({setSheetOpen}) {
                             <Input
                                 className="w-full heading-s-v text-8-text opacity-[50%] pl-[1.25rem] border-5-secondary justify-between"
                                 value={invoiceData.invoiceDetails.invoiceDate}
-                                onChange={e => handleItemChange('invoiceDetails', 'invoiceDate', e.target.value)}
+                                onChange={e => handleChange('invoiceDetails', 'invoiceDate', e.target.value)}
                             />
                             <div
                                 className="data-group flex flex-row justify-between pl-[1.25rem] pr-[1rem] absolute h-full top-[60%] gap-[6rem]">
@@ -212,7 +221,7 @@ export default function SheetView({setSheetOpen}) {
                             <Input
                                 className="w-full heading-s-v text-8-text opacity-[50%] pl-[1.25rem] border-5-secondary"
                                 value={invoiceData.invoiceDetails.paymentTerms}
-                                onChange={e => handleItemChange('invoiceDetails', 'paymentTerms', e.target.value)}
+                                onChange={e => handleChange('invoiceDetails', 'paymentTerms', e.target.value)}
                             />
                             <div
                                 className="data-group flex flex-row justify-between pl-[1.25rem] pr-[1rem] absolute h-full top-[60%] gap-[6rem]">
@@ -229,7 +238,7 @@ export default function SheetView({setSheetOpen}) {
                         <Input className="w-full  border-5-secondary heading-s-v text-8-text"
                                placeholder="e.g Graphic Design Service"
                                value={invoiceData.invoiceDetails.projectDescription}
-                               onChange={e => handleItemChange('invoiceDetails', 'projectDescription', e.target.value)}
+                               onChange={e => handleChange('invoiceDetails', 'projectDescription', e.target.value)}
                         />
                     </div>
                 </div>
@@ -265,22 +274,24 @@ export default function SheetView({setSheetOpen}) {
                         {invoiceData['itemList'].map((item, index) => (
                             <div key={index}
                                  className="item-row flex flex-row justify-start items-center gap-[1rem] w-full">
-                                <Input className="w-[13.375rem] border-5-secondary" value={item.name}
-                                       onChange={e => handleItemChange(e, index, 'name')}/>
+                                <Input className="w-[13.375rem] border-5-secondary"
+                                       value={item.name}
+                                       onChange={e => handleChange('itemList', 'name', e.target.value, index)}
+                                />
                                 {/*input, allow numeric values only*/}
                                 <Input className="w-[3rem] border-5-secondary hide-arrow-input"
                                        value={item.quantity}
                                        type="number" min="0" max="100" step="1" required="required"
                                        pattern="[0-9]*"
                                        placeholder="0"
-                                       onChange={e => handleItemChange(e, index, 'quantity')}
+                                       onChange={e => handleChange('itemList', 'quantity', e.target.value, index)}
                                 />
 
                                 <Input className="w-[6.25rem] border-5-secondary hide-arrow-input"
                                        value={item.price}
                                        placeholder="0.00"
                                        type="number" min="0" max="100" step="0.01" required="required"
-                                       onChange={e => handleItemChange(e, index, 'price')}
+                                       onChange={e => handleChange('itemList', 'price', e.target.value, index)}
                                 />
                                 <p className="grow  h-full heading-s-v text-6-muted pl-2">{item.quantity * item.price}</p>
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
