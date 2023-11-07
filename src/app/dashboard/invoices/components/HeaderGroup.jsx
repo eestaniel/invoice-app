@@ -42,7 +42,7 @@ export default function HeaderGroup() {
                 <p className="heading-s-v whitespace-nowrap">New Invoice</p>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="ml-[7rem]">
+            <SheetContent side="left" className="w-[100%] overflow-y-auto max-h-screen web hide-scrollbar">
               <SheetView/>
             </SheetContent>
           </Sheet>
