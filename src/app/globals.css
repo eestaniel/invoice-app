@@ -51,24 +51,28 @@
         }
 
         .heading-s {
+            @apply font-spartan font-bold;
             font-size: 15px;
             line-height: 24px;
             letter-spacing: -0.25px;
         }
 
         .heading-s-v{
+            @apply font-spartan font-bold;
             font-size: 15px;
             line-height: 15px;
             letter-spacing: -0.25px;
         }
 
         .body{
+            @apply font-spartan font-medium;
             font-size: 13px;
             line-height: 18px;
             letter-spacing: -0.1px;
         }
 
         .body-v{
+            @apply font-spartan font-medium;
             font-size: 13px;
             line-height: 15px;
             letter-spacing: -0.25px;

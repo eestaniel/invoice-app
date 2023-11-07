@@ -3,8 +3,11 @@ import Image from "next/image";
 export default function SiveNavigation() {
   return (
     <div
-      className="container flex flex-col justify-start w-[7.15%] bg-[#373B53] m-0 p-0 overflow-clip rounded-icon1 relative">
-      <div className="icon-container h-[12.5%] w-full bg-yellow-400 rounded-icon1 relative overflow-clip">
+      className="
+      container flex flex-col justify-start h-screen min-w-[7rem] max-w-[7rem] w-[7.15%] bg-[#373B53] m-0 p-0
+      overflow-clip rounded-icon1 relative "
+    >
+      <div className="icon-container h-[15%] w-full bg-yellow-400 rounded-icon1 relative overflow-clip">
         <div className="icon1 bg-1-primary h-full w-full relative flex justify-center items-center">
           {/* logo icon*/}
           <svg className="z-10 h-[40%] w-[40%]" width="40" height="38" viewBox="0 0 40 38" fill="none"

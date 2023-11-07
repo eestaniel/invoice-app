@@ -76,5 +76,12 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require('postcss-import'),
+    require('tailwindcss/nesting'),
+    require('tailwindcss'),
+    require('autoprefixer'),
+    require('tailwindcss-animate'), // Add tailwindcss-animate here
+  ]
+
 }
