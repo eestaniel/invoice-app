@@ -5,11 +5,13 @@ export default function DashboardLayout({children}) {
   return (
 
 
-    <section className="flex flex-row w-full overflow-x-hidden">
+    <section className="invoice-container flex flex-row  m-0 p-0 justify-start">
       <SiveNavigation/>
-      <InvoiceProvider>
-        {children}
-      </InvoiceProvider>
+      <div>
+        <InvoiceProvider>
+          {children}
+        </InvoiceProvider>
+      </div>
 
     </section>
   );
