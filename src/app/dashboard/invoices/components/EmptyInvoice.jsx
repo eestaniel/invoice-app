@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function EmptyInvoice() {
   return (
-    <div className="w-full h-full group flex flex-col justify-center items-center gap-[4.125rem]">
+    <div className="empty-invoice-container w-full h-full group flex flex-col justify-center items-center gap-[4.125rem]">
       <Image
         src="/illustration-empty.svg"
         alt="avatar"
