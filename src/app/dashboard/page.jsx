@@ -4,6 +4,6 @@ export default function Page() {
 
 
   return (
-    <div></div>
+    <div className="w-full"></div>
   );
 }

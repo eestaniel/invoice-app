@@ -5,32 +5,47 @@ import {InvoiceContext} from "@/app/dashboard/invoices/context/InvoiceContext";
 import Filter from "@/app/dashboard/invoices/components/Filter";
 import SheetView from "@/app/dashboard/invoices/components/SheetView";
 import {Sheet, SheetTrigger, SheetContent} from "@/@/components/ui/sheet";
+import {handleSubmit} from "@/app/dashboard/invoices/components/HandleSubmit";
 
 export default function HeaderGroup() {
-  const {invoiceList} = useContext(InvoiceContext);
-  const [isSheetOpen, setSheetOpen] = useState(false);
+  const {invoiceList, setUseCallback, useCallback} = useContext(InvoiceContext);
+  const [invoiceOptions, setInvoiceOptions] = useState({
+    action: '',
+    method: '',
+    invoiceData: '',
+    type: ''
+  })
 
 
 
+  useEffect(() => {
+    const createInvoice = async () => {
+      await handleSubmit(invoiceOptions.method, invoiceOptions.action, invoiceOptions.invoiceData)
+    }
+    if (invoiceOptions.type === 'create') {
+      console.log("invoiceOptions: ", invoiceOptions)
+      createInvoice().then(() => setUseCallback(!useCallback))
+    }
+  }, [invoiceOptions])
 
   return (
-    <div className="content px-[22rem] pt-[4.875rem] w-screen relative">
+    <div className="content px-[22rem] pt-[4.875rem] w-full justify-center relative">
       <div className="invoice-header-container flex flex-row items-center justify-between w-full gap-[2.5rem] relative">
         <div className="group1 flex flex-row justify-between w-full">
           <div className="header-group">
             <h1 className="heading-l">Invoices</h1>
-            <p className="body-v text-6-muted ]">There are {invoiceList ? invoiceList.length : 0} total invoices</p>
+            <p className="body-v text-6-muted ]">There are {invoiceList.length} total invoices</p>
           </div>
         </div>
 
         <Filter/>
 
         <div className="group2">
-          <Sheet open={isSheetOpen} onOpenChange={setSheetOpen}>
+          <Sheet>
             <SheetTrigger asChild>
               <Button
                 className="bg-1-primary text-white rounded-[1.5rem] h-[3rem] w-[9.375rem] p-0 gap-[1rem] hover:bg-2-highlight"
-                onClick={() => setSheetOpen(true)}
+
               >
                 <svg className="w-[2rem] h-[2rem] bg-white rounded-full flex justify-center " width="11" height="11"
                      xmlns="http://www.w3.org/2000/svg" viewBox="-7 0 25 10">
@@ -41,7 +56,7 @@ export default function HeaderGroup() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-[100%] overflow-y-auto max-h-screen web hide-scrollbar">
-              <SheetView setSheetOpen={setSheetOpen}/>
+              <SheetView setInvoiceOptions={setInvoiceOptions}/>
             </SheetContent>
 
           </Sheet>

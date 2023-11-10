@@ -1,7 +1,5 @@
-import {Inter} from 'next/font/google'
 import './globals.css'
 
-const inter = Inter({subsets: ['latin']})
 
 export const metadata = {
   title: 'Create Next App',
@@ -23,7 +21,7 @@ export default function RootLayout({children}) {
     </head>
 
 
-    <body className={inter.className}>{children}</body>
+    <body className={"w-fit h-fit"}>{children}</body>
 
     </html>
   )
