@@ -4,12 +4,11 @@ import {Button} from "@/@/components/ui/button";
 import {InvoiceContext} from "@/app/dashboard/invoices/context/InvoiceContext";
 import Filter from "@/app/dashboard/invoices/components/Filter";
 import SheetView from "@/app/dashboard/invoices/components/SheetView";
-import {Sheet, SheetTrigger, SheetContent, SheetClose} from "@/@/components/ui/sheet";
+import {Sheet, SheetTrigger, SheetContent} from "@/@/components/ui/sheet";
 import {handleSubmit} from "@/app/dashboard/invoices/components/HandleSubmit";
 
 export default function HeaderGroup() {
   const {invoiceList, setUseCallback, useCallback} = useContext(InvoiceContext);
-  const [isSheetOpen, setSheetOpen] = useState(false);
   const [invoiceOptions, setInvoiceOptions] = useState({
     action: '',
     method: '',
@@ -46,7 +45,7 @@ export default function HeaderGroup() {
             <SheetTrigger asChild>
               <Button
                 className="bg-1-primary text-white rounded-[1.5rem] h-[3rem] w-[9.375rem] p-0 gap-[1rem] hover:bg-2-highlight"
-                onClick={() => setSheetOpen(true)}
+
               >
                 <svg className="w-[2rem] h-[2rem] bg-white rounded-full flex justify-center " width="11" height="11"
                      xmlns="http://www.w3.org/2000/svg" viewBox="-7 0 25 10">

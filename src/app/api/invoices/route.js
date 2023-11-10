@@ -13,7 +13,7 @@ function generateRandomLetters(length) {
   return result;
 }
 
-export async function GET(req) {
+export async function GET() {
   // get all invoice ids invoices
   const invoices = await prisma.invoices.findMany({
     select: {
@@ -65,7 +65,7 @@ export async function POST(req) {
     })
     if (existingInvoice === null) {
       // put customInvoiceID in database invoices[invoice.id].custom_id
-      const updatedInvoice = await prisma.invoices.update({
+      await prisma.invoices.update({
         where: {
           id: invoice.id
         },
@@ -77,7 +77,7 @@ export async function POST(req) {
     }
   }
 
-  const billFrom = await prisma.billfrom.create({
+  await prisma.billfrom.create({
     data: {
       invoice_id: invoice.id,
       address: body.invoiceData.billFrom.address,
@@ -87,7 +87,7 @@ export async function POST(req) {
     }
   })
 
-  const billTo = await prisma.billto.create({
+  await prisma.billto.create({
     data: {
       invoice_id: invoice.id,
       client_name: body.invoiceData.billTo.clientName,
@@ -111,8 +111,8 @@ export async function POST(req) {
   }
 
   // map body.itemList and create new item in Items table in postgresql
-  const items = body.invoiceData.itemList.map(async (item) => {
-    const newItem = await prisma.itemlist.create({
+  body.invoiceData.itemList.map(async (item) => {
+    await prisma.itemlist.create({
       data: {
         invoice_id: invoice.id,
         item_name: item.name,

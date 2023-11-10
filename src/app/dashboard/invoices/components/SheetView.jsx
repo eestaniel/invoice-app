@@ -13,7 +13,6 @@ import {
   SheetClose,
 } from "@/@/components/ui/sheet";
 import {format} from 'date-fns';
-import {handleSubmit} from "./HandleSubmit"
 
 
 export default function SheetView({setInvoiceOptions}) {
@@ -90,10 +89,6 @@ export default function SheetView({setInvoiceOptions}) {
     }
   };
 
-
-  const printItems = () => {
-    console.log(invoiceData)
-  }
 
 
   useEffect(() => {
@@ -421,7 +416,7 @@ export default function SheetView({setInvoiceOptions}) {
           <div className="groupbuttons flex flex-row gap-[0.5rem]">
             <SheetClose asChild>
               <Button className="w-[8.25rem] h-[3rem] rounded-[1.5rem] bg-[#373B53] heading-s-v text-6-muted "
-                      onClick={(e) => {
+                      onClick={() => {
                         console.log('save as draft')
                       }}
               >Save as Draft
