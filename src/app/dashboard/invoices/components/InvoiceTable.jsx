@@ -25,6 +25,22 @@ export default function InvoiceTable() {
     console.log(invoiceArray)
   }, [invoiceArray])
 
+
+  function getStatusClasses(status) {
+    let baseClasses = "w-[6rem] h-[2.75rem] flex flex-row rounded-[0.375rem] mr-[1.25rem] justify-center items-center heading-s-v capitalize bg-opacity-[6%]";
+    switch (status) {
+      case 'draft':
+        return `${baseClasses} bg-[#373B53] text-[#373B53]`;
+      case 'pending':
+        return `${baseClasses} bg-[#FF8F00] text-[#FF8F00]`;
+      case 'paid':
+        return `${baseClasses} bg-[#33D69F] text-[#33D69F]`;
+      default:
+        return baseClasses; // default classes
+    }
+  }
+
+
   return (
     <div className="w-[45.625rem] flex flex-col justify-center items-center text-center">
       <table className="w-full text-center items-center justify-center">
@@ -43,9 +59,10 @@ export default function InvoiceTable() {
                 className="flex flex-row heading-s-v text-7-info w-[8rem]">{invoice.clientName ? invoice.clientName : 'Not Available'}</td>
               <td
                 className="heading-s text-8-text flex flex-row justify-center items-center w-[7rem]">$ {invoice.total}</td>
-              <td
-                className={`w-[6rem] h-[2.75rem] flex flex-row rounded-[0.375rem] mr-[1.25rem] justify-center items-center heading-s-v capitalize bg-[${statusColor[invoice.status]}] bg-opacity-[6%]`}>
-                <span className={`text-[${statusColor[invoice.status]}]`}><li>{invoice.status}</li></span></td>
+              <td className={getStatusClasses(invoice.status)}>
+                <li>{invoice.status}</li>
+              </td>
+
               <td>
                 <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
                   <path d="M1 1l4 4-4 4" stroke="#7C5DFA" strokeWidth="2" fill="none" fillRule="evenodd"/>
