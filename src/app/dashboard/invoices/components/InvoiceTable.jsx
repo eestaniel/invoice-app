@@ -1,5 +1,5 @@
 export default function InvoiceTable() {
   return (
-    <div></div>
+    <div>table</div>
   );
 }

@@ -6,6 +6,7 @@ export const InvoiceContext = createContext();
 
 export const InvoiceProvider = ({children}) => {
   const [invoiceList, setInvoiceList] = useState([]);
+  const [useCallback, setUseCallback] = useState(false);
 
   // Function to update invoices
   const addInvoice = (invoiceId) => {
@@ -15,9 +16,9 @@ export const InvoiceProvider = ({children}) => {
   }
 
   // function to add invoices to invoice list
-  const addInvoices = (invoiceIds) => {
+  const setInvoices = (invoiceIds) => {
     // append invoiceIds to invoiceList
-    setInvoiceList([...invoiceList, ...invoiceIds]);
+    setInvoiceList(invoiceIds);
   }
 
   // Function to get invoices
@@ -33,7 +34,7 @@ export const InvoiceProvider = ({children}) => {
   }
 
   return (
-    < InvoiceContext.Provider value={{invoiceList, addInvoice, addInvoices, getInvoices, removeInvoice,}}>
+    < InvoiceContext.Provider value={{invoiceList, addInvoice, setInvoices, getInvoices, removeInvoice, useCallback, setUseCallback}}>
       {children}
     </InvoiceContext.Provider>
   );

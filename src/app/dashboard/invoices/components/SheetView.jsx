@@ -9,11 +9,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/@/components/ui/popover"
+import {
+  SheetClose,
+} from "@/@/components/ui/sheet";
 import {format} from 'date-fns';
 import {handleSubmit} from "./HandleSubmit"
 
 
-export default function SheetView({setSheetOpen}) {
+export default function SheetView({setInvoiceOptions}) {
   const [invoiceData, setInvoiceData] = useState({
     billFrom: {
       address: '',
@@ -86,7 +89,6 @@ export default function SheetView({setSheetOpen}) {
       });
     }
   };
-
 
 
   const printItems = () => {
@@ -417,19 +419,39 @@ export default function SheetView({setSheetOpen}) {
             Discard
           </Button>
           <div className="groupbuttons flex flex-row gap-[0.5rem]">
-            <Button className="w-[8.25rem] h-[3rem] rounded-[1.5rem] bg-[#373B53] heading-s-v text-6-muted "
-            >Save as Draft
-            </Button>
-            <Button className="w-[8rem] h-[3rem] rounded-[1.5rem] bg-1-primary text-white"
-                    onClick={(e)=> {
-                      const form = e.target.form
-                      const method = form.getAttribute('method').toUpperCase()
-                      const action = form.getAttribute('action')
-                      handleSubmit(e, method, action, invoiceData).then((res) => {})
-                    }}
+            <SheetClose asChild>
+              <Button className="w-[8.25rem] h-[3rem] rounded-[1.5rem] bg-[#373B53] heading-s-v text-6-muted "
+                      onClick={(e) => {
+                        console.log('save as draft')
+                      }}
+              >Save as Draft
+              </Button>
+            </SheetClose>
+            <SheetClose asChild>
+              <Button className="w-[8rem] h-[3rem] rounded-[1.5rem] bg-1-primary text-white"
+                      onClick={(e) => {
+                        const form = e.target.form
+                        const method = form.getAttribute('method').toUpperCase()
+                        const action = form.getAttribute('action')
 
-            >Save & Send
-            </Button>
+                        setInvoiceOptions(prev => {
+                          return {
+                            ...prev,
+                            action: action,
+                            body: invoiceData,
+                            method: method,
+                            invoiceData: invoiceData,
+                            type: 'create'
+                          }
+
+
+                        })
+
+                      }}
+
+              >Save & Send
+              </Button>
+            </SheetClose>
           </div>
         </div>
       </div>

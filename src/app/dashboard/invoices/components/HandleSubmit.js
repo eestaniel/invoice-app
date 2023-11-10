@@ -1,5 +1,5 @@
-export const handleSubmit = async (e, method, action, invoiceData) => {
-  e.preventDefault();
+export const handleSubmit = async (method, action, invoiceData) => {
+
   if (method === 'GET') {
     // Handle GET requests
   } else if (method === 'POST') {
