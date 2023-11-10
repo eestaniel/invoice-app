@@ -21,7 +21,7 @@ export default function RootLayout({children}) {
     </head>
 
 
-    <body className={"w-fit h-fit"}>{children}</body>
+    <body className={"w-full h-fit"}>{children}</body>
 
     </html>
   )
