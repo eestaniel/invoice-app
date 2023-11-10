@@ -15,7 +15,7 @@ export default function Filter() {
         setFilterState(false);
       }
     };
-    document.addEventListener("mousedown", handleOutsideClick);
+    //document.addEventListener("mousedown", handleOutsideClick);
 
 
   return (

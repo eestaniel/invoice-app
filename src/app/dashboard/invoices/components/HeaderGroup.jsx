@@ -7,11 +7,13 @@ import SheetView from "@/app/dashboard/invoices/components/SheetView";
 import {Sheet, SheetTrigger, SheetContent} from "@/@/components/ui/sheet";
 
 export default function HeaderGroup() {
-  const {invoiceList} = useContext(InvoiceContext);
+  const {invoiceList, getInvoices} = useContext(InvoiceContext);
   const [isSheetOpen, setSheetOpen] = useState(false);
 
 
-
+  useEffect(() => {
+    console.log('invoice list updated, re-rendering component')
+  }, [invoiceList])
 
   return (
     <div className="content px-[22rem] pt-[4.875rem] w-screen relative">
@@ -19,7 +21,7 @@ export default function HeaderGroup() {
         <div className="group1 flex flex-row justify-between w-full">
           <div className="header-group">
             <h1 className="heading-l">Invoices</h1>
-            <p className="body-v text-6-muted ]">There are {invoiceList ? invoiceList.length : 0} total invoices</p>
+            <p className="body-v text-6-muted ]">There are {invoiceList.length} total invoices</p>
           </div>
         </div>
 
