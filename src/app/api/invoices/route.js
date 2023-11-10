@@ -13,20 +13,65 @@ function generateRandomLetters(length) {
   return result;
 }
 
-export async function GET() {
-  // get all invoice ids invoices
-  const invoices = await prisma.invoices.findMany({
-    select: {
-      id: true
-    }
-  })
+export async function GET(req) {
 
-  return Response.json({
-    status: '201',
-    body: {
-      ids: invoices
-    }
-  })
+  // map nextUrl and create select: {item: true} object
+  const type = req.nextUrl.searchParams.get('type')
+  let invoices
+
+  if (type === 'ids') {
+    // get invoices based
+    invoices = await prisma.invoices.findMany({
+      select: {
+        id: true
+      }
+    })
+    return Response.json({
+      status: '201',
+      body: {
+        invoices: invoices
+      }
+    })
+  } else if (type === 'invoice-table') {
+    // from invoices get custom_id, invoice_date, total, status and billto.client_name
+    invoices = await prisma.invoices.findMany({
+      select: {
+        custom_id: true,
+        invoice_date: true,
+        total: true,
+        status: true,
+        billto: {
+          select: {
+            client_name: true
+          }
+        }
+      }
+    })
+    let newInvoices = []
+
+    invoices.forEach((invoice) => {
+      // convert 2023-11-09T00:00:00.000Z to 09 Nov 2023
+      const date = new Date(invoice.invoice_date)
+      const options = {year: 'numeric', month: 'short', day: 'numeric'}
+      const formattedDate = date.toLocaleDateString('en-GB', options)
+
+      newInvoices.push({
+        id: invoice.custom_id,
+        date: formattedDate,
+        clientName: invoice.billto[0].client_name,
+        total: invoice.total,
+        status: invoice.status
+      })
+    })
+
+    return Response.json({
+      status: '201',
+      body: {
+        invoices: newInvoices
+      }
+    })
+  }
+
 
 }
 
@@ -46,6 +91,7 @@ export async function POST(req) {
       invoice_date: invoiceDate,
       payment_terms: body.invoiceData.invoiceDetails.paymentTerms,
       project_description: body.invoiceData.invoiceDetails.projectDescription,
+      status: 'pending',
     }
   })
 
@@ -57,7 +103,7 @@ export async function POST(req) {
   // if it doesn't, use the unique id generated loop
   let customInvoiceID = null;
   for (let i = 0; i < 20; i++) {
-    customInvoiceID = `#${generateRandomLetters(2)}${Math.floor(1000 + Math.random() * 9000)}`;
+    customInvoiceID = `${generateRandomLetters(2)}${Math.floor(1000 + Math.random() * 9000)}`;
     const existingInvoice = await prisma.invoices.findUnique({
       where: {
         custom_id: customInvoiceID
@@ -110,8 +156,11 @@ export async function POST(req) {
     })
   }
 
+  let total = 0;
+
   // map body.itemList and create new item in Items table in postgresql
   body.invoiceData.itemList.map(async (item) => {
+    total += parseInt(item.price) * parseInt(item.quantity)
     await prisma.itemlist.create({
       data: {
         invoice_id: invoice.id,
@@ -122,6 +171,16 @@ export async function POST(req) {
         price: parseInt(item.price),
       }
     })
+  })
+
+  // update total in invoices table in postgresql
+  await prisma.invoices.update({
+    where: {
+      id: invoice.id
+    },
+    data: {
+      total: total
+    }
   })
 
 

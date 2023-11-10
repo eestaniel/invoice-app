@@ -37,6 +37,8 @@ model invoices {
   payment_terms       String?
   project_description String?
   custom_id           String?    @unique
+  status              String?
+  total               Decimal?   @db.Decimal
   billfrom            billfrom[]
   billto              billto[]
   itemlist            itemlist[]

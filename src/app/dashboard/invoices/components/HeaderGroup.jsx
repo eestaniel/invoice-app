@@ -26,10 +26,10 @@ export default function HeaderGroup() {
       console.log("invoiceOptions: ", invoiceOptions)
       createInvoice().then(() => setUseCallback(!useCallback))
     }
-  }, [invoiceOptions, setInvoiceOptions])
+  }, [invoiceOptions])
 
   return (
-    <div className="content px-[22rem] pt-[4.875rem] w-screen relative">
+    <div className="content px-[22rem] pt-[4.875rem] w-full justify-center relative">
       <div className="invoice-header-container flex flex-row items-center justify-between w-full gap-[2.5rem] relative">
         <div className="group1 flex flex-row justify-between w-full">
           <div className="header-group">

@@ -2,10 +2,10 @@ import Image from "next/image";
 
 export default function SiveNavigation() {
   return (
-    <div className="z-50 bg-red h-screen w-full">
+    <div className="z-50 bg-red h-screen min-w-[7rem]">
       <div
-        className="nav-container flex flex-col justify-start h-screen   min-w-[7rem] bg-[#373B53] m-0 p-0
-      overflow-clip rounded-icon1 z-50 fixed"
+        className="nav-container flex flex-col justify-start h-screen  bg-[#373B53] m-0 p-0
+      overflow-clip rounded-icon1 z-50 fixe w-full"
       >
         <div className="icon-container h-[15%] w-full bg-yellow-400 rounded-icon1 relative overflow-clip">
           <div className="icon1 bg-1-primary h-full w-full relative flex justify-center items-center">
