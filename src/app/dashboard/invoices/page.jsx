@@ -19,7 +19,7 @@ export default function Page() {
   }, [useCallback])
 
   return (
-    <div className="invoices__page-container bg-11-light flex flex-col 100%  min-h-screen h-screen items-center z-50 w-full
+    <div className="invoices__page-container bg-11-light flex flex-col 100%  min-h-screen h-fit items-center z-50 w-full
     gap-[4rem]">
       <HeaderGroup/>
       <div className=" table_row-container flex w-full h-fit items-center justify-center px-[15.75rem]

@@ -32,7 +32,7 @@ export default function InvoiceTable() {
         {invoiceArray.map((invoice, key) => {
           return (
             <tr key={key} className="row_contaienr flex flex-row  bg-white h-[4.5rem] justify-start items-center w-full
-            px-[2rem]">
+            px-[2rem] hover:border-1-primary hover:border-[1px] hover:cursor-pointer hover:scale-110">
               <td className="flex flex-row justify-start items-center w-[6rem]"><span
                 className="text-7-info heading-s-v">#</span>
                 <div className="heading-s-v">{invoice.id}</div>

@@ -10,7 +10,7 @@ export default function Home() {
         <button className="text-white bg-blue-500 button1 p-2"
                 onClick={() => router.push('/dashboard')}
         >
-          Dashboard
+          Dashboarda
         </button>
       </div>
 
