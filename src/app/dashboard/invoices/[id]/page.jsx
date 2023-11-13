@@ -47,12 +47,35 @@ export default function Page({params}) {
     return convertDate(paymentDueDate)
   }
 
+  const convertToCurrency = (num) => {
+    //convert num to float
+    num = parseFloat(num)
+    // Ensure the input is a number
+    if (typeof num !== 'number') {
+      console.error("Input must be a number.");
+      return null;
+    }
+
+    // Convert number to a string in currency format
+    return num.toLocaleString('en-US', {
+      style: 'decimal',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  }
+
+  const getInvoiceTotal = (qty, total) => {
+    return convertToCurrency(parseFloat(qty) * parseFloat(total))
+
+  }
+
   useEffect(() => {
     console.log(id)
     fetch(`/api/invoices?type=${type}&id=${id}`)
       .then(res => res.json())
       .then(data => {
         console.log(data)
+        console.log(invoiceData.itemlist)
         setInvoiceData(data.body.invoice)
       })
   }, []);
@@ -72,7 +95,7 @@ export default function Page({params}) {
                 <p>Go back</p>
               </div>
               <div
-                className="status_button-container flex flex-row justify-between w-full bg-white h-[5.5rem] mb-[1.5rem] px-8 py-6">
+                className="status_button-container flex flex-row justify-between w-full bg-white h-[5.5rem] mb-[1.5rem] px-8 py-6 rounded-[0.5rem]">
                 <div className="status-group flex flex-row items-center h-full gap-5 body-v text-[#858BB2]">
                   <p>Status</p>
                   <div
@@ -91,7 +114,7 @@ export default function Page({params}) {
                 </div>
               </div>
 
-              <div className="invoice_summary-container flex flex-col bg-white h-fit px-12 py-12 gap-4 w-full">
+              <div className="invoice_summary-container flex flex-col bg-white h-fit px-12 py-12 gap-4 w-full rounded-[0.5rem]">
                 <div className="invoice_summary-header-group flex flex-row justify-between ">
                   <div className="summary_header gap-2 flex flex-col">
                     <h1 className="heading-s text-6-muted">#<span className="text-8-text">{invoiceData.custom_id}</span>
@@ -132,6 +155,36 @@ export default function Page({params}) {
                     <p className="body-v text-7-info mb-3">Sent to</p>
                     <p className="heading-s capitalize ">{invoiceData.billto[0].client_email}</p>
                   </div>
+                </div>
+
+                <div className="invoice_summary-item-group w-full h-fit  bg-[#F9FAFE] ">
+                  <div className="bg-[#F9FAFE] p-8 rounded-t-[0.5rem] rounded-[0.5rem]">
+                    <div className="item_table-header-group flex flex-row justify-between mb-6 ">
+                      <div className="item_table-header flex flex-row w-full">
+                        <p className="body text-6-muted w-[17rem]">Item Name</p>
+                        <p className="body text-6-muted w-16 text-center">QTY.</p>
+                        <p className="body text-6-muted w-[6rem] text-right">Price</p>
+                        <p className="body text-6-muted flex-grow text-right">Total</p>
+                      </div>
+                    </div>
+                    <div className="item_table-body-group flex flex-col gap-4">
+                      {invoiceData.itemlist.map((item, index) => (
+                        <div key={index}
+                             className="item_table-body flex flex-row items-center">
+                          <p className="heading-s text-8-text w-[17rem]">{item.item_name}</p>
+                          <p className="heading-s text-7-info w-16 text-center">{item.quantity}</p>
+                          <p className="heading-s text-7-info text-right w-[6rem]">$ {convertToCurrency(item.price)}</p>
+                          <p
+                            className="heading-s text-8-text flex-grow text-right">$ {getInvoiceTotal(item.quantity, item.price)}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="invoice_summary-total-group bg-[#373B53] rounded-b-[0.5rem] flex flex-row justify-between items-center px-8 py-6">
+                    <p className="body text-white mr-8">Amount Due</p>
+                    <p className="heading-m text-white">$ {convertToCurrency(invoiceData.total)}</p>
+                  </div>
+
 
                 </div>
 
