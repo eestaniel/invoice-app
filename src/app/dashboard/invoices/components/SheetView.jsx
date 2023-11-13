@@ -35,7 +35,8 @@ export default function SheetView({setInvoiceOptions, sheetType, data, sheetMeth
       invoiceDate: new Date().toString(),
       paymentTerms: 'Net 30 Days',
       projectDescription: '',
-      custom_id: ''
+      custom_id: '',
+      status: ''
     },
     itemList: []
 
@@ -396,7 +397,7 @@ export default function SheetView({setInvoiceOptions, sheetType, data, sheetMeth
                    className="item-row flex flex-row justify-start items-center gap-[1rem] w-full">
                 <Input className="w-[13.375rem] border-5-secondary"
                        value={item.item_name}
-                       onChange={e => handleChange('itemList', 'name', e.target.value, index)}
+                       onChange={e => handleChange('itemList', 'item_name', e.target.value, index)}
                 />
                 {/*input, allow numeric values only*/}
                 <Input className="w-[3rem] border-5-secondary hide-arrow-input"
@@ -457,9 +458,30 @@ export default function SheetView({setInvoiceOptions, sheetType, data, sheetMeth
               <div className="groupbuttons flex flex-row gap-[0.5rem]">
                 <SheetClose asChild>
                   <Button className="w-[8.25rem] h-[3rem] rounded-[1.5rem] bg-[#373B53] heading-s-v text-6-muted "
-                          onClick={() => {
-                            console.log('save as draft')
+                          onClick={(e) => {
+                            console.log('draft')
+                            const form = e.target.form
+                            const method = form.getAttribute('method').toUpperCase()
+                            const action = form.getAttribute('action')
+                            // update invoiceData.invoiceDetails.status to draft
+
+                            console.log('haha', invoiceData)
+
+
+                            setInvoiceOptions(prev => {
+                              return {
+                                ...prev,
+                                action: action,
+                                body: invoiceData,
+                                method: method,
+                                invoiceData: invoiceData,
+                                type: 'create',
+                                status: 'draft'
+                              }
+                            })
                           }}
+
+
                   >Save as Draft
                   </Button>
                 </SheetClose>
@@ -470,6 +492,7 @@ export default function SheetView({setInvoiceOptions, sheetType, data, sheetMeth
                             const method = form.getAttribute('method').toUpperCase()
                             const action = form.getAttribute('action')
 
+
                             setInvoiceOptions(prev => {
                               return {
                                 ...prev,
@@ -477,7 +500,8 @@ export default function SheetView({setInvoiceOptions, sheetType, data, sheetMeth
                                 body: invoiceData,
                                 method: method,
                                 invoiceData: invoiceData,
-                                type: 'create'
+                                type: 'create',
+                                status: 'pending'
                               }
                             })
 
@@ -495,10 +519,10 @@ export default function SheetView({setInvoiceOptions, sheetType, data, sheetMeth
           >
             <SheetClose asChild>
               <Button
-              className="w-[6rem] h-[3rem] rounded-[1.5rem] bg-[#F9FAFE] text-7-info heading-s-v stick"
-            >
-              Cancel
-            </Button>
+                className="w-[6rem] h-[3rem] rounded-[1.5rem] bg-[#F9FAFE] text-7-info heading-s-v stick"
+              >
+                Cancel
+              </Button>
             </SheetClose>
             <div className="groupbuttons flex flex-row gap-[0.5rem]">
               <SheetClose asChild>

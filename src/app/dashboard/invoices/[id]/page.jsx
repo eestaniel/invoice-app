@@ -23,7 +23,8 @@ export default function Page({params}) {
     action: '',
     method: '',
     invoiceData: '',
-    type: ''
+    type: '',
+
   })
 
 

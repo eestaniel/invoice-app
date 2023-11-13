@@ -13,14 +13,14 @@ export default function HeaderGroup() {
     action: '',
     method: '',
     invoiceData: '',
-    type: ''
+    type: '',
+    status: ''
   })
-
 
 
   useEffect(() => {
     const createInvoice = async () => {
-      await handleSubmit(invoiceOptions.method, invoiceOptions.action, invoiceOptions.invoiceData)
+      await handleSubmit(invoiceOptions.method, invoiceOptions.action, invoiceOptions.invoiceData, invoiceOptions.status)
     }
     if (invoiceOptions.type === 'create') {
       console.log("invoiceOptions: ", invoiceOptions)

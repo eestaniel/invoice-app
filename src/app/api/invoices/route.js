@@ -110,7 +110,7 @@ export async function POST(req) {
       invoice_date: invoiceDate,
       payment_terms: body.invoiceData.invoiceDetails.paymentTerms,
       project_description: body.invoiceData.invoiceDetails.projectDescription,
-      status: 'pending',
+      status: body.status,
     }
   })
 
@@ -183,7 +183,7 @@ export async function POST(req) {
     await prisma.itemlist.create({
       data: {
         invoice_id: invoice.id,
-        item_name: item.name,
+        item_name: item.item_name,
         //convert item.quantity to integer
         quantity: parseInt(item.quantity),
         //convert item.price to integer
@@ -304,7 +304,7 @@ export async function PUT(req) {
                 id: item.id
               },
               data: {
-                item_name: item.name,
+                item_name: item.item_name,
                 quantity: parseInt(item.quantity),
                 price: parseInt(item.price),
               }
