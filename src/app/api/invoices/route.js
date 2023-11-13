@@ -260,10 +260,6 @@ export async function PUT(req) {
         id: invoiceData.invoiceDetails.id
       },
       data: {
-        invoice_date: invoiceDate,
-        payment_terms: invoiceData.invoiceDetails.paymentTerms,
-        project_description: invoiceData.invoiceDetails.projectDescription,
-
         /* billfrom table*/
         billfrom: {
           update: {
@@ -310,7 +306,11 @@ export async function PUT(req) {
               }
             }
           })
-        }
+        },
+        invoice_date: invoiceDate,
+        payment_terms: invoiceData.invoiceDetails.paymentTerms,
+        project_description: invoiceData.invoiceDetails.projectDescription,
+        total: total,
       }
     })
 
