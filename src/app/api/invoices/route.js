@@ -62,6 +62,9 @@ export async function GET(req) {
             client_name: true
           }
         }
+      },
+      orderBy: {
+        invoice_date: 'asc'
       }
     });
     let newInvoices = []
