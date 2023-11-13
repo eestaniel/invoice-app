@@ -1,6 +1,6 @@
 "use client"
 import {useEffect, useState} from "react";
-import {useRouter} from "next/navigation";
+import {useRouter, usePathname} from "next/navigation";
 import {Button} from "@/@/components/ui/button";
 
 
@@ -8,12 +8,14 @@ export default function Page({params}) {
   const {id} = params
   const type = 'summary'
   const [invoiceData, setInvoiceData] = useState({})
+  const [status, setStatus] = useState('')
   const statusColor = {
     draft: '#373B53',
     pending: '#FF8F00',
     paid: '#33D69F'
   }
   const router = useRouter()
+
 
   function getStatusClasses(status) {
     let baseClasses = "w-[6rem] h-[2.75rem] flex flex-row rounded-[0.375rem] mr-[1.25rem] justify-center items-center heading-s-v capitalize bg-opacity-[6%]";
@@ -82,16 +84,32 @@ export default function Page({params}) {
       })
   }
 
+  const handleMarkAsPaid = (id) => {
+    // try if status not 201
+    const status = 'status'
+    fetch(`/api/invoices?type=${status}&id=${id}`, {
+      method: 'PUT',
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        setStatus('paid')
+      })
+  }
+
   useEffect(() => {
     console.log(id)
     fetch(`/api/invoices?type=${type}&id=${id}`)
       .then(res => res.json())
       .then(data => {
-        console.log(data)
-        console.log(invoiceData.itemlist)
         setInvoiceData(data.body.invoice)
+        setStatus(data.body.invoice.status)
       })
   }, []);
+
+  useEffect(() => {
+    console.log(status)
+  }, [setStatus, status])
 
   return (
     <>
@@ -104,7 +122,9 @@ export default function Page({params}) {
                 <div
                   className="back_group flex flex-row items-center justify-start w-full h-[1rem] gap-[1.5rem] heading-s-v text-8-text mb-[2rem]
                   max-w-[730px] hover:cursor-pointer group"
-                  onClick={() => {router.back()}}
+                  onClick={() => {
+                    router.back()
+                  }}
                 >
                   <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
                     <path d="M6.342.886L2.114 5.114l4.228 4.228" stroke="#9277FF" strokeWidth="2" fill="none"
@@ -120,8 +140,8 @@ export default function Page({params}) {
                   <div className="status-group flex flex-row items-center h-full gap-5 body-v text-[#858BB2]">
                     <p>Status</p>
                     <div
-                      className={`status-button flex flex-row justify-center items-center w-[6.5rem] h-[2.75rem] rounded-[0.375rem] mr-[1.25rem] heading-s-v capitalize bg-opacity-[6%] ${getStatusClasses(invoiceData.status)}`}>
-                      <li>{invoiceData.status}</li>
+                      className={`status-button flex flex-row justify-center items-center w-[6.5rem] h-[2.75rem] rounded-[0.375rem] mr-[1.25rem] heading-s-v capitalize bg-opacity-[6%] ${getStatusClasses(status)}`}>
+                      <li>{status}</li>
                     </div>
                   </div>
                   <div className="button-group flex flex-row gap-2">
@@ -131,7 +151,11 @@ export default function Page({params}) {
                       className="px-6 py-[1.125rem] rounded-[1.5rem] bg-9-accent text-white heading-s-v hover:bg-10-soft-red"
                       onClick={() => handleDelete(invoiceData.custom_id)}
                     >Delete</Button>
-                    <Button className="px-6 py-[1.125rem] rounded-[1.5rem] bg-1-primary text-white heading-s-v hover:bg-2-highlight">Mark as
+                    <Button
+                      className="px-6 py-[1.125rem] rounded-[1.5rem] bg-1-primary text-white heading-s-v hover:bg-2-highlight"
+                      disabled={status === 'paid'}
+                      onClick={() => handleMarkAsPaid(invoiceData.custom_id)}
+                    >Mark as
                       Paid</Button>
                   </div>
                 </div>

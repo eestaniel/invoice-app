@@ -92,6 +92,7 @@ export default function SheetView({setInvoiceOptions}) {
 
 
   useEffect(() => {
+
     /* get todays date dd/mon/yyyy*/
     /*first three letters of month*/
     const today = new Date();
@@ -107,7 +108,6 @@ export default function SheetView({setInvoiceOptions}) {
         invoiceDate: `${dd} ${mm} ${yyyy}`
       }
     })
-
   }, [])
 
   return (

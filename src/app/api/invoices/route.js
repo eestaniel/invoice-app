@@ -226,3 +226,27 @@ export async function DELETE(req) {
     }
   })
 }
+
+export async function PUT(req) {
+  const type = req.nextUrl.searchParams.get('type')
+  const id = req.nextUrl.searchParams.get('id')
+
+  if (type === 'status') {
+    await prisma.invoices.update({
+      where: {
+        custom_id: id
+      },
+      data: {
+        status: 'paid'
+      }
+    })
+    return Response.json({
+      status: '201',
+      body: {
+        message: `Invoice ${id} status updated to paid`,
+        id: id,
+        status: 'status'
+      }
+    })
+  }
+}
