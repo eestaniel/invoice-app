@@ -179,7 +179,7 @@ export async function POST(req) {
 
   // map body.itemList and create new item in Items table in postgresql
   body.invoiceData.itemList.map(async (item) => {
-    total += parseFloat(item.price) * parseFloat(item.quantity)
+    total += parseFloat(item.price) * parseInt(item.quantity)
     await prisma.itemlist.create({
       data: {
         invoice_id: invoice.id,
@@ -298,7 +298,7 @@ export async function PUT(req) {
 
         itemlist: {
           updateMany: invoiceData.itemList.map((item) => {
-            total += parseFloat(item.price) * parseFloat(item.quantity)
+            total += parseFloat(item.price) * parseInt(item.quantity)
             return {
               where: {
                 id: item.id
@@ -345,9 +345,9 @@ export async function PUT(req) {
           itemlist: invoiceData.itemList.map((item) => {
             return {
               id: item.id,
-              item_name: item.name,
+              item_name: item.item_name,
               quantity: parseInt(item.quantity),
-              price: parseInt(item.price),
+              price: parseFloat(item.price),
             }
           }),
         }

@@ -52,7 +52,7 @@ export default function SheetView({setInvoiceOptions, sheetType, data, sheetMeth
   };
 
   const addItem = () => {
-    const newItem = {name: "", quantity: "", price: "", total: ""};
+    const newItem = {item_name: "", quantity: "", price: "", total: ""};
     setInvoiceData(prevData => ({
       ...prevData,
       itemList: [...prevData.itemList, newItem]
