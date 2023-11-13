@@ -82,7 +82,7 @@ export default function InvoiceTable() {
                 <div className="heading-s-v">{invoice.id}</div>
               </td>
               <td className="flex flex-row justify-center heading-s-v text-7-info gap-2 w-[12rem] mr-[2rem]"><span
-                className="text-6-muted">Due</span> {invoice.date}</td>
+                className="text-6-muted">Due</span> {invoice.due_date}</td>
               <td
                 className="flex flex-row heading-s-v text-7-info w-[8rem]">{invoice.clientName ? invoice.clientName : 'Not Available'}</td>
               <td

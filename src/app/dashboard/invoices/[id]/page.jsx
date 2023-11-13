@@ -53,14 +53,12 @@ export default function Page({params}) {
     }
   }
 
-  const convertDate = (date) => {
-    //convert 2023-11-09T00:00:00.000Z to Nov 9 2023
-    const dateObj = new Date(date)
-    const month = dateObj.toLocaleString('default', {month: 'short'})
-    const day = dateObj.getDate()
-    const year = dateObj.getFullYear()
-    return `${month} ${day} ${year}`
-  }
+const convertDate = (date) => {
+  // Convert 2023-11-09T00:00:00.000Z to Nov 9 2023
+  const dateObj = new Date(date);
+  const options = { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' };
+  return dateObj.toLocaleDateString('default', options);
+}
 
   const getPaymentDueDate = (date) => {
     // get invoiceData.payment_terms, split "Net 30 days" and grab 30, convert to integer, add to invoiceData.invoice_date

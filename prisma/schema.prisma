@@ -34,6 +34,7 @@ model billto {
 model invoices {
   id                  String     @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   invoice_date        DateTime?  @db.Date
+  due_date            DateTime?  @db.Date
   payment_terms       String?
   project_description String?
   custom_id           String?    @unique

@@ -13,6 +13,17 @@ function generateRandomLetters(length) {
   return result;
 }
 
+
+const getPaymentDueDate = (date, terms) => {
+  // get invoiceData.payment_terms, split "Net 30 days" and grab 30, convert to integer, add to invoiceData.invoice_date
+  // convert to data using convertDate()
+  const paymentTermsNum = parseInt(terms.split(' ')[1])
+  const invoiceDate = new Date(date)
+  console.log(invoiceDate, paymentTermsNum)
+  invoiceDate.setDate(invoiceDate.getDate() + paymentTermsNum)
+  return new Date(invoiceDate)
+}
+
 export async function GET(req) {
 
   // map nextUrl and create select: {item: true} object
@@ -54,7 +65,7 @@ export async function GET(req) {
       where: whereCondition,
       select: {
         custom_id: true,
-        invoice_date: true,
+        due_date: true,
         total: true,
         status: true,
         billto: {
@@ -64,20 +75,20 @@ export async function GET(req) {
         }
       },
       orderBy: {
-        invoice_date: 'asc'
+        due_date: 'asc'
       }
     });
     let newInvoices = []
 
     invoices.forEach((invoice) => {
       // convert 2023-11-09T00:00:00.000Z to 09 Nov 2023
-      const date = new Date(invoice.invoice_date)
-      const options = {year: 'numeric', month: 'short', day: 'numeric'}
+      const date = new Date(invoice.due_date)
+      const options = {year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC'}
       const formattedDate = date.toLocaleDateString('en-GB', options)
 
       newInvoices.push({
         id: invoice.custom_id,
-        date: formattedDate,
+        due_date: formattedDate,
         clientName: invoice.billto[0].client_name,
         total: invoice.total,
         status: invoice.status
@@ -124,10 +135,12 @@ export async function POST(req) {
   // body.invoiceData.invoiceDetails.invoiceDate is like "02 Aug 2021"
   // we need to convert it to Date object so that we can store it in postgresql
   const invoiceDate = new Date(body.invoiceData.invoiceDetails.invoiceDate)
+  const dueDate = getPaymentDueDate(body.invoiceData.invoiceDetails.invoiceDate, body.invoiceData.invoiceDetails.paymentTerms)
 
   const invoice = await prisma.invoices.create({
     data: {
       invoice_date: invoiceDate,
+      due_date: dueDate,
       payment_terms: body.invoiceData.invoiceDetails.paymentTerms,
       project_description: body.invoiceData.invoiceDetails.projectDescription,
       status: body.status,
