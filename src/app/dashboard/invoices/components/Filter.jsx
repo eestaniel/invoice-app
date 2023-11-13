@@ -22,11 +22,10 @@ export default function Filter() {
     <>
       {/* filter group */}
       <div className="filter-group flex flex-row justify-center items-center gap-[0.875rem]">
-        <Popover>
+        <Popover open={filterState} onOpenChange={setFilterState}>
           <PopoverTrigger>
             <p
               className="heading-s-v text-8-text flex flex-row justify-center items-center gap-[0.875rem] whitespace-nowrap hover:cursor-pointer"
-              onClick={() => setFilterState(!filterState)}
             >
               Filter by status
               {!filterState ?
