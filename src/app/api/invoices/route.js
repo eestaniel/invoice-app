@@ -208,6 +208,21 @@ export async function POST(req) {
       key: JSON.stringify(body)
     }
   })
+}
 
-
+// delete invoice by id parameter
+export async function DELETE(req) {
+  const id = req.nextUrl.searchParams.get('id')
+  await prisma.invoices.delete({
+    where: {
+      custom_id: id
+    }
+  })
+  return Response.json({
+    status: '201',
+    body: {
+      message: `Invoice ${id} deleted`,
+      id: id
+    }
+  })
 }
