@@ -56,7 +56,7 @@ export default function HeaderGroup() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-[100%] overflow-y-auto max-h-screen web hide-scrollbar">
-              <SheetView setInvoiceOptions={setInvoiceOptions}/>
+              <SheetView setInvoiceOptions={setInvoiceOptions} sheetType={'create'} sheetMethod={'POST'}/>
             </SheetContent>
 
           </Sheet>

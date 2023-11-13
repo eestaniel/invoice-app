@@ -1,7 +1,10 @@
 "use client"
 import {useEffect, useState} from "react";
-import {useRouter, usePathname} from "next/navigation";
+import {useRouter} from "next/navigation";
 import {Button} from "@/@/components/ui/button";
+import {Sheet, SheetTrigger, SheetContent} from "@/@/components/ui/sheet";
+import SheetView from "@/app/dashboard/invoices/components/SheetView";
+import {handleSubmit} from "@/app/dashboard/invoices/components/HandleSubmit";
 
 
 export default function Page({params}) {
@@ -9,12 +12,19 @@ export default function Page({params}) {
   const type = 'summary'
   const [invoiceData, setInvoiceData] = useState({})
   const [status, setStatus] = useState('')
+
   const statusColor = {
     draft: '#373B53',
     pending: '#FF8F00',
     paid: '#33D69F'
   }
   const router = useRouter()
+  const [invoiceOptions, setInvoiceOptions] = useState({
+    action: '',
+    method: '',
+    invoiceData: '',
+    type: ''
+  })
 
 
   function getStatusClasses(status) {
@@ -79,7 +89,6 @@ export default function Page({params}) {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         router.back()
       })
   }
@@ -92,24 +101,38 @@ export default function Page({params}) {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         setStatus('paid')
       })
   }
 
   useEffect(() => {
-    console.log(id)
     fetch(`/api/invoices?type=${type}&id=${id}`)
       .then(res => res.json())
       .then(data => {
         setInvoiceData(data.body.invoice)
         setStatus(data.body.invoice.status)
-      })
+    })
+
   }, []);
 
   useEffect(() => {
-    console.log(status)
+    console.log(invoiceData)
+  }, [invoiceData])
+
+  useEffect(() => {
+
   }, [setStatus, status])
+
+  useEffect(() => {
+    const createInvoice = async () => {
+      const data = await handleSubmit(invoiceOptions.method, invoiceOptions.action, invoiceOptions.invoiceData)
+      console.log(data.body.invoiceData)
+      setInvoiceData(data.body.invoiceData)
+    }
+    if (invoiceOptions.type === 'create') {
+      createInvoice().then(() => {})
+    }
+  }, [invoiceOptions])
 
   return (
     <>
@@ -117,7 +140,7 @@ export default function Page({params}) {
         (
           <>
             <div
-              className="page_container  pt-[4.0625rem] bg-11-light min-h-screen w-full justify-center flex flex-col">
+              className="page_container  pt-[4.0625rem] bg-11-light min-h-screen h-fit w-full justify-center flex flex-col">
               <div className="w-full flex justify-center">
                 <div
                   className="back_group flex flex-row items-center justify-start w-full h-[1rem] gap-[1.5rem] heading-s-v text-8-text mb-[2rem]
@@ -145,8 +168,18 @@ export default function Page({params}) {
                     </div>
                   </div>
                   <div className="button-group flex flex-row gap-2">
-                    <Button
-                      className="px-6 py-[1.125rem] rounded-[1.5rem] bg-[#F9FAFE] text-7-info heading-s-v hover:bg-5-secondary">Edit</Button>
+                    <Sheet>
+                      <SheetTrigger asChild>
+                        <Button
+                          className="px-6 py-[1.125rem] rounded-[1.5rem] bg-[#F9FAFE] text-7-info heading-s-v hover:bg-5-secondary"
+                        >
+                          Edit
+                        </Button>
+                      </SheetTrigger>
+                      <SheetContent className={"w-[100%] overflow-y-scroll max-h-screen web hide-scrollbar"}>
+                        <SheetView setInvoiceOptions={setInvoiceOptions} sheetType={'edit'} data={invoiceData} sheetMethod={'PUT'}/>
+                      </SheetContent>
+                    </Sheet>
                     <Button
                       className="px-6 py-[1.125rem] rounded-[1.5rem] bg-9-accent text-white heading-s-v hover:bg-10-soft-red"
                       onClick={() => handleDelete(invoiceData.custom_id)}

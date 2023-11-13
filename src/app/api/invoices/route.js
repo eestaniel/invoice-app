@@ -79,7 +79,8 @@ export async function GET(req) {
       include: {
         billfrom: true,
         billto: true,
-        itemlist: true
+        itemlist: true,
+
       }
     })
 
@@ -146,7 +147,7 @@ export async function POST(req) {
       invoice_id: invoice.id,
       address: body.invoiceData.billFrom.address,
       city: body.invoiceData.billFrom.city,
-      post_code: body.invoiceData.billFrom.postCode,
+      post_code: body.invoiceData.billFrom.post_code,
       country: body.invoiceData.billFrom.country,
     }
   })
@@ -158,7 +159,7 @@ export async function POST(req) {
       client_email: body.invoiceData.billTo.clientEmail,
       address: body.invoiceData.billTo.address,
       city: body.invoiceData.billTo.city,
-      post_code: body.invoiceData.billTo.postCode,
+      post_code: body.invoiceData.billTo.post_code,
       country: body.invoiceData.billTo.country,
     }
   })
@@ -178,7 +179,7 @@ export async function POST(req) {
 
   // map body.itemList and create new item in Items table in postgresql
   body.invoiceData.itemList.map(async (item) => {
-    total += parseInt(item.price) * parseInt(item.quantity)
+    total += parseFloat(item.price) * parseFloat(item.quantity)
     await prisma.itemlist.create({
       data: {
         invoice_id: invoice.id,
@@ -229,9 +230,10 @@ export async function DELETE(req) {
 
 export async function PUT(req) {
   const type = req.nextUrl.searchParams.get('type')
-  const id = req.nextUrl.searchParams.get('id')
+
 
   if (type === 'status') {
+    const id = req.nextUrl.searchParams.get('id')
     await prisma.invoices.update({
       where: {
         custom_id: id
@@ -248,5 +250,110 @@ export async function PUT(req) {
         status: 'status'
       }
     })
+  } else {
+    const body = await req.json()
+    const invoiceData = body.invoiceData
+    const invoiceDate = new Date(body.invoiceData.invoiceDetails.invoiceDate)
+    let total = 0;
+    await prisma.invoices.update({
+      where: {
+        id: invoiceData.invoiceDetails.id
+      },
+      data: {
+        invoice_date: invoiceDate,
+        payment_terms: invoiceData.invoiceDetails.paymentTerms,
+        project_description: invoiceData.invoiceDetails.projectDescription,
+
+        /* billfrom table*/
+        billfrom: {
+          update: {
+            where: {
+              id: invoiceData.billFrom.id
+            },
+            data: {
+              address: invoiceData.billFrom.address,
+              city: invoiceData.billFrom.city,
+              post_code: invoiceData.billFrom.post_code,
+              country: invoiceData.billFrom.country,
+            }
+
+          }
+        },
+        /* billto table*/
+        billto: {
+          update: {
+            where: {
+              id: invoiceData.billTo.id
+            },
+            data: {
+              client_name: invoiceData.billTo.clientName,
+              client_email: invoiceData.billTo.clientEmail,
+              address: invoiceData.billTo.address,
+              city: invoiceData.billTo.city,
+              post_code: invoiceData.billTo.post_code,
+              country: invoiceData.billTo.country,
+            }
+          }
+        },
+
+        itemlist: {
+          updateMany: invoiceData.itemList.map((item) => {
+            total += parseFloat(item.price) * parseFloat(item.quantity)
+            return {
+              where: {
+                id: item.id
+              },
+              data: {
+                item_name: item.name,
+                quantity: parseInt(item.quantity),
+                price: parseInt(item.price),
+              }
+            }
+          })
+        }
+      }
+    })
+
+    return Response.json({
+      status: '201',
+      body: {
+        message: 'Invoice updated',
+        invoiceData: {
+          custom_id: invoiceData.invoiceDetails.custom_id,
+          invoice_date: invoiceData.invoiceDetails.invoiceDate,
+          payment_terms: invoiceData.invoiceDetails.paymentTerms,
+          project_description: invoiceData.invoiceDetails.projectDescription,
+          status: invoiceData.invoiceDetails.status,
+          id: invoiceData.invoiceDetails.id,
+          total: total,
+          billfrom: [{
+            address: invoiceData.billFrom.address,
+            city: invoiceData.billFrom.city,
+            post_code: invoiceData.billFrom.post_code,
+            country: invoiceData.billFrom.country,
+            id: invoiceData.billFrom.id,
+          }],
+          billto: [{
+            client_name: invoiceData.billTo.clientName,
+            client_email: invoiceData.billTo.clientEmail,
+            address: invoiceData.billTo.address,
+            city: invoiceData.billTo.city,
+            post_code: invoiceData.billTo.post_code,
+            country: invoiceData.billTo.country,
+            id: invoiceData.billTo.id,
+          }],
+          itemlist: invoiceData.itemList.map((item) => {
+            return {
+              id: item.id,
+              item_name: item.name,
+              quantity: parseInt(item.quantity),
+              price: parseInt(item.price),
+            }
+          }),
+        }
+      }
+    })
+
+
   }
 }

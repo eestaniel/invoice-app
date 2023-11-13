@@ -15,12 +15,12 @@ import {
 import {format} from 'date-fns';
 
 
-export default function SheetView({setInvoiceOptions}) {
+export default function SheetView({setInvoiceOptions, sheetType, data, sheetMethod}) {
   const [invoiceData, setInvoiceData] = useState({
     billFrom: {
       address: '',
       city: '',
-      postCode: '',
+      post_code: '',
       country: ''
     },
     billTo: {
@@ -28,13 +28,14 @@ export default function SheetView({setInvoiceOptions}) {
       clientEmail: '',
       address: '',
       city: '',
-      postCode: '',
+      post_code: '',
       country: ''
     },
     invoiceDetails: {
       invoiceDate: new Date().toString(),
       paymentTerms: 'Net 30 Days',
-      projectDescription: ''
+      projectDescription: '',
+      custom_id: ''
     },
     itemList: []
 
@@ -90,28 +91,61 @@ export default function SheetView({setInvoiceOptions}) {
   };
 
 
-
   useEffect(() => {
+    if (sheetType === 'edit') {
+      setInvoiceData({
+        ...invoiceData,
+        billFrom: {
+          ...invoiceData.billFrom,
+          address: data.billfrom[0].address,
+          city: data.billfrom[0].city,
+          post_code: data.billfrom[0].post_code,
+          country: data.billfrom[0].country,
+          id: data.billfrom[0].id
+        },
+        billTo: {
+          ...invoiceData.billTo,
+          clientName: data.billto[0].client_name,
+          clientEmail: data.billto[0].client_email,
+          address: data.billto[0].address,
+          city: data.billto[0].city,
+          post_code: data.billto[0].post_code,
+          country: data.billto[0].country,
+          id: data.billto[0].id
+        },
+        invoiceDetails: {
+          ...invoiceData.invoiceDetails,
+          invoiceDate: data.invoice_date,
+          paymentTerms: data.payment_terms,
+          projectDescription: data.project_description,
+          custom_id: data.custom_id,
+          id: data.id
+        },
+        itemList: data.itemlist
+      })
 
-    /* get todays date dd/mon/yyyy*/
-    /*first three letters of month*/
-    const today = new Date();
-    const dd = today.getDate();
-    const mm = today.toLocaleString('default', {month: 'short'});
-    const yyyy = today.getFullYear();
+    } else {
+      /* get todays date dd/mon/yyyy*/
+      /*first three letters of month*/
+      const today = new Date();
+      const dd = today.getDate();
+      const mm = today.toLocaleString('default', {month: 'short'});
+      const yyyy = today.getFullYear();
 
-    /*const todayDate = `${dd} ${mm} ${yyyy}`;*/
-    setInvoiceData({
-      ...invoiceData,
-      invoiceDetails: {
-        ...invoiceData.invoiceDetails,
-        invoiceDate: `${dd} ${mm} ${yyyy}`
-      }
-    })
+      /*const todayDate = `${dd} ${mm} ${yyyy}`;*/
+      setInvoiceData({
+        ...invoiceData,
+        invoiceDetails: {
+          ...invoiceData.invoiceDetails,
+          invoiceDate: `${dd} ${mm} ${yyyy}`
+        }
+      })
+    }
+
   }, [])
 
   return (
-    <form method="POST" action="/api/invoices">
+    <form method={`${sheetMethod}`} action="/api/invoices">
       {/* Bill from group */}
       <div id="thisForm"
            ref={formRef}
@@ -142,8 +176,8 @@ export default function SheetView({setInvoiceOptions}) {
             <div className="group flex flex-col w-full gap-[0.625rem]">
               <Label htmlFor="from_post_code" className="body-v text-7-info">Post Code</Label>
               <Input className="w-full border-5-secondary"
-                     value={invoiceData.billFrom.postCode}
-                     onChange={e => handleChange('billFrom', 'postCode', e.target.value)}
+                     value={invoiceData.billFrom.post_code}
+                     onChange={e => handleChange('billFrom', 'post_code', e.target.value)}
               />
             </div>
             <div className="group flex flex-col w-full gap-[0.625rem]">
@@ -198,8 +232,8 @@ export default function SheetView({setInvoiceOptions}) {
               <div className="group flex flex-col w-full gap-[0.625rem]">
                 <Label htmlFor="to_post_code" className="body-v text-7-info">Post Code</Label>
                 <Input className="w-full border-5-secondary"
-                       value={invoiceData.billTo.postCode}
-                       onChange={e => handleChange('billTo', 'postCode', e.target.value)}
+                       value={invoiceData.billTo.post_code}
+                       onChange={e => handleChange('billTo', 'post_code', e.target.value)}
                 />
               </div>
               <div className="group flex flex-col w-full gap-[0.625rem]">
@@ -349,8 +383,8 @@ export default function SheetView({setInvoiceOptions}) {
               <Label htmlFor="to_country" className="body-v text-7-info">Price</Label>
 
             </div>
-            <div className="group flex w-[3.5rem] flex-col gap-[0.625rem]">
-              <Label htmlFor="to_country" className="body-v text-7-info">Total</Label>
+            <div className="group flex w-[3.5rem] flex-col gap-[0.625rem] textr">
+              <Label htmlFor="to_country" className="body-v text-7-info text-right">Total</Label>
             </div>
 
           </div>
@@ -361,7 +395,7 @@ export default function SheetView({setInvoiceOptions}) {
               <div key={index}
                    className="item-row flex flex-row justify-start items-center gap-[1rem] w-full">
                 <Input className="w-[13.375rem] border-5-secondary"
-                       value={item.name}
+                       value={item.item_name}
                        onChange={e => handleChange('itemList', 'name', e.target.value, index)}
                 />
                 {/*input, allow numeric values only*/}
@@ -379,7 +413,12 @@ export default function SheetView({setInvoiceOptions}) {
                        type="number" min="0" max="100" step="0.01" required="required"
                        onChange={e => handleChange('itemList', 'price', e.target.value, index)}
                 />
-                <p className="grow  h-full heading-s-v text-6-muted pl-2">{item.quantity * item.price}</p>
+                <p
+                  className="w-[3.8125rem]   h-full heading-s-v text-6-muted pl-2 text-right">{(item.quantity * item.price).toLocaleString('en-us', {
+                  style: 'decimal',
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2
+                })}</p>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <svg width="13" height="16" xmlns="http://www.w3.org/2000/svg" onClick={() => removeItem(index)}>
                   <path className="hover:cursor-pointer hover:fill-red-500"
@@ -402,53 +441,91 @@ export default function SheetView({setInvoiceOptions}) {
 
       </div>
       <div className="container-bottom-nav w-full h-[6.875rem] sticky bottom-0 bg-white pl-[7rem]">
-        <div className="group-buttons flex flex-row justify-between gap-[0.5rem] mt-[3rem]  w-full
+        {sheetType !== 'edit' ?
+          (
+            <div className="group-buttons flex flex-row justify-between gap-[0.5rem] mt-[3rem]  w-full
       h-[6.875rem] grow p-[1.5rem]"
-        >
-          <Button
-            className="w-[6rem] h-[3rem] rounded-[1.5rem] bg-[#F9FAFE] text-7-info heading-s-v stick"
-            // on click discard all changes and close sheet
-            onClick={() => setSheetOpen(false)}
+            >
+              <Button
+                className="w-[6rem] h-[3rem] rounded-[1.5rem] bg-[#F9FAFE] text-7-info heading-s-v stick"
+                // on click discard all changes and close sheet
+                onClick={() => setSheetOpen(false)}
 
+              >
+                Discard
+              </Button>
+              <div className="groupbuttons flex flex-row gap-[0.5rem]">
+                <SheetClose asChild>
+                  <Button className="w-[8.25rem] h-[3rem] rounded-[1.5rem] bg-[#373B53] heading-s-v text-6-muted "
+                          onClick={() => {
+                            console.log('save as draft')
+                          }}
+                  >Save as Draft
+                  </Button>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Button className="w-[8rem] h-[3rem] rounded-[1.5rem] bg-1-primary text-white"
+                          onClick={(e) => {
+                            const form = e.target.form
+                            const method = form.getAttribute('method').toUpperCase()
+                            const action = form.getAttribute('action')
+
+                            setInvoiceOptions(prev => {
+                              return {
+                                ...prev,
+                                action: action,
+                                body: invoiceData,
+                                method: method,
+                                invoiceData: invoiceData,
+                                type: 'create'
+                              }
+                            })
+
+                          }}
+
+                  >Save & Send
+                  </Button>
+                </SheetClose>
+              </div>
+            </div>
+          )
+          :
+          (<div className="group-buttons flex flex-row justify-end gap-[0.5rem] mt-[3rem]  w-full
+      h-[6.875rem] grow p-[1.5rem]"
           >
-            Discard
-          </Button>
-          <div className="groupbuttons flex flex-row gap-[0.5rem]">
             <SheetClose asChild>
-              <Button className="w-[8.25rem] h-[3rem] rounded-[1.5rem] bg-[#373B53] heading-s-v text-6-muted "
-                      onClick={() => {
-                        console.log('save as draft')
-                      }}
-              >Save as Draft
-              </Button>
+              <Button
+              className="w-[6rem] h-[3rem] rounded-[1.5rem] bg-[#F9FAFE] text-7-info heading-s-v stick"
+            >
+              Cancel
+            </Button>
             </SheetClose>
-            <SheetClose asChild>
-              <Button className="w-[8rem] h-[3rem] rounded-[1.5rem] bg-1-primary text-white"
-                      onClick={(e) => {
-                        const form = e.target.form
-                        const method = form.getAttribute('method').toUpperCase()
-                        const action = form.getAttribute('action')
+            <div className="groupbuttons flex flex-row gap-[0.5rem]">
+              <SheetClose asChild>
+                <Button className="w-[8rem] h-[3rem] rounded-[1.5rem] bg-1-primary text-white"
+                        onClick={(e) => {
+                          const form = e.target.form
+                          const method = form.getAttribute('method').toUpperCase()
+                          const action = form.getAttribute('action')
+                          setInvoiceOptions(prev => {
+                            return {
+                              ...prev,
+                              action: action,
+                              body: invoiceData,
+                              method: method,
+                              invoiceData: invoiceData,
+                              type: 'create'
+                            }
+                          })
 
-                        setInvoiceOptions(prev => {
-                          return {
-                            ...prev,
-                            action: action,
-                            body: invoiceData,
-                            method: method,
-                            invoiceData: invoiceData,
-                            type: 'create'
-                          }
+                        }}
 
-
-                        })
-
-                      }}
-
-              >Save & Send
-              </Button>
-            </SheetClose>
-          </div>
-        </div>
+                >Save Changes
+                </Button>
+              </SheetClose>
+            </div>
+          </div>)
+        }
       </div>
     </form>
 
