@@ -33,8 +33,25 @@ export async function GET(req) {
       }
     })
   } else if (type === 'invoice-table') {
+    // Create an array to hold status filters
+    const statusFilters = [];
+    for (let i = 1; i <= 3; i++) {
+      const status = req.nextUrl.searchParams.get(`status${i}`);
+      if (status) {
+        statusFilters.push(status);
+      }
+    }
+
+    // Build the query conditionally based on status filters
+    const whereCondition = statusFilters.length > 0 ? {
+      status: {
+        in: statusFilters, // Filters the invoices by the specified statuses
+      }
+    } : {};
+
     // from invoices get custom_id, invoice_date, total, status and billto.client_name
     invoices = await prisma.invoices.findMany({
+      where: whereCondition,
       select: {
         custom_id: true,
         invoice_date: true,
@@ -46,7 +63,7 @@ export async function GET(req) {
           }
         }
       }
-    })
+    });
     let newInvoices = []
 
     invoices.forEach((invoice) => {

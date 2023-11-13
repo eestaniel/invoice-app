@@ -5,7 +5,7 @@ import {useRouter} from "next/navigation";
 export default function InvoiceTable() {
   const router = useRouter();
   const [invoiceArray, setInvoiceArray] = useState([]);
-  const {invoiceList, setInvoices, useCallback} = useContext(InvoiceContext);
+  const {filterList, setFilterList, useCallback} = useContext(InvoiceContext);
   const statusColor = {
     draft: '#373B53',
     pending: '#FF8F00',
@@ -15,12 +15,30 @@ export default function InvoiceTable() {
   useEffect(() => {
     // send fetch get to /api/invoices to get object of invoices
     const type = 'invoice-table'
+    let query = ''
+    console.log(filterList)
+    // if filterList is not empty, create a query string, up to 3 max, dynamic naming, status1, status2, status3
+    if (filterList.length > 0) {
+      filterList.forEach((status, index) => {
+        query += `status${index + 1}=${status}&`
+      })
+      query = query.slice(0, -1)
+      console.log(query)
+      fetch(`/api/invoices?type=${type}&${query}`).then(res => res.json()).then(data => {
+        // get invoice data by data asscending order
+        setInvoiceArray(data.body.invoices)
+      })
+    } else {
+      fetch(`/api/invoices?type=${type}`).then(res => res.json()).then(data => {
+        // get invoice data by data asscending order
+        setInvoiceArray(data.body.invoices)
+      })
+    }
 
-    fetch(`/api/invoices?type=${type}`).then(res => res.json()).then(data => {
-      // get invoice data by data asscending order
-      setInvoiceArray(data.body.invoices)
-    })
-  }, []);
+
+  }, [filterList, setFilterList]);
+
+
   useEffect(() => {
     // send fetch get to /api/invoices to get object of invoices
     const type = 'invoice-table'
@@ -30,9 +48,6 @@ export default function InvoiceTable() {
       setInvoiceArray(data.body.invoices)
     })
   }, [useCallback]);
-
-
-
 
 
   function getStatusClasses(status) {
@@ -58,7 +73,9 @@ export default function InvoiceTable() {
           return (
             <tr key={key} className="row_contaienr flex flex-row  bg-white h-[4.5rem] justify-start items-center w-full
             px-[2rem] hover:border-1-primary hover:border-[1px] hover:cursor-pointer hover:scale-110"
-                onClick={() => {router.push(`/dashboard/invoices/${invoice.id}`)}}
+                onClick={() => {
+                  router.push(`/dashboard/invoices/${invoice.id}`)
+                }}
             >
               <td className="flex flex-row justify-start items-center w-[6rem] group"><span
                 className="text-7-info heading-s-v">#</span>

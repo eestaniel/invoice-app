@@ -1,5 +1,5 @@
 "use client"
-import {createContext, useState} from 'react';
+import {createContext, useState, useEffect} from 'react';
 
 // Create a context
 export const InvoiceContext = createContext();
@@ -7,6 +7,9 @@ export const InvoiceContext = createContext();
 export const InvoiceProvider = ({children}) => {
   const [invoiceList, setInvoiceList] = useState([]);
   const [useCallback, setUseCallback] = useState(false);
+  const [filterList, setFilterList] = useState([]);
+
+
 
   // Function to update invoices
   const addInvoice = (invoiceId) => {
@@ -34,7 +37,11 @@ export const InvoiceProvider = ({children}) => {
   }
 
   return (
-    < InvoiceContext.Provider value={{invoiceList, addInvoice, setInvoices, getInvoices, removeInvoice, useCallback, setUseCallback}}>
+    < InvoiceContext.Provider value={{
+      invoiceList, addInvoice, setInvoices, getInvoices, removeInvoice,
+      useCallback, setUseCallback,
+      filterList, setFilterList
+    }}>
       {children}
     </InvoiceContext.Provider>
   );

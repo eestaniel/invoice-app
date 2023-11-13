@@ -1,21 +1,15 @@
 "use client"
 import {Popover, PopoverContent, PopoverTrigger} from "@/@/components/ui/popover";
 import {Checkbox} from "@/@/components/ui/checkbox";
-import {useState, useRef} from "react";
+import {useState, useRef, useContext} from "react";
+import {InvoiceContext} from "@/app/dashboard/invoices/context/InvoiceContext";
 
 
 export default function Filter() {
   const [filterState, setFilterState] = useState(false);
-  const [filterSelection, setFilterSelection] = useState([]);
   const filterRef = useRef(null);
+  const {filterList, setFilterList} = useContext(InvoiceContext);
 
-      // if filterPopup is not focused, set filterState to false
-    const handleOutsideClick = (event) => {
-      if (filterRef.current && !filterRef.current.contains(event.target)) {
-        setFilterState(false);
-      }
-    };
-    //document.addEventListener("mousedown", handleOutsideClick);
 
 
   return (
@@ -48,10 +42,10 @@ export default function Filter() {
               {/* option 1*/}
               <Checkbox
                 id="draft"
-                checked={filterSelection.includes("draft")}
+                checked={filterList.includes("draft")}
                 className="group-hover:border-1-primary group-hover:bg-5-secondary"
                 onClick={() => {
-                  setFilterSelection(prevSelection =>
+                  setFilterList(prevSelection =>
                     prevSelection.includes("draft")
                       ? prevSelection.filter(item => item !== "draft")
                       : [...prevSelection, "draft"]
@@ -70,10 +64,10 @@ export default function Filter() {
             <div className="flex items-center space-x-2 group">
               <Checkbox
                 id="pending"
-                checked={filterSelection.includes("pending")}
+                checked={filterList.includes("pending")}
                 className="group-hover:border-1-primary group-hover:bg-5-secondary"
                 onClick={() => {
-                  setFilterSelection(prevSelection =>
+                  setFilterList(prevSelection =>
                     prevSelection.includes("pending")
                       ? prevSelection.filter(item => item !== "pending")
                       : [...prevSelection, "pending"]
@@ -92,10 +86,10 @@ export default function Filter() {
             <div className="flex items-center space-x-2 group">
               <Checkbox
                 id="paid"
-                checked={filterSelection.includes("paid")}
+                checked={filterList.includes("paid")}
                 className="group-hover:border-1-primary group-hover:bg-5-secondary"
                 onClick={() => {
-                  setFilterSelection(prevSelection =>
+                  setFilterList(prevSelection =>
                     prevSelection.includes("paid")
                       ? prevSelection.filter(item => item !== "paid")
                       : [...prevSelection, "paid"]
