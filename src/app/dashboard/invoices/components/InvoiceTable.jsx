@@ -1,7 +1,9 @@
 import {InvoiceContext} from "@/app/dashboard/invoices/context/InvoiceContext";
 import {useContext, useEffect, useState} from "react";
+import {useRouter} from "next/navigation";
 
 export default function InvoiceTable() {
+  const router = useRouter();
   const [invoiceArray, setInvoiceArray] = useState([]);
   const statusColor = {
     draft: '#373B53',
@@ -11,7 +13,7 @@ export default function InvoiceTable() {
 
   useEffect(() => {
     // send fetch get to /api/invoices to get object of invoices
-    const type = ['invoice-table']
+    const type = 'invoice-table'
 
     fetch(`/api/invoices?type=${type}`).then(res => res.json()).then(data => {
       // get invoice data by data asscending order
@@ -44,12 +46,14 @@ export default function InvoiceTable() {
   return (
     <div className="w-[45.625rem] flex flex-col justify-center items-center text-center">
       <table className="w-full text-center items-center justify-center">
-        <tbody className="flex flex-col gap-4 w-full text-center">
+        <tbody className="flex flex-col gap-4 w-full text-center ">
         {invoiceArray.map((invoice, key) => {
           return (
             <tr key={key} className="row_contaienr flex flex-row  bg-white h-[4.5rem] justify-start items-center w-full
-            px-[2rem] hover:border-1-primary hover:border-[1px] hover:cursor-pointer hover:scale-110">
-              <td className="flex flex-row justify-start items-center w-[6rem]"><span
+            px-[2rem] hover:border-1-primary hover:border-[1px] hover:cursor-pointer hover:scale-110"
+                onClick={() => {router.push(`/dashboard/invoices/${invoice.id}`)}}
+            >
+              <td className="flex flex-row justify-start items-center w-[6rem] group"><span
                 className="text-7-info heading-s-v">#</span>
                 <div className="heading-s-v">{invoice.id}</div>
               </td>

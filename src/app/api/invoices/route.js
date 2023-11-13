@@ -70,9 +70,27 @@ export async function GET(req) {
         invoices: newInvoices
       }
     })
+  } else if (type === 'summary') {
+    const custom_id = req.nextUrl.searchParams.get('id')
+    const invoice = await prisma.invoices.findUnique({
+      where: {
+        custom_id: custom_id
+      },
+      include: {
+        billfrom: true,
+        billto: true,
+        itemlist: true
+      }
+    })
+
+    return Response.json({
+      status: '201',
+      body: {
+        invoice: invoice,
+        custom_id: custom_id
+      }
+    })
   }
-
-
 }
 
 export async function POST(req) {

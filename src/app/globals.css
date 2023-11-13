@@ -75,7 +75,7 @@
             @apply font-spartan font-medium;
             font-size: 13px;
             line-height: 15px;
-            letter-spacing: -0.25px;
+            letter-spacing: -0.1px;
         }
 
         .hide-scrollbar {
