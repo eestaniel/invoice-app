@@ -5,6 +5,17 @@ import {Button} from "@/@/components/ui/button";
 import {Sheet, SheetTrigger, SheetContent} from "@/@/components/ui/sheet";
 import SheetView from "@/app/dashboard/invoices/components/SheetView";
 import {handleSubmit} from "@/app/dashboard/invoices/components/HandleSubmit";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/@/components/ui/alert-dialog"
 
 
 export default function Page({params}) {
@@ -112,7 +123,7 @@ export default function Page({params}) {
       .then(data => {
         setInvoiceData(data.body.invoice)
         setStatus(data.body.invoice.status)
-    })
+      })
 
   }, []);
 
@@ -131,7 +142,8 @@ export default function Page({params}) {
       setInvoiceData(data.body.invoiceData)
     }
     if (invoiceOptions.type === 'create') {
-      createInvoice().then(() => {})
+      createInvoice().then(() => {
+      })
     }
   }, [invoiceOptions])
 
@@ -178,13 +190,33 @@ export default function Page({params}) {
                         </Button>
                       </SheetTrigger>
                       <SheetContent className={"w-[100%] overflow-y-scroll max-h-screen web hide-scrollbar"}>
-                        <SheetView setInvoiceOptions={setInvoiceOptions} sheetType={'edit'} data={invoiceData} sheetMethod={'PUT'}/>
+                        <SheetView setInvoiceOptions={setInvoiceOptions} sheetType={'edit'} data={invoiceData}
+                                   sheetMethod={'PUT'}/>
                       </SheetContent>
                     </Sheet>
-                    <Button
-                      className="px-6 py-[1.125rem] rounded-[1.5rem] bg-9-accent text-white heading-s-v hover:bg-10-soft-red"
-                      onClick={() => handleDelete(invoiceData.custom_id)}
-                    >Delete</Button>
+
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button
+                          className="px-6 py-[1.125rem] rounded-[1.5rem] bg-9-accent text-white heading-s-v hover:bg-10-soft-red"
+
+                        >
+                          Delete
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent className={"p-12"}>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle className={"heading-m"}>Confirm Deletion</AlertDialogTitle>
+                          <AlertDialogDescription className={"body text-6-muted"}>
+                            Are you sure you want to delete invoice #{invoiceData.custom_id}? This action cannot be.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter className={"mt-4"}>
+                          <AlertDialogCancel className={"rounded-[1.5rem] bg-[#F9FAFE] text-7-info"}>Cancel</AlertDialogCancel>
+                          <AlertDialogAction className={"rounded-[1.5rem] bg-9-accent text-white"} onClick={()=> handleDelete(invoiceData.custom_id)}>Delete</AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                     <Button
                       className="px-6 py-[1.125rem] rounded-[1.5rem] bg-1-primary text-white heading-s-v hover:bg-2-highlight"
                       disabled={status === 'paid'}
