@@ -448,7 +448,7 @@ export default function SheetView({setInvoiceOptions, sheetType, data, sheetMeth
       h-[6.875rem] grow p-[1.5rem]"
             >
               <Button
-                className="w-[6rem] h-[3rem] rounded-[1.5rem] bg-[#F9FAFE] text-7-info heading-s-v stick"
+                className="w-[6rem] h-[3rem] rounded-[1.5rem] bg-[#F9FAFE] text-7-info heading-s-v stick hover:bg-9-accent hover:text-8-text"
                 // on click discard all changes and close sheet
                 onClick={() => setSheetOpen(false)}
 
@@ -457,7 +457,8 @@ export default function SheetView({setInvoiceOptions, sheetType, data, sheetMeth
               </Button>
               <div className="groupbuttons flex flex-row gap-[0.5rem]">
                 <SheetClose asChild>
-                  <Button className="w-[8.25rem] h-[3rem] rounded-[1.5rem] bg-[#373B53] heading-s-v text-6-muted "
+                  <Button className="w-[8.25rem] h-[3rem] rounded-[1.5rem] bg-[#373B53] heading-s-v text-6-muted
+                  hover:cursor-pointer hover:bg-8-text"
                           onClick={(e) => {
                             console.log('draft')
                             const form = e.target.form
@@ -486,7 +487,7 @@ export default function SheetView({setInvoiceOptions, sheetType, data, sheetMeth
                   </Button>
                 </SheetClose>
                 <SheetClose asChild>
-                  <Button className="w-[8rem] h-[3rem] rounded-[1.5rem] bg-1-primary text-white"
+                  <Button className="w-[8rem] h-[3rem] rounded-[1.5rem] bg-1-primary heading-s-v text-white hover:cursor-pointer hover:bg-2-highlight"
                           onClick={(e) => {
                             const form = e.target.form
                             const method = form.getAttribute('method').toUpperCase()
