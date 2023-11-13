@@ -21,6 +21,7 @@ export default function HeaderGroup() {
   useEffect(() => {
     const createInvoice = async () => {
       await handleSubmit(invoiceOptions.method, invoiceOptions.action, invoiceOptions.invoiceData, invoiceOptions.status)
+      setUseCallback(!useCallback)
     }
     if (invoiceOptions.type === 'create') {
       console.log("invoiceOptions: ", invoiceOptions)

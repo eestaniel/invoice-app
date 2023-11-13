@@ -5,6 +5,7 @@ import {useRouter} from "next/navigation";
 export default function InvoiceTable() {
   const router = useRouter();
   const [invoiceArray, setInvoiceArray] = useState([]);
+  const {invoiceList, setInvoices, useCallback} = useContext(InvoiceContext);
   const statusColor = {
     draft: '#373B53',
     pending: '#FF8F00',
@@ -17,15 +18,21 @@ export default function InvoiceTable() {
 
     fetch(`/api/invoices?type=${type}`).then(res => res.json()).then(data => {
       // get invoice data by data asscending order
-      data.body.invoices.forEach(invoice => {
-        setInvoiceArray(prevState => [...prevState, invoice])
-      })
+      setInvoiceArray(data.body.invoices)
     })
   }, []);
-
   useEffect(() => {
-    console.log(invoiceArray)
-  }, [invoiceArray])
+    // send fetch get to /api/invoices to get object of invoices
+    const type = 'invoice-table'
+
+    fetch(`/api/invoices?type=${type}`).then(res => res.json()).then(data => {
+      // get invoice data by data asscending order
+      setInvoiceArray(data.body.invoices)
+    })
+  }, [useCallback]);
+
+
+
 
 
   function getStatusClasses(status) {
