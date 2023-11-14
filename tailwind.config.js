@@ -12,9 +12,6 @@ module.exports = {
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
     },
     extend: {
       colors: {
@@ -51,6 +48,15 @@ module.exports = {
 
       fontFamily: {
         spartan: ["League Spartan", ...defaultTheme.fontFamily.sans]
+      },
+
+      screens: {
+        'sm': '320px', // smartphones, portrait phones
+        'md': '481px', // portrait e-readers, smaller tablets
+        'lg': '641px', // portrait tablets, portrait iPad, landscape e-readers
+        'xl': '961px', // tablet, landscape iPad, lo-res laptops and desktops
+        '2xl': '1025px', // big landscape tablets, laptops, and desktops
+        '3xl': '1281px', // hi-res laptops and desktops
       },
 
       borderRadius: {

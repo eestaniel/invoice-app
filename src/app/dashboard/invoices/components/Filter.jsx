@@ -18,10 +18,9 @@ export default function Filter() {
       <div className="filter-group flex flex-row justify-center items-center gap-[0.875rem]">
         <Popover open={filterState} onOpenChange={setFilterState}>
           <PopoverTrigger>
-            <p
-              className="heading-s-v text-8-text flex flex-row justify-center items-center gap-[0.875rem] whitespace-nowrap hover:cursor-pointer"
-            >
-              Filter by status
+            <p className="heading-s-v text-8-text flex flex-row justify-center items-center gap-3 xl:gap-[0.875rem] whitespace-nowrap hover:cursor-pointer">
+              <span className="xl:hidden">Filter</span>
+              <span className=" hidden xl:inline">Filter by status</span>
               {!filterState ?
               (
                 <svg width="11" height="7" xmlns="http://www.w3.org/2000/svg">
@@ -37,7 +36,7 @@ export default function Filter() {
           </PopoverTrigger>
           {/* Popover Contents */}
           <PopoverContent
-            id="filterPopup" ref={filterRef} className=" w-[12rem] h-[8rem] flex flex-col items-start justify-center text-left gap-2 pl-[1.5rem]">
+            id="filterPopup" ref={filterRef} className=" w-[12rem] h-[8rem] flex flex-col items-start justify-center text-left gap-5 xl:gap-2 pl-[1.5rem]">
             <div className="flex items-center space-x-2  hover:cursor-pointer group ">
               {/* option 1*/}
               <Checkbox
