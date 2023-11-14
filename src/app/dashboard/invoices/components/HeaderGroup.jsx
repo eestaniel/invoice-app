@@ -11,7 +11,7 @@ export default function HeaderGroup() {
   const [sheetOpen, setSheetOpen] = useState(false);
 
   return (
-    <div className="header-container px-6 pt-8 xl:px-[22rem] xl:pt-[4.875rem] w-full h-fit justify-center relative">
+    <div className="header-container xl:px-[22rem] xl:pt-[4.875rem] w-full h-fit justify-center relative">
       <div className="invoice-header-container flex flex-row items-center justify-between w-full relative">
         <div className="group1 flex flex-row justify-between w-fit">
           <div className="header-group">

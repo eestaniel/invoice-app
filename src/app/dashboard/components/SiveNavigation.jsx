@@ -21,7 +21,7 @@ export default function SiveNavigation() {
         </div>
 
         {/* nav content */}
-        <div className="nav-content flex flex-row xl:flex-col h-full xl:h-auto grow  justify-end pr-6 xl:pr-0 xl:pb-8 items-center ">
+        <div className="nav-content flex flex-row xl:flex-col h-full xl:h-auto grow xl:grow-0 justify-end pr-6 xl:pr-0 xl:pb-8 items-center ">
           {/* dark mode icon */}
           <svg className="h-5 w-5 xl:h-5 xl:w-full "
                width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
