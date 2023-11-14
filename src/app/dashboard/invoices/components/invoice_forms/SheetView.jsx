@@ -7,9 +7,12 @@ import EditButtons from "@/app/dashboard/invoices/components/invoice_forms/EditB
 import {useForm, FormProvider, useFieldArray} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {invoiceFormSchema} from "@/app/dashboard/invoices/components/invoice_forms/schemas/invoiceSchema";
+import {InvoiceContext} from "@/app/dashboard/context/InvoiceContext";
+import {useContext} from "react";
 
 
-export default function SheetView({sheetType, sheetMethod}) {
+export default function SheetView({setSheetOpen, sheetType}) {
+  const {useCallback, setUseCallback} = useContext(InvoiceContext);
 
   const methods = useForm({
     resolver: zodResolver(invoiceFormSchema),
@@ -29,6 +32,9 @@ export default function SheetView({sheetType, sheetMethod}) {
 
   const onSubmit = (data) => {
     console.log(data);
+    setSheetOpen(false);
+    setUseCallback(!useCallback);
+
     fetch('/api/invoices', {
       method: 'POST',
       body: JSON.stringify(data),
@@ -48,7 +54,7 @@ export default function SheetView({sheetType, sheetMethod}) {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit, onInvalid)} method={`${sheetMethod}`} action="/api/invoices">
+      <form onSubmit={methods.handleSubmit(onSubmit, onInvalid)}>
         <div id="thisForm"
              className="pl-[10.5rem] pr-[3.5rem] w-full] overflow-auto mt-10 flex flex-col flex-grow h-fit">
           <h1 className="heading-m">New Invoice</h1>

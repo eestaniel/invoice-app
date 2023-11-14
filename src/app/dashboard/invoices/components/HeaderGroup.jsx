@@ -1,33 +1,14 @@
 "use client"
-import {useEffect, useContext, useState} from "react"
+import {useContext, useState} from "react"
 import {Button} from "@/@/components/ui/button";
 import {InvoiceContext} from "@/app/dashboard/context/InvoiceContext";
 import Filter from "@/app/dashboard/invoices/components/Filter";
 import SheetView from "@/app/dashboard/invoices/components/invoice_forms/SheetView";
 import {Sheet, SheetTrigger, SheetContent} from "@/@/components/ui/sheet";
-import {handleSubmit} from "@/app/dashboard/invoices/components/HandleSubmit";
 
 export default function HeaderGroup() {
-  const {invoiceList, setUseCallback, useCallback} = useContext(InvoiceContext);
-  const [invoiceOptions, setInvoiceOptions] = useState({
-    action: '',
-    method: '',
-    invoiceData: '',
-    type: '',
-    status: ''
-  })
-
-
-  useEffect(() => {
-    const createInvoice = async () => {
-      await handleSubmit(invoiceOptions.method, invoiceOptions.action, invoiceOptions.invoiceData, invoiceOptions.status)
-      setUseCallback(!useCallback)
-    }
-    if (invoiceOptions.type === 'create') {
-      console.log("invoiceOptions: ", invoiceOptions)
-      createInvoice().then(() => setUseCallback(!useCallback))
-    }
-  }, [invoiceOptions])
+  const {invoiceList} = useContext(InvoiceContext);
+  const [sheetOpen, setSheetOpen] = useState(false);
 
   return (
     <div className="content px-[22rem] pt-[4.875rem] w-full justify-center relative">
@@ -43,7 +24,7 @@ export default function HeaderGroup() {
 
         <div className="group2">
 
-          <Sheet>
+          <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
             <SheetTrigger asChild>
               <Button
                 className="bg-1-primary text-white rounded-[1.5rem] h-[3rem] w-[9.375rem] p-0 gap-[1rem] hover:bg-2-highlight"
@@ -58,7 +39,7 @@ export default function HeaderGroup() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-[100%] overflow-y-auto max-h-screen web hide-scrollbar">
-              <SheetView setInvoiceOptions={setInvoiceOptions} sheetType={'create'} sheetMethod={'POST'}/>
+              <SheetView setSheetOpen={setSheetOpen} sheetType={'create'}/>
             </SheetContent>
           </Sheet>
 
