@@ -1,59 +1,112 @@
 import {Input} from "@/@/components/ui/input";
 import {Label} from "@/@/components/ui/label";
+import {useFormContext} from "react-hook-form";
 
-export default function BillTo({invoiceData, handleChange}) {
+export default function BillTo() {
+  const {register, formState: {errors}} = useFormContext();
+
+
   return (
     <div className="bill-to-group flex flex-col">
       <Label htmlFor="bill-to"
              className="heading-s-v text-1-primary mb-[1.5rem] mt-[3rem] gap-[0.625rem]">
         BillTo
       </Label>
+
+      {/* Client's Name */}
       <div className="group flex flex-col w-full gap-[0.625rem]">
         {/* eslint-disable-next-line react/no-unescaped-entities */}
         <Label htmlFor="street_address" className="body-v text-7-info">Client's Name</Label>
-        <Input id="bill-from"
-               className="w-full mb-[1.5rem] border-5-secondary"
-               value={invoiceData.billTo.clientName}
-               onChange={e => handleChange('billTo', 'clientName', e.target.value)}
+        <Input
+          {...register('bill_to.client_name')}
+          className={`
+          w-full border-5-secondary 
+          focus:border-1-primary focus:outline-none focus:ring-0
+          ${errors.bill_to?.client_name ? 'border-red-600 mb-[-0.75rem]' : 'mb-6'} 
+          `}
         />
+        {errors.bill_to?.client_name &&
+          <span className="text-red-600 mb-4">{errors.bill_to?.client_name?.message}</span>}
       </div>
+
+      {/* Client's Email*/}
       <div className="bill-from-group__group3 flex flex-col justify-between w-full gap-[1.5rem]">
         <div className="group flex flex-col w-full gap-[0.625rem]">
           {/* eslint-disable-next-line react/no-unescaped-entities */}
           <Label htmlFor="to_city" className="body-v text-7-info">Client's Email</Label>
-          <Input className="w-full border-5-secondary"
-                 value={invoiceData.billTo.clientEmail}
-                 onChange={e => handleChange('billTo', 'clientEmail', e.target.value)}
+          <Input
+            {...register('bill_to.client_email')}
+            className={`
+          w-full border-5-secondary 
+          focus:border-1-primary focus:outline-none focus:ring-0
+          ${errors.bill_to?.client_email ? 'border-red-600 mb-[-0.75rem]' : 'mb-6'} 
+          `}
           />
+          {errors.bill_to?.client_email &&
+            <span className="text-red-600 mb-4">{errors.bill_to?.client_email?.message}</span>}
         </div>
+
+        {/* Street Address */}
         <div className="group flex flex-col w-full gap-[0.625rem]">
           <Label htmlFor="to_address" className="body-v text-7-info">Street Address</Label>
-          <Input className="w-full border-5-secondary"
-                 value={invoiceData.billTo.address}
-                 onChange={e => handleChange('billTo', 'address', e.target.value)}
+          <Input
+            {...register('bill_to.street_address')}
+            className={`
+          w-full border-5-secondary 
+          focus:border-1-primary focus:outline-none focus:ring-0
+          ${errors.bill_to?.street_address ? 'border-red-600 mb-[-0.75rem]' : 'mb-6'} 
+          `}
           />
+          {errors.bill_to?.street_address &&
+            <span className="text-red-600 mb-4">{errors.bill_to?.street_address?.message}</span>}
         </div>
+
+        {/* City, Post Code, Country group*/}
         <div className="bill-to-group__group3 flex flex-row justify-between w-full gap-[1.5rem]">
+
+          {/* City */}
           <div className="group flex flex-col w-full gap-[0.625rem]">
             <Label htmlFor="to_city" className="body-v text-7-info">City</Label>
-            <Input className="w-full border-5-secondary"
-                   value={invoiceData.billTo.city}
-                   onChange={e => handleChange('billTo', 'city', e.target.value)}
+            <Input
+              {...register('bill_to.city')}
+              className={`
+          w-full border-5-secondary 
+          focus:border-1-primary focus:outline-none focus:ring-0
+          ${errors.bill_to?.city ? 'border-red-600 mb-[-0.75rem]' : 'mb-6'} 
+          `}
             />
+            {errors.bill_to?.city &&
+              <span className="text-red-600 mb-4">{errors.bill_to?.city?.message}</span>}
           </div>
+
+          {/* Post Code */}
           <div className="group flex flex-col w-full gap-[0.625rem]">
             <Label htmlFor="to_post_code" className="body-v text-7-info">Post Code</Label>
-            <Input className="w-full border-5-secondary"
-                   value={invoiceData.billTo.post_code}
-                   onChange={e => handleChange('billTo', 'post_code', e.target.value)}
+            <Input
+              {...register('bill_to.post_code')}
+              className={`
+          w-full border-5-secondary 
+          focus:border-1-primary focus:outline-none focus:ring-0
+          ${errors.bill_to?.post_code ? 'border-red-600 mb-[-0.75rem]' : 'mb-6'} 
+          `}
             />
+            {errors.bill_to?.post_code &&
+              <span className="text-red-600 mb-4">Invalid Post Code</span>}
           </div>
+
+          {/* Country */}
           <div className="group flex flex-col w-full gap-[0.625rem]">
             <Label htmlFor="to_country" className="body-v text-7-info">Country</Label>
-            <Input className="w-full  border-5-secondary "
-                   value={invoiceData.billTo.country}
-                   onChange={e => handleChange('billTo', 'country', e.target.value)}
+            <Input
+              {...register('bill_to.country')}
+              className={`
+          w-full border-5-secondary 
+          focus:border-1-primary focus:outline-none focus:ring-0
+          ${errors.bill_to?.country ? 'border-red-600 mb-[-0.75rem]' : 'mb-6'} 
+          `}
             />
+            {errors.bill_to?.country &&
+              <span className="text-red-600 mb-4">{errors.bill_to?.country?.message}</span>}
           </div>
         </div>
       </div>

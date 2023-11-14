@@ -1,7 +1,9 @@
 import {SheetClose} from "@/@/components/ui/sheet";
 import {Button} from "@/@/components/ui/button";
 import React from "react";
+import {useFormContext} from "react-hook-form";
 export default function CreateButtons({setInvoiceOptions, invoiceData}) {
+  const {register} = useFormContext();
   return (
     <div
       className="group-buttons flex flex-row justify-between gap-[0.5rem] mt-[3rem]  w-full h-[6.875rem] grow p-[1.5rem]">
@@ -37,24 +39,10 @@ export default function CreateButtons({setInvoiceOptions, invoiceData}) {
         </SheetClose>
 
           <Button
+            {...register('invoice_details.status')}
             className="w-[8rem] h-[3rem] rounded-[1.5rem] bg-1-primary heading-s-v text-white hover:cursor-pointer hover:bg-2-highlight"
             type="submit"
-            onClick={() => {
-/*              const form = e.target.form
-              const method = form.getAttribute('method').toUpperCase()
-              const action = form.getAttribute('action')
-              setInvoiceOptions(prev => {
-                return {
-                  ...prev,
-                  action: action,
-                  body: invoiceData,
-                  method: method,
-                  invoiceData: invoiceData,
-                  type: 'create',
-                  status: 'pending'
-                }
-              })*/
-            }}>
+            >
             Save & Send
           </Button>
 

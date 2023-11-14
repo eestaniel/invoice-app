@@ -4,49 +4,40 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/@/components/ui/popover
 import {Button} from "@/@/components/ui/button";
 import {Calendar} from "@/@/components/ui/calendar";
 import {format} from "date-fns";
-import {useRef, useState} from "react";
+import {useState} from "react";
+import {useFormContext} from "react-hook-form";
 
-export default function InvoiceDetails({invoiceData, handleChange, formRef}) {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+export default function InvoiceDetails() {
   const [isTermsPopoverOpen, setIsTermsPopoverOpen] = useState(false);
+  const [callback, setCallback] = useState(false);
+
+  const {register, getValues, setValue, formState: {errors}} = useFormContext();
+  const formValues = getValues().invoice_details;
 
 
-  const focusForm = () => {
-    if (formRef.current) {
-      formRef.current.focus(); // Brings the form into focus
-    }
-  };
 
   return (
     <div className="bill-to-group flex flex-col gap-[1.5rem] mb-[1.5rem] mt-[3rem]">
       <div className="invoice-date-term-group flex flex-row gap-[1.5rem]">
         <div className="group flex flex-col h-full w-full gap-[0.625rem] relative ">
           <Label htmlFor="invoice_date" className="body-v text-7-info">Invoice Date</Label>
-          <Popover isOpen={isPopoverOpen} onOpen={() => setIsPopoverOpen(true)}
-                   onClose={() => setIsPopoverOpen(false)}>
+          <Popover>
             <PopoverTrigger asChild>
-              <Button variant={"outline"}
+              <Button
+                variant={"outline"}
                       className={("w-full justify-start text-left heading-s-v opacity-50 group-hover:cursor-pointer group-hover:border-1-primary group-hover:opacity-100")}>
-                {selectedDate && !isNaN(selectedDate.getTime())
-                  ? format(selectedDate, "dd MMM yyyy")
-                  : <span>Pick a date</span>
-                }
+                {formValues.invoice_date && format(formValues.invoice_date, 'd MMM yyyy')}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
               <Calendar
+                {...register('invoice_details.invoice_date')}
                 mode="single"
-                selected={selectedDate}
+                selected={formValues.invoice_date}
                 onSelect={(date) => {
-                  if (date) {
-                    setSelectedDate(date);
-                    handleChange('invoiceDetails', 'invoiceDate', format(date, "dd MMM yyyy"));
-                  }
-                  setIsPopoverOpen(false);
-                  focusForm()
+                  setValue('invoice_details.invoice_date', date);
+                  setCallback(!callback);
                 }}
-                initialFocus
               />
             </PopoverContent>
           </Popover>
@@ -55,18 +46,13 @@ export default function InvoiceDetails({invoiceData, handleChange, formRef}) {
         {/* payment Terms*/}
         <div className="group flex flex-col w-full gap-[0.625rem] relative">
           <Label htmlFor="payment_terms" className="body-v text-7-info">Payment Terms</Label>
-          <Popover isOpen={isTermsPopoverOpen} onOpen={() => setIsTermsPopoverOpen(true)}
-                   onClose={() => setIsTermsPopoverOpen(false)}>
+          <Popover isOpen={isTermsPopoverOpen} onOpenChange={setIsTermsPopoverOpen}>
             <PopoverTrigger asChild>
               <div className="flex justify-between items-center hover:cursor-pointer group">
                 <Input
-                  id="payment_terms"
+                  {...register('invoice_details.payment_terms')}
                   className="w-full heading-s-v text-8-text opacity-[50%] pl-[1.25rem] border-5-secondary group-hover:border-1-primary group-hover:opacity-100
                                             group-hover:cursor-pointer"
-                  value={invoiceData.invoiceDetails.paymentTerms}
-                  // onclick set oposite value of isTermsPopoverOpen
-                  onClick={() => setIsTermsPopoverOpen(!isTermsPopoverOpen)}
-                  onChange={e => handleChange('invoiceDetails', 'paymentTerms', e.target.value)}
                 />
                 <div className="svg absolute right-4">
                   {isTermsPopoverOpen ? (
@@ -91,9 +77,7 @@ export default function InvoiceDetails({invoiceData, handleChange, formRef}) {
                 <p
                   className="heading-s-v text-8-text w-full pl-6 py-4 group-hover:cursor-pointer group-hover:text-1-primary"
                   onClick={() => {
-                    handleChange('invoiceDetails', 'paymentTerms', 'Net 1 Day');
-                    setIsTermsPopoverOpen(!isTermsPopoverOpen)
-                    focusForm()
+                    setValue('invoice_details.payment_terms', 'Net 1 Day');
                   }}
                 >Net 1 Day
                 </p>
@@ -102,21 +86,27 @@ export default function InvoiceDetails({invoiceData, handleChange, formRef}) {
               <div className="w-full group">
                 <p
                   className="heading-s-v text-8-text w-full pl-6 my-4 group-hover:cursor-pointer group-hover:text-1-primary"
-                  onClick={() => handleChange('invoiceDetails', 'paymentTerms', 'Net 7 Day')}
+                  onClick={() => {
+                    setValue('invoice_details.payment_terms', 'Net 7 Day');
+                  }}
                 >Net 7 Day</p>
                 <hr/>
               </div>
               <div className="w-full group">
                 <p
                   className="heading-s-v text-8-text w-full pl-6 my-4 group-hover:cursor-pointer group-hover:text-1-primary"
-                  onClick={() => handleChange('invoiceDetails', 'paymentTerms', 'Net 14 Day')}
+                  onClick={() => {
+                    setValue('invoice_details.payment_terms', 'Net 14 Day');
+                  }}
                 >Net 14 Day</p>
                 <hr/>
               </div>
               <div className="w-full group">
                 <p
                   className="heading-s-v text-8-text w-full pl-6 my-4 group-hover:cursor-pointer group-hover:text-1-primary"
-                  onClick={() => handleChange('invoiceDetails', 'paymentTerms', 'Net 30 Day')}
+                  onClick={() => {
+                    setValue('invoice_details.payment_terms', 'Net 30 Day');
+                  }}
                 >Net 30 Day</p>
               </div>
             </PopoverContent>
@@ -126,11 +116,17 @@ export default function InvoiceDetails({invoiceData, handleChange, formRef}) {
       </div>
       <div className="group flex flex-col w-full gap-[0.625rem]">
         <Label htmlFor="to_country" className="body-v text-7-info">Project Description</Label>
-        <Input className="w-full  border-5-secondary heading-s-v text-8-text"
-               placeholder="e.g Graphic Design Service"
-               value={invoiceData.invoiceDetails.projectDescription}
-               onChange={e => handleChange('invoiceDetails', 'projectDescription', e.target.value)}
+        <Input
+          {...register('invoice_details.project_description')}
+          className={`
+          w-full border-5-secondary 
+          focus:border-1-primary focus:outline-none focus:ring-0
+          ${errors.invoice_details?.project_description ? 'border-red-600 mb-[-0.75rem]' : 'mb-6'} 
+          `}
         />
+        {errors.invoice_details?.project_description &&
+          <span className="text-red-600 mb-4">{errors.invoice_details?.project_description?.message}</span>}
+
       </div>
     </div>
   );
