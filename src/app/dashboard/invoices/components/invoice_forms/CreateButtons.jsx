@@ -20,11 +20,10 @@ export default function CreateButtons() {
     const total = items.reduce((acc, item) => {
       const quantity = parseFloat(item.quantity) || 0;
       const price = parseFloat(item.price) || 0;
-      // to fixed 2 decimal places
-      return (acc + quantity * price).toFixed(2);
+      return parseFloat((acc + quantity * price).toFixed(2));
     }, 0);
     setValue('invoice_details.total', total);
-  }
+  };
 
   const setCustomId = () => {
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -43,47 +42,47 @@ export default function CreateButtons() {
         </Button>
       </SheetClose>
       <div className="groupbuttons flex flex-row gap-[0.5rem]">
-          <Button
-            {...register('invoice_details.status')}
+        <Button
+          {...register('invoice_details.status')}
 
-            className="w-[8.25rem] h-[3rem] rounded-[1.5rem] bg-[#373B53] heading-s-v text-6-muted hover:cursor-pointer hover:bg-8-text"
-            onClick={() => {
-              // set status pending
-              setValue('invoice_details.status', 'draft')
-              // calculate and set due date
-              setDueDate()
-              // calculate and set total
-              setTotal()
-              // generate and set custom_id: random 2 letters + 4 digits: XY1234
-              setCustomId()
-              // set post request type to create
-              setValue('invoice_details.type', 'create')
+          className="w-[8.25rem] h-[3rem] rounded-[1.5rem] bg-[#373B53] heading-s-v text-6-muted hover:cursor-pointer hover:bg-8-text"
+          onClick={() => {
+            // set status pending
+            setValue('invoice_details.status', 'draft')
+            // calculate and set due date
+            setDueDate()
+            // calculate and set total
+            setTotal()
+            // generate and set custom_id: random 2 letters + 4 digits: XY1234
+            setCustomId()
+            // set post request type to create
+            setValue('invoice_details.type', 'create')
 
-            }}>
-            Save as Draft
-          </Button>
+          }}>
+          Save as Draft
+        </Button>
 
-          <Button
-            {...register('invoice_details.status')}
-            onClick={() => {
-              // set status pending
-              setValue('invoice_details.status', 'pending')
-              // calculate and set due date
-              setDueDate()
-              // calculate and set total
-              setTotal()
-              // generate and set custom_id: random 2 letters + 4 digits: XY1234
-              setCustomId()
-              // set post request type to create
-              setValue('invoice_details.type', 'create')
+        <Button
+          {...register('invoice_details.status')}
+          onClick={() => {
+            // set status pending
+            setValue('invoice_details.status', 'pending')
+            // calculate and set due date
+            setDueDate()
+            // calculate and set total
+            setTotal()
+            // generate and set custom_id: random 2 letters + 4 digits: XY1234
+            setCustomId()
+            // set post request type to create
+            setValue('invoice_details.type', 'create')
 
 
-            }}
-            className="w-[8rem] h-[3rem] rounded-[1.5rem] bg-1-primary heading-s-v text-white hover:cursor-pointer hover:bg-2-highlight"
-            type="submit"
-          >
-            Save & Send
-          </Button>
+          }}
+          className="w-[8rem] h-[3rem] rounded-[1.5rem] bg-1-primary heading-s-v text-white hover:cursor-pointer hover:bg-2-highlight"
+          type="submit"
+        >
+          Save & Send
+        </Button>
 
 
       </div>

@@ -73,7 +73,7 @@ export default function InvoiceList({fields, onAppend, onRemove}) {
                   {...register(`item_list.${index}.price`)}
                   className="w-[6.25rem] border-5-secondary hide-arrow-input"
                   placeholder="0.00"
-                  type="number" min="0" max="100" step="0.01" required="required"
+                  type="number" min="0" step="0.01" required="required"
                 />
 
               </div>

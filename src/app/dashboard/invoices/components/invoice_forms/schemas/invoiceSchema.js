@@ -38,7 +38,7 @@ export const invoiceFormSchema = z.object({
     invoice_id: z.string().optional(),
     name: z.string().min(1, 'Item name required').max(20, 'Item name too long'),
     quantity: z.coerce.number().int().lte(99),
-    price: z.coerce.number().positive().multipleOf(0.01),
+    price: z.coerce.number().positive().int().multipleOf(0.01),
   })).optional()
 
 });

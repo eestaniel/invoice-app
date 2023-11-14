@@ -3,26 +3,6 @@ import {PrismaClient} from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-function generateRandomLetters(length) {
-  let result = '';
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  const charactersLength = characters.length;
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
-
-
-const getPaymentDueDate = (date, terms) => {
-  // get invoiceData.payment_terms, split "Net 30 days" and grab 30, convert to integer, add to invoiceData.invoice_date
-  // convert to data using convertDate()
-  const paymentTermsNum = parseInt(terms.split(' ')[1])
-  const invoiceDate = new Date(date)
-  console.log(invoiceDate, paymentTermsNum)
-  invoiceDate.setDate(invoiceDate.getDate() + paymentTermsNum)
-  return new Date(invoiceDate)
-}
 
 export async function GET(req) {
 
@@ -94,6 +74,7 @@ export async function GET(req) {
         status: invoice.status
       })
     })
+    //console.log(newInvoices)
 
     return Response.json({
       status: '201',
@@ -151,7 +132,7 @@ export async function POST(req) {
       // create billfrom
       await prisma.billfrom.create({
         data: {
-          address: body.bill_from.street_address,
+          street_address: body.bill_from.street_address,
           city: body.bill_from.city,
           post_code: body.bill_from.post_code,
           country: body.bill_from.country,
@@ -164,7 +145,7 @@ export async function POST(req) {
         data: {
           client_name: body.bill_to.client_name,
           client_email: body.bill_to.client_email,
-          address: body.bill_to.street_address,
+          street_address: body.bill_to.street_address,
           city: body.bill_to.city,
           post_code: body.bill_to.post_code,
           country: body.bill_to.country,
@@ -199,12 +180,9 @@ export async function POST(req) {
         }
       })
     }
-}
+  } else if (type === 'update') {
 
-else
-if (type === 'update') {
-
-}
+  }
 
 }
 
@@ -228,7 +206,6 @@ export async function DELETE(req) {
 export async function PUT(req) {
   const type = req.nextUrl.searchParams.get('type')
 
-
   if (type === 'status') {
     const id = req.nextUrl.searchParams.get('id')
     await prisma.invoices.update({
@@ -249,107 +226,87 @@ export async function PUT(req) {
     })
   } else {
     const body = await req.json()
-    const invoiceData = body.invoiceData
-    const invoiceDate = new Date(body.invoiceData.invoiceDetails.invoiceDate)
-    let total = 0;
-    await prisma.invoices.update({
-      where: {
-        id: invoiceData.invoiceDetails.id
-      },
-      data: {
-        /* billfrom table*/
-        billfrom: {
-          update: {
-            where: {
-              id: invoiceData.billFrom.id
-            },
-            data: {
-              address: invoiceData.billFrom.address,
-              city: invoiceData.billFrom.city,
-              post_code: invoiceData.billFrom.post_code,
-              country: invoiceData.billFrom.country,
-            }
 
-          }
+    try {
+      // update invoice
+      await prisma.invoices.update({
+        where: {
+          custom_id: body.invoice_details.custom_id
         },
-        /* billto table*/
-        billto: {
-          update: {
-            where: {
-              id: invoiceData.billTo.id
-            },
-            data: {
-              client_name: invoiceData.billTo.clientName,
-              client_email: invoiceData.billTo.clientEmail,
-              address: invoiceData.billTo.address,
-              city: invoiceData.billTo.city,
-              post_code: invoiceData.billTo.post_code,
-              country: invoiceData.billTo.country,
-            }
-          }
-        },
-
-        itemlist: {
-          updateMany: invoiceData.itemList.map((item) => {
-            total += parseFloat(item.price) * parseInt(item.quantity)
-            return {
+        data: {
+          /* billfrom table */
+          billfrom: {
+            update: {
               where: {
-                id: item.id
+                id: body.bill_from.id
               },
               data: {
-                item_name: item.item_name,
-                quantity: parseInt(item.quantity),
-                price: parseInt(item.price),
+                street_address: body.bill_from.street_address,
+                city: body.bill_from.city,
+                post_code: body.bill_from.post_code,
+                country: body.bill_from.country,
               }
             }
-          })
-        },
-        invoice_date: invoiceDate,
-        payment_terms: invoiceData.invoiceDetails.paymentTerms,
-        project_description: invoiceData.invoiceDetails.projectDescription,
-        total: total,
-      }
-    })
+          },
 
-    return Response.json({
-      status: '201',
-      body: {
-        message: 'Invoice updated',
-        invoiceData: {
-          custom_id: invoiceData.invoiceDetails.custom_id,
-          invoice_date: invoiceData.invoiceDetails.invoiceDate,
-          payment_terms: invoiceData.invoiceDetails.paymentTerms,
-          project_description: invoiceData.invoiceDetails.projectDescription,
-          status: invoiceData.invoiceDetails.status,
-          id: invoiceData.invoiceDetails.id,
-          total: total,
-          billfrom: [{
-            address: invoiceData.billFrom.address,
-            city: invoiceData.billFrom.city,
-            post_code: invoiceData.billFrom.post_code,
-            country: invoiceData.billFrom.country,
-            id: invoiceData.billFrom.id,
-          }],
-          billto: [{
-            client_name: invoiceData.billTo.clientName,
-            client_email: invoiceData.billTo.clientEmail,
-            address: invoiceData.billTo.address,
-            city: invoiceData.billTo.city,
-            post_code: invoiceData.billTo.post_code,
-            country: invoiceData.billTo.country,
-            id: invoiceData.billTo.id,
-          }],
-          itemlist: invoiceData.itemList.map((item) => {
-            return {
-              id: item.id,
-              item_name: item.item_name,
-              quantity: parseInt(item.quantity),
-              price: parseFloat(item.price),
+          /* billto table */
+          billto: {
+            update: {
+              where: {
+                id: body.bill_to.id
+              },
+              data: {
+                client_name: body.bill_to.client_name,
+                client_email: body.bill_to.client_email,
+                street_address: body.bill_to.street_address,
+                city: body.bill_to.city,
+                post_code: body.bill_to.post_code,
+                country: body.bill_to.country,
+              }
             }
-          }),
+          },
+
+          /* itemlist table */
+          itemlist: {
+            updateMany: body.item_list.map((item) => {
+              return {
+                where: {
+                  id: item.id
+                },
+                data: {
+                  item_name: item.name,
+                  quantity: parseInt(item.quantity),
+                  price: parseFloat(item.price),
+                }
+              }
+            })
+          },
+          /* invoices table */
+          invoice_date: body.invoice_details.invoice_date,
+          due_date: body.invoice_details.due_date,
+          payment_terms: body.invoice_details.payment_terms,
+          project_description: body.invoice_details.project_description,
+          total: body.invoice_details.total,
+
+        },
+
+
+      })
+      return Response.json({
+        status: '201',
+        body: {
+          message: 'Invoice updated',
         }
-      }
-    })
+      })
+
+    } catch (e) {
+      return Response.json({
+        status: '400',
+        body: {
+          message: e.message
+        }
+      })
+    }
 
 
   }

@@ -31,11 +31,10 @@ export default function InvoiceDetails() {
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
               <Calendar
-                {...register('invoice_details.invoice_date')}
                 mode="single"
                 selected={formValues.invoice_date}
                 onSelect={(date) => {
-                  setValue('invoice_details.invoice_date', date);
+                  setValue('invoice_details.invoice_date', new Date(date));
                   setCallback(!callback);
                 }}
               />

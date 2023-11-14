@@ -4,7 +4,6 @@ import {useRouter} from "next/navigation";
 import {Button} from "@/@/components/ui/button";
 import {Sheet, SheetTrigger, SheetContent} from "@/@/components/ui/sheet";
 import SheetView from "@/app/dashboard/invoices/components/invoice_forms/SheetView";
-import {handleSubmit} from "@/app/dashboard/invoices/components/HandleSubmit";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -23,20 +22,10 @@ export default function Page({params}) {
   const type = 'summary'
   const [invoiceData, setInvoiceData] = useState({})
   const [status, setStatus] = useState('')
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [callback, setCallback] = useState(false);
 
-  const statusColor = {
-    draft: '#373B53',
-    pending: '#FF8F00',
-    paid: '#33D69F'
-  }
   const router = useRouter()
-  const [invoiceOptions, setInvoiceOptions] = useState({
-    action: '',
-    method: '',
-    invoiceData: '',
-    type: '',
-
-  })
 
 
   function getStatusClasses(status) {
@@ -60,7 +49,7 @@ export default function Page({params}) {
     return dateObj.toLocaleDateString('default', options);
   }
 
-  const getPaymentDueDate = (date) => {
+  const getPaymentDueDate = () => {
     // get invoiceData.payment_terms, split "Net 30 days" and grab 30, convert to integer, add to invoiceData.invoice_date
     // convert to data using convertDate()
     const paymentTerms = invoiceData.payment_terms
@@ -98,7 +87,7 @@ export default function Page({params}) {
       method: 'DELETE',
     })
       .then(res => res.json())
-      .then(data => {
+      .then(() => {
         router.back()
       })
   }
@@ -110,7 +99,7 @@ export default function Page({params}) {
       method: 'PUT',
     })
       .then(res => res.json())
-      .then(data => {
+      .then(() => {
         setStatus('paid')
       })
   }
@@ -125,25 +114,16 @@ export default function Page({params}) {
 
   }, []);
 
-  useEffect(() => {
-    console.log(invoiceData)
-  }, [invoiceData])
 
   useEffect(() => {
-
-  }, [setStatus, status])
-
-  useEffect(() => {
-    const createInvoice = async () => {
-      const data = await handleSubmit(invoiceOptions.method, invoiceOptions.action, invoiceOptions.invoiceData)
-      console.log(data.body.invoiceData)
-      setInvoiceData(data.body.invoiceData)
-    }
-    if (invoiceOptions.type === 'create') {
-      createInvoice().then(() => {
+    fetch(`/api/invoices?type=${type}&id=${id}`)
+      .then(res => res.json())
+      .then(data => {
+        setInvoiceData(data.body.invoice)
+        setStatus(data.body.invoice.status)
       })
-    }
-  }, [invoiceOptions])
+
+  }, [sheetOpen]);
 
   return (
     <>
@@ -180,19 +160,18 @@ export default function Page({params}) {
                   </div>
                   <div className="button-group flex flex-row gap-2">
 
-                      <Sheet>
-                        <SheetTrigger asChild>
-                          <Button
-                            className="px-6 py-[1.125rem] rounded-[1.5rem] bg-[#F9FAFE] text-7-info heading-s-v hover:bg-5-secondary"
-                          >
-                            Edit
-                          </Button>
-                        </SheetTrigger>
-                        <SheetContent className={"w-[100%] overflow-y-scroll max-h-screen web hide-scrollbar"}>
-                          <SheetView setInvoiceOptions={setInvoiceOptions} sheetType={'edit'} data={invoiceData}
-                                     sheetMethod={'PUT'}/>
-                        </SheetContent>
-                      </Sheet>
+                    <Sheet open={sheetOpen} onOpenChange={setSheetOpen} sheetType={'create'}>
+                      <SheetTrigger asChild>
+                        <Button
+                          className="px-6 py-[1.125rem] rounded-[1.5rem] bg-[#F9FAFE] text-7-info heading-s-v hover:bg-5-secondary"
+                        >
+                          Edit
+                        </Button>
+                      </SheetTrigger>
+                      <SheetContent className={"w-[100%] overflow-y-scroll max-h-screen web hide-scrollbar"}>
+                        <SheetView setCallback={setCallback} setSheetOpen={setSheetOpen} sheetType={'edit'} data={invoiceData}/>
+                      </SheetContent>
+                    </Sheet>
 
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
@@ -239,7 +218,7 @@ export default function Page({params}) {
                       <p className=" body text-7-info uppercase ">{invoiceData.project_description}</p>
                     </div>
                     <div className="summary_billfrom-group body text-7-info">
-                      <p className="capitalize">{invoiceData.billfrom[0].address}</p>
+                      <p className="capitalize">{invoiceData.billfrom[0].street_address}</p>
                       <p className="capitalize">{invoiceData.billfrom[0].city}</p>
                       <p>{invoiceData.billfrom[0].post_code}</p>
                       <p className="capitalize">{invoiceData.billfrom[0].country}</p>
@@ -263,7 +242,7 @@ export default function Page({params}) {
                     <div className="invoice_billto-group flex flex-col mr-[9.375rem]">
                       <h2 className="body-v text-7-info mb-3">Bill To</h2>
                       <p className="heading-s capitalize mb-2">{invoiceData.billto[0].client_name}</p>
-                      <p className="body text-7-info capitalize">{invoiceData.billto[0].address}</p>
+                      <p className="body text-7-info capitalize">{invoiceData.billto[0].street_address}</p>
                       <p className="body text-7-info capitalize">{invoiceData.billto[0].city}</p>
                       <p className="body text-7-info capitalize">{invoiceData.billto[0].post_code}</p>
                       <p className="body text-7-info capitalize">{invoiceData.billto[0].country}</p>
