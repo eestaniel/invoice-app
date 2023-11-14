@@ -117,7 +117,7 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit, onInvalid)}>
         <div id="thisForm"
-             className="xl:pl-[10.5rem] xl:pr-[3.5rem] w-full overflow-auto xl:mt-10 flex flex-col flex-grow h-fit">
+             className="px-6 pt-8 xl:pl-[10.5rem] xl:pr-[3.5rem] w-full  xl:mt-10 flex flex-col flex-grow h-fit">
           <h1 className="heading-m">New Invoice</h1>
 
           {/* Bill From*/}
@@ -131,16 +131,17 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
 
           {/* Invoice Item List */}
           <InvoiceList fields={fields} onAppend={append} onRemove={remove}/>
+          {/* Button Groups*/}
+          <div className="container-bottom-nav w-full h-[6.875rem] xl:sticky xl:bottom-0 bg-white xl:pl-[7rem]">
+            {sheetType !== 'edit' ?
+              <CreateButtons/>
+              :
+              <EditButtons/>
+            }
+          </div>
         </div>
 
-        {/* Button Groups*/}
-        <div className="container-bottom-nav w-full h-[6.875rem] sticky bottom-0 bg-white pl-[7rem]">
-          {sheetType !== 'edit' ?
-            <CreateButtons/>
-            :
-            <EditButtons/>
-          }
-        </div>
+
       </form>
     </FormProvider>
   );
