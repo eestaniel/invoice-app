@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 import {Button} from "@/@/components/ui/button";
 import {Sheet, SheetTrigger, SheetContent} from "@/@/components/ui/sheet";
-import SheetView from "@/app/dashboard/invoices/components/SheetView";
+import SheetView from "@/app/dashboard/invoices/components/invoice_forms/SheetView";
 import {handleSubmit} from "@/app/dashboard/invoices/components/HandleSubmit";
 import {
   AlertDialog,

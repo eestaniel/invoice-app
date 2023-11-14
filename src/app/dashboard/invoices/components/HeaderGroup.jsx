@@ -3,7 +3,7 @@ import {useEffect, useContext, useState} from "react"
 import {Button} from "@/@/components/ui/button";
 import {InvoiceContext} from "@/app/dashboard/invoices/context/InvoiceContext";
 import Filter from "@/app/dashboard/invoices/components/Filter";
-import SheetView from "@/app/dashboard/invoices/components/SheetView";
+import SheetView from "@/app/dashboard/invoices/components/invoice_forms/SheetView";
 import {Sheet, SheetTrigger, SheetContent} from "@/@/components/ui/sheet";
 import {handleSubmit} from "@/app/dashboard/invoices/components/HandleSubmit";
 
