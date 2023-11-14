@@ -5,7 +5,6 @@ import {Button} from "@/@/components/ui/button";
 import {Sheet, SheetTrigger, SheetContent} from "@/@/components/ui/sheet";
 import SheetView from "@/app/dashboard/invoices/components/invoice_forms/SheetView";
 import {handleSubmit} from "@/app/dashboard/invoices/components/HandleSubmit";
-import {FormProvider} from "@/app/dashboard/context/FormContext";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -180,7 +179,7 @@ export default function Page({params}) {
                     </div>
                   </div>
                   <div className="button-group flex flex-row gap-2">
-                    <FormProvider>
+
                       <Sheet>
                         <SheetTrigger asChild>
                           <Button
@@ -194,7 +193,7 @@ export default function Page({params}) {
                                      sheetMethod={'PUT'}/>
                         </SheetContent>
                       </Sheet>
-                    </FormProvider>
+
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Button

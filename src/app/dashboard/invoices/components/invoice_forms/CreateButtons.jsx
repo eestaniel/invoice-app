@@ -1,6 +1,6 @@
 import {SheetClose} from "@/@/components/ui/sheet";
 import {Button} from "@/@/components/ui/button";
-
+import React from "react";
 export default function CreateButtons({setInvoiceOptions, invoiceData}) {
   return (
     <div
@@ -35,11 +35,12 @@ export default function CreateButtons({setInvoiceOptions, invoiceData}) {
             Save as Draft
           </Button>
         </SheetClose>
-        <SheetClose asChild>
+
           <Button
             className="w-[8rem] h-[3rem] rounded-[1.5rem] bg-1-primary heading-s-v text-white hover:cursor-pointer hover:bg-2-highlight"
-            onClick={(e) => {
-              const form = e.target.form
+            type="submit"
+            onClick={() => {
+/*              const form = e.target.form
               const method = form.getAttribute('method').toUpperCase()
               const action = form.getAttribute('action')
               setInvoiceOptions(prev => {
@@ -52,11 +53,11 @@ export default function CreateButtons({setInvoiceOptions, invoiceData}) {
                   type: 'create',
                   status: 'pending'
                 }
-              })
+              })*/
             }}>
             Save & Send
           </Button>
-        </SheetClose>
+
       </div>
     </div>
   );

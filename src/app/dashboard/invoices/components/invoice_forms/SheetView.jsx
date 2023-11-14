@@ -1,13 +1,14 @@
 "use client"
 import {useState, useEffect, useRef} from "react";
-import {Button} from "@/@/components/ui/button";
-import {SheetClose,} from "@/@/components/ui/sheet";
 import BillFrom from "@/app/dashboard/invoices/components/invoice_forms/BillFrom";
 import BillTo from "@/app/dashboard/invoices/components/invoice_forms/BillTo";
 import InvoiceDetails from "@/app/dashboard/invoices/components/invoice_forms/InvoiceDetails";
 import InvoiceList from "@/app/dashboard/invoices/components/invoice_forms/InvoiceList";
 import CreateButtons from "@/app/dashboard/invoices/components/invoice_forms/CreateButtons";
 import EditButtons from "@/app/dashboard/invoices/components/invoice_forms/EditButtons";
+import {useForm, FormProvider} from 'react-hook-form';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {invoiceFormSchema} from "@/app/dashboard/invoices/components/invoice_forms/schemas/invoiceSchema";
 
 
 export default function SheetView({setInvoiceOptions, sheetType, data, sheetMethod}) {
@@ -41,12 +42,15 @@ export default function SheetView({setInvoiceOptions, sheetType, data, sheetMeth
 
 
   const handleChange = (section, field, value, index = null) => {
+    // Process the value if it's the post code
+    const processedValue = field === 'post_code' ? parseInt(value, 10) || '' : value;
+
     if (index != null) {
       // Handle itemList array
       const newItems = [...invoiceData[section]];
       newItems[index] = {
         ...newItems[index],
-        [field]: value
+        [field]: processedValue // Use processedValue here
       };
       setInvoiceData({
         ...invoiceData,
@@ -58,7 +62,7 @@ export default function SheetView({setInvoiceOptions, sheetType, data, sheetMeth
         ...invoiceData,
         [section]: {
           ...invoiceData[section],
-          [field]: value
+          [field]: processedValue // And also here
         }
       });
     }
@@ -118,33 +122,45 @@ export default function SheetView({setInvoiceOptions, sheetType, data, sheetMeth
 
   }, [])
 
+  const methods = useForm({
+    resolver: zodResolver(invoiceFormSchema)
+  });
+  const { handleSubmit, formState: { errors } } = methods;
+  const onSubmit = data => {
+    // Handle the form submission logic here
+    console.log('submit')
+    console.log(data);
+  };
+
   return (
-    <form method={`${sheetMethod}`} action="/api/invoices">
-      <div id="thisForm" ref={formRef}
-           className="pl-[10.5rem] pr-[3.5rem] w-full] overflow-auto mt-10 flex flex-col flex-grow h-fit">
-        <h1 className="heading-m">New Invoice</h1>
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onSubmit)} method={`${sheetMethod}`} action="/api/invoices" >
+        <div id="thisForm" ref={formRef}
+             className="pl-[10.5rem] pr-[3.5rem] w-full] overflow-auto mt-10 flex flex-col flex-grow h-fit">
+          <h1 className="heading-m">New Invoice</h1>
 
-        {/* Bill From*/}
-        <BillFrom invoiceData={invoiceData} handleChange={handleChange}/>
+          {/* Bill From*/}
+          <BillFrom invoiceData={invoiceData} handleChange={handleChange}/>
 
-        {/* Bill to*/}
-        <BillTo invoiceData={invoiceData} handleChange={handleChange}/>
+          {/* Bill to*/}
+          <BillTo invoiceData={invoiceData} handleChange={handleChange}/>
 
-        {/* Invoice Details */}
-        <InvoiceDetails invoiceData={invoiceData} handleChange={handleChange} formRef={formRef}/>
+          {/* Invoice Details */}
+          <InvoiceDetails invoiceData={invoiceData} handleChange={handleChange} formRef={formRef}/>
 
-        {/* Invoice Item List */}
-        <InvoiceList invoiceData={invoiceData} handleChange={handleChange} setInvoiceData={setInvoiceData}/>
-      </div>
+          {/* Invoice Item List */}
+          <InvoiceList invoiceData={invoiceData} handleChange={handleChange} setInvoiceData={setInvoiceData}/>
+        </div>
 
-      {/* Button Groups*/}
-      <div className="container-bottom-nav w-full h-[6.875rem] sticky bottom-0 bg-white pl-[7rem]">
-        {sheetType !== 'edit' ?
-          <CreateButtons setInvoiceOptions={setInvoiceOptions} invoiceData={invoiceData}/>
-          :
-          <EditButtons setInvoiceOptions={setInvoiceOptions} invoiceData={invoiceData}/>
-        }
-      </div>
-    </form>
+        {/* Button Groups*/}
+        <div className="container-bottom-nav w-full h-[6.875rem] sticky bottom-0 bg-white pl-[7rem]">
+          {sheetType !== 'edit' ?
+            <CreateButtons setInvoiceOptions={setInvoiceOptions} invoiceData={invoiceData}/>
+            :
+            <EditButtons setInvoiceOptions={setInvoiceOptions} invoiceData={invoiceData}/>
+          }
+        </div>
+      </form>
+    </FormProvider>
   );
 }
