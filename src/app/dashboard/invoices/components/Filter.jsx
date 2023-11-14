@@ -2,7 +2,7 @@
 import {Popover, PopoverContent, PopoverTrigger} from "@/@/components/ui/popover";
 import {Checkbox} from "@/@/components/ui/checkbox";
 import {useState, useRef, useContext} from "react";
-import {InvoiceContext} from "@/app/dashboard/invoices/context/InvoiceContext";
+import {InvoiceContext} from "@/app/dashboard/context/InvoiceContext";
 
 
 export default function Filter() {

@@ -5,6 +5,7 @@ import {Button} from "@/@/components/ui/button";
 import {Sheet, SheetTrigger, SheetContent} from "@/@/components/ui/sheet";
 import SheetView from "@/app/dashboard/invoices/components/invoice_forms/SheetView";
 import {handleSubmit} from "@/app/dashboard/invoices/components/HandleSubmit";
+import {FormProvider} from "@/app/dashboard/context/FormContext";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -53,12 +54,12 @@ export default function Page({params}) {
     }
   }
 
-const convertDate = (date) => {
-  // Convert 2023-11-09T00:00:00.000Z to Nov 9 2023
-  const dateObj = new Date(date);
-  const options = { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' };
-  return dateObj.toLocaleDateString('default', options);
-}
+  const convertDate = (date) => {
+    // Convert 2023-11-09T00:00:00.000Z to Nov 9 2023
+    const dateObj = new Date(date);
+    const options = {month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC'};
+    return dateObj.toLocaleDateString('default', options);
+  }
 
   const getPaymentDueDate = (date) => {
     // get invoiceData.payment_terms, split "Net 30 days" and grab 30, convert to integer, add to invoiceData.invoice_date
@@ -179,20 +180,21 @@ const convertDate = (date) => {
                     </div>
                   </div>
                   <div className="button-group flex flex-row gap-2">
-                    <Sheet>
-                      <SheetTrigger asChild>
-                        <Button
-                          className="px-6 py-[1.125rem] rounded-[1.5rem] bg-[#F9FAFE] text-7-info heading-s-v hover:bg-5-secondary"
-                        >
-                          Edit
-                        </Button>
-                      </SheetTrigger>
-                      <SheetContent className={"w-[100%] overflow-y-scroll max-h-screen web hide-scrollbar"}>
-                        <SheetView setInvoiceOptions={setInvoiceOptions} sheetType={'edit'} data={invoiceData}
-                                   sheetMethod={'PUT'}/>
-                      </SheetContent>
-                    </Sheet>
-
+                    <FormProvider>
+                      <Sheet>
+                        <SheetTrigger asChild>
+                          <Button
+                            className="px-6 py-[1.125rem] rounded-[1.5rem] bg-[#F9FAFE] text-7-info heading-s-v hover:bg-5-secondary"
+                          >
+                            Edit
+                          </Button>
+                        </SheetTrigger>
+                        <SheetContent className={"w-[100%] overflow-y-scroll max-h-screen web hide-scrollbar"}>
+                          <SheetView setInvoiceOptions={setInvoiceOptions} sheetType={'edit'} data={invoiceData}
+                                     sheetMethod={'PUT'}/>
+                        </SheetContent>
+                      </Sheet>
+                    </FormProvider>
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Button
@@ -210,8 +212,10 @@ const convertDate = (date) => {
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter className={"mt-4"}>
-                          <AlertDialogCancel className={"rounded-[1.5rem] bg-[#F9FAFE] text-7-info"}>Cancel</AlertDialogCancel>
-                          <AlertDialogAction className={"rounded-[1.5rem] bg-9-accent text-white"} onClick={()=> handleDelete(invoiceData.custom_id)}>Delete</AlertDialogAction>
+                          <AlertDialogCancel
+                            className={"rounded-[1.5rem] bg-[#F9FAFE] text-7-info"}>Cancel</AlertDialogCancel>
+                          <AlertDialogAction className={"rounded-[1.5rem] bg-9-accent text-white"}
+                                             onClick={() => handleDelete(invoiceData.custom_id)}>Delete</AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>

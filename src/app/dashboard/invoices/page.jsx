@@ -1,6 +1,6 @@
 "use client"
 import HeaderGroup from "@/app/dashboard/invoices/components/HeaderGroup";
-import {InvoiceContext} from "@/app/dashboard/invoices/context/InvoiceContext";
+import {InvoiceContext} from "@/app/dashboard/context/InvoiceContext";
 import {useContext, useEffect} from "react";
 import EmptyInvoice from "@/app/dashboard/invoices/components/EmptyInvoice";
 import InvoiceTable from "@/app/dashboard/invoices/components/InvoiceTable";

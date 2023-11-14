@@ -1,5 +1,5 @@
 import SiveNavigation from "@/app/dashboard/components/SiveNavigation";
-import {InvoiceProvider} from "@/app/dashboard/invoices/context/InvoiceContext";
+import {InvoiceProvider} from "@/app/dashboard/context/InvoiceContext";
 
 export default function DashboardLayout({children}) {
   return (

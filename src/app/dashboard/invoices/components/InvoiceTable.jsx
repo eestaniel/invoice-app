@@ -1,4 +1,4 @@
-import {InvoiceContext} from "@/app/dashboard/invoices/context/InvoiceContext";
+import {InvoiceContext} from "@/app/dashboard/context/InvoiceContext";
 import {useContext, useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 
