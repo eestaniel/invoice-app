@@ -126,122 +126,86 @@ export async function GET(req) {
 }
 
 export async function POST(req) {
-
-
   // get body from request
   const body = await req.json()
 
-  // convert body.invoiceData.invoiceDetails.invoiceDate to Date object
-  // body.invoiceData.invoiceDetails.invoiceDate is like "02 Aug 2021"
-  // we need to convert it to Date object so that we can store it in postgresql
-  const invoiceDate = new Date(body.invoiceData.invoiceDetails.invoiceDate)
-  const dueDate = getPaymentDueDate(body.invoiceData.invoiceDetails.invoiceDate, body.invoiceData.invoiceDetails.paymentTerms)
+  // check if creating or updating invoice
+  const type = body.invoice_details.type
 
-  const invoice = await prisma.invoices.create({
-    data: {
-      invoice_date: invoiceDate,
-      due_date: dueDate,
-      payment_terms: body.invoiceData.invoiceDetails.paymentTerms,
-      project_description: body.invoiceData.invoiceDetails.projectDescription,
-      status: body.status,
-    }
-  })
-
-  // generate a unique id:
-  // #[random capital letter][random capital letter][random number][random number][random number][random number]
-  // example: #RT3080
-  // loop 20 times: check if unique id already exists in database invoices custom_id column
-  // if it does, generate another unique id
-  // if it doesn't, use the unique id generated loop
-  let customInvoiceID = null;
-  for (let i = 0; i < 20; i++) {
-    customInvoiceID = `${generateRandomLetters(2)}${Math.floor(1000 + Math.random() * 9000)}`;
-    const existingInvoice = await prisma.invoices.findUnique({
-      where: {
-        custom_id: customInvoiceID
-      },
-    })
-    if (existingInvoice === null) {
-      // put customInvoiceID in database invoices[invoice.id].custom_id
-      await prisma.invoices.update({
-        where: {
-          id: invoice.id
-        },
+  // Create invoice
+  if (type === 'create') {
+    // create invoices, then billfrom, billto, itemlist:(item_name, quantity, price) map
+    try {
+      const invoice_id = await prisma.invoices.create({
         data: {
-          custom_id: customInvoiceID
+          custom_id: body.invoice_details.custom_id,
+          invoice_date: body.invoice_details.invoice_date,
+          due_date: body.invoice_details.due_date,
+          payment_terms: body.invoice_details.payment_terms,
+          project_description: body.invoice_details.project_description,
+          status: body.invoice_details.status,
+          total: body.invoice_details.total,
         }
       })
-      break;
+
+      // create billfrom
+      await prisma.billfrom.create({
+        data: {
+          address: body.bill_from.street_address,
+          city: body.bill_from.city,
+          post_code: body.bill_from.post_code,
+          country: body.bill_from.country,
+          invoice_id: invoice_id.id
+        }
+      })
+
+      // create billto
+      await prisma.billto.create({
+        data: {
+          client_name: body.bill_to.client_name,
+          client_email: body.bill_to.client_email,
+          address: body.bill_to.street_address,
+          city: body.bill_to.city,
+          post_code: body.bill_to.post_code,
+          country: body.bill_to.country,
+          invoice_id: invoice_id.id
+        }
+      })
+
+      // create itemlist
+      await prisma.itemlist.createMany({
+        data: body.item_list.map((item) => {
+          return {
+            item_name: item.name,
+            quantity: parseInt(item.quantity),
+            price: parseFloat(item.price),
+            invoice_id: invoice_id.id
+          }
+        })
+      })
+
+      return Response.json({
+        status: '201',
+        body: {
+          message: 'Invoice created',
+        }
+      })
+
+    } catch (e) {
+      return Response.json({
+        status: '400',
+        body: {
+          message: e.message
+        }
+      })
     }
-  }
+}
 
-  await prisma.billfrom.create({
-    data: {
-      invoice_id: invoice.id,
-      address: body.invoiceData.billFrom.address,
-      city: body.invoiceData.billFrom.city,
-      post_code: body.invoiceData.billFrom.post_code,
-      country: body.invoiceData.billFrom.country,
-    }
-  })
+else
+if (type === 'update') {
 
-  await prisma.billto.create({
-    data: {
-      invoice_id: invoice.id,
-      client_name: body.invoiceData.billTo.clientName,
-      client_email: body.invoiceData.billTo.clientEmail,
-      address: body.invoiceData.billTo.address,
-      city: body.invoiceData.billTo.city,
-      post_code: body.invoiceData.billTo.post_code,
-      country: body.invoiceData.billTo.country,
-    }
-  })
+}
 
-  // if invoiceID is still null, then we have looped 20 times and still haven't found a unique id
-  // return error
-  if (customInvoiceID === null) {
-    return Response.json({
-      status: '500',
-      body: {
-        error: 'Unable to generate unique id'
-      }
-    })
-  }
-
-  let total = 0;
-
-  // map body.itemList and create new item in Items table in postgresql
-  body.invoiceData.itemList.map(async (item) => {
-    total += parseFloat(item.price) * parseInt(item.quantity)
-    await prisma.itemlist.create({
-      data: {
-        invoice_id: invoice.id,
-        item_name: item.item_name,
-        //convert item.quantity to integer
-        quantity: parseInt(item.quantity),
-        //convert item.price to integer
-        price: parseInt(item.price),
-      }
-    })
-  })
-
-  // update total in invoices table in postgresql
-  await prisma.invoices.update({
-    where: {
-      id: invoice.id
-    },
-    data: {
-      total: total
-    }
-  })
-
-
-  return Response.json({
-    status: '201',
-    body: {
-      key: JSON.stringify(body)
-    }
-  })
 }
 
 // delete invoice by id parameter

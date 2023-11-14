@@ -94,7 +94,8 @@ export default function InvoiceList({fields, onAppend, onRemove}) {
         })}
       </div>
 
-      <Button className="w-full h-[3rem] bg-[#F9FAFE] rounded-[1.5rem] heading-s-v text-7-info hover:cursor-pointer
+      <Button
+        className="w-full h-[3rem] bg-[#F9FAFE] rounded-[1.5rem] heading-s-v text-7-info hover:cursor-pointer
           hover:bg-5-secondary mt-[1rem]"
               onClick={(e) => {
                 e.preventDefault()

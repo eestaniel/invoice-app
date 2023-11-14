@@ -11,7 +11,6 @@ import {invoiceFormSchema} from "@/app/dashboard/invoices/components/invoice_for
 
 export default function SheetView({sheetType, sheetMethod}) {
 
-
   const methods = useForm({
     resolver: zodResolver(invoiceFormSchema),
     defaultValues: {
@@ -28,7 +27,23 @@ export default function SheetView({sheetType, sheetMethod}) {
     name: 'item_list',
   });
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    console.log(data);
+    fetch('/api/invoices', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    }).then(res => res.json())
+      .then(data => console.log(data))
+      .catch(err => console.error(err))
+      .finally(() => {
+
+      })
+
+
+  };
   const onInvalid = (errors) => console.error(errors)
 
   return (
