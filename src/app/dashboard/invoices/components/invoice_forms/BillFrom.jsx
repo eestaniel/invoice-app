@@ -9,7 +9,7 @@ export default function BillFrom() {
   return (
     <div className="bill-from-group flex flex-col">
       {/* Street Address */}
-      <Label htmlFor="bill-from" className="heading-s-v text-1-primary mb-[1.5rem] mt-[3rem]">Bill From</Label>
+      <Label htmlFor="bill-from" className="heading-s-v text-1-primary mb-[1.5rem] mt-[1.5rem]">Bill From</Label>
       <div className="group flex flex-col w-full gap-[0.625rem] ">
         <Label htmlFor="from_address" className="body-v text-7-info">Street Address</Label>
         <Input
@@ -25,10 +25,10 @@ export default function BillFrom() {
       </div>
 
       {/* City, Post Code, Country group*/}
-      <div className="bill-from-group__group2 flex flex-row md:flexrow justify-between w-full flex-wrap">
+      <div className="bill-from-group__group2 flex flex-row justify-between w-full flex-wrap lg:flex-nowrap lg:gap-4">
 
         {/* City */}
-        <div className="group flex flex-col max-w-[48%] grow gap-[0.625rem]">
+        <div className="group flex flex-col max-w-[48%] lg:max-w-[33%] grow gap-[0.625rem]">
           <Label htmlFor="from_city" className="body-v text-7-info">City</Label>
           <Input
             {...register('bill_from.city')}
@@ -43,7 +43,7 @@ export default function BillFrom() {
         </div>
 
         {/* Post Code */}
-        <div className="group flex flex-col max-w-[48%] grow gap-[0.625rem] flex-nowrap">
+        <div className="group flex flex-col max-w-[48%] lg:max-w-[33%] grow gap-[0.625rem] flex-nowrap">
           <Label htmlFor="from_post_code" className="body-v text-7-info">Post Code</Label>
           <Input
             {...register('bill_from.post_code')}
@@ -56,12 +56,13 @@ export default function BillFrom() {
         </div>
 
         {/* Country */}
-        <div className="group flex flex-row grow gap-[0.625rem] h-fit flex-wrap mt-4">
+        <div className="group flex flex-col  lg:max-w-[33%] grow gap-[0.625rem] h-full flex-wrap mt-4 lg:mt-0">
           <Label htmlFor="from_country" className="body-v text-7-info">Country</Label>
           <Input
             {...register('bill_from.country')}
             className={
-              ` border-5-secondary focus:border-1-primary focus:outline-none focus:ring-0 h-12 flex-wrap
+              ` border-5-secondary focus:border-1-primary focus:outline-none focus:ring-0 h-12 
+              flex-wrap lg:flex-nowrap grow
               ${errors.bill_from?.country ? 'border-red-600 mb-[-0.75rem]' : ''}
           `}
           />

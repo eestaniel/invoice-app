@@ -117,7 +117,18 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit, onInvalid)}>
         <div id="thisForm"
-             className="px-6 pt-8 lg:pl-[10.5rem] lg:pr-[3.5rem] w-full  lg:mt-10 flex flex-col flex-grow h-fit">
+             className="px-6 lg:px-[3.5rem] mt-24 lg:mt-[8.75rem] xl:mt-[3.75rem]  xl:pl-[10.5rem] xl:pr-[3.5rem] w-full
+                        flex flex-col flex-grow h-fit">
+
+          <div className="lg:hidden flex flex-row items-center gap-6 mb-6">
+            <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6.342.886L2.114 5.114l4.228 4.228" stroke="#9277FF" strokeWidth="2" fill="none"
+                    fillRule="evenodd"/>
+            </svg>
+            <p className="heading-s text-8-text">Go back</p>
+
+          </div>
+
           <h1 className="heading-m">New Invoice</h1>
 
           {/* Bill From*/}

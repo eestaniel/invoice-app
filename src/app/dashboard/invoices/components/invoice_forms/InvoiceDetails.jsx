@@ -16,9 +16,11 @@ export default function InvoiceDetails() {
 
 
   return (
-    <div className="bill-to-group flex flex-col lg:flex-row gap-[1.5rem] mb-[1.5rem] mt-[3rem] w-full flex-wrap lg:flex-nowrap">
-      <div className="invoice-date-term-group flex flex-row gap-[1.5rem]  grow">
-        <div className="group flex flex-col h-full grow gap-[0.625rem] relative ">
+    <div className="bill-to-group flex flex-row mb-[1.5rem] mt-[2rem] w-full h-fit flex-wrap gap-2 justify-between">
+
+      {/* Invoice Date */}
+      <div className="invoice-date-term-group flex flex-row h-fit grow max-w-[100%] md:max-w-[48%] ">
+        <div className="group flex flex-col h-full gap-[0.625rem] relative w-full">
           <Label htmlFor="invoice_date" className="body-v text-7-info">Invoice Date</Label>
           <Popover>
             <PopoverTrigger asChild>
@@ -48,14 +50,14 @@ export default function InvoiceDetails() {
       </div>
 
       {/* payment Terms*/}
-      <div className="group flex flex-col gap-[0.625rem] relative flex-wrap">
+      <div className="group flex flex-col gap-[0.625rem] relative flex-wrap lg:flex-nowrap grow max-w-[100%] md:max-w-[48%]">
         <Label htmlFor="payment_terms" className="body-v text-7-info">Payment Terms</Label>
         <Popover isOpen={isTermsPopoverOpen} onOpenChange={setIsTermsPopoverOpen}>
           <PopoverTrigger asChild>
             <div className="flex justify-between items-center hover:cursor-pointer group">
               <Input
                 {...register('invoice_details.payment_terms')}
-                className="grow h-12 heading-s-v text-8-text opacity-[50%] pl-[1.25rem] border-5-secondary group-hover:border-1-primary group-hover:opacity-100
+                className="w-full h-12 heading-s-v text-8-text opacity-[50%] pl-[1.25rem] border-5-secondary group-hover:border-1-primary group-hover:opacity-100
                                             group-hover:cursor-pointer"
               />
               <div className="svg absolute right-4">
@@ -117,8 +119,8 @@ export default function InvoiceDetails() {
         </Popover>
       </div>
 
-
-      <div className="group flex flex-col  gap-[0.625rem] w-full">
+      {/* Project Description */}
+      <div className="group flex flex-col flex-wrap gap-[0.625rem] w-full mt-4">
         <Label htmlFor="to_country" className="body-v text-7-info">Project Description</Label>
         <Input
           {...register('invoice_details.project_description')}

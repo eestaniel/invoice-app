@@ -11,7 +11,7 @@ export default function InvoiceList({fields, onAppend, onRemove}) {
     <div
       className="item-list-group flex flex-col w-full">
       <Label htmlFor="bill-to"
-             className=" text-[#777F98] font-spartan font-bold text-[1.75rem]  mb-[1.5rem] lg:mt-[2rem] gap-[0.625rem]">
+             className=" text-[#777F98] font-spartan font-bold text-[1.75rem]  mb-[1.5rem] gap-[0.625rem]">
         Item List
       </Label>
 
@@ -23,21 +23,21 @@ export default function InvoiceList({fields, onAppend, onRemove}) {
             const total = (parseFloat(quantity) || 0) * (parseFloat(price) || 0);
 
             return (
-              <div key={item.id || index} className={`item-row flex flex-col xl:flex-row gap-[1rem] w-full mb-6 whitespace-nowrap`}>
+              <div key={item.id || index} className={`item-row flex flex-col lg:flex-row gap-[1rem] w-full mb-6 flex-wrap lg:flex-nowrap`}>
                 {/* item name */}
-                <div className="item__name-group flex flex-col w-full lg:w-[214px] justify-start">
+                <div className="item__name-group flex flex-col justify-start">
                   <div className="group flex flex-col w-full gap-[0.625rem]">
                     <Label htmlFor="to_country" className="body-v text-7-info">Item Name</Label>
                   </div>
                   <Input
                     {...register(`item_list.${index}.name`)}
-                    className={`border-5-secondary w-full  h-12 ${errors.item_list?.[index]?.name ? 'border-red-700 ' : ''}}`}
+                    className={`border-5-secondary w-full lg:w-[214px] h-12 ${errors.item_list?.[index]?.name ? 'border-red-700 ' : ''}}`}
                   />
                 </div>
 
-                <div className="item_details-group flex flex-row h-full grow gap-4">
+                <div className="item_details-group flex flex-row h-full grow gap-4 flex-wrap lg:flex-nowrap w-full">
                   {/* item quantity */}
-                  <div className="flex-none max-w-[64px]">
+                  <div className="flex-none max-w-[18%] lg:max-w-[18%] grow">
                     <div className="group flex flex-col  gap-[0.625rem]">
                       <Label htmlFor="to_country" className="body-v text-7-info grow-0">Qty.</Label>
                     </div>
@@ -51,14 +51,14 @@ export default function InvoiceList({fields, onAppend, onRemove}) {
                   </div>
 
                   {/* item price */}
-                  <div className="flex-none max-w-[100px]">
+                  <div className="flex-none max-w-[26%] lg:max-w-[32%] grow">
                     <div className="group flex flex-col gap-[0.625rem] mr-[3rem]">
                       <Label htmlFor="to_country" className="body-v text-7-info">Price</Label>
 
                     </div>
                     <Input
                       {...register(`item_list.${index}.price`)}
-                      className=" border-5-secondary hide-arrow-input h-12 "
+                      className=" border-5-secondary hide-arrow-input h-12 grow"
                       placeholder="0.00"
                       type="number" min="0" step="0.01" required="required"
                     />
@@ -66,16 +66,15 @@ export default function InvoiceList({fields, onAppend, onRemove}) {
                   </div>
 
                   {/* item total */}
-
-                  <div className="group flex grow flex-col  h-auto ">
+                  <div className="group flex grow flex-col  h-auto max-w-[24%] grow">
                     <Label htmlFor="to_country" className="body-v text-7-info text-left">Total</Label>
-                    <p className=" h-full heading-s-v text-6-muted  flex  items-center">
+                    <p className=" h-full heading-s-v text-6-muted  flex  items-center ">
 
                       {total.toFixed(2)}
                     </p>
                   </div>
 
-                  <div className="flex flex-grow justify-end items-center pr-2">
+                  <div className="flex grow justify-end items-center pr-2 ">
                     <svg width="13" height="16" xmlns="http://www.w3.org/2000/svg"
                          className=""
                          onClick={() => onRemove(index)}>

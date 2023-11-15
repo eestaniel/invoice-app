@@ -39,7 +39,7 @@ export default function BillTo() {
             className={`
           w-full border-5-secondary 
           focus:border-1-primary focus:outline-none focus:ring-0 h-12
-          ${errors.bill_to?.client_email ? 'border-red-600 mb-[-0.75rem]' : 'mb-6'} 
+          ${errors.bill_to?.client_email ? 'border-red-600 mb-[-0.75rem]' : ''} 
           `}
           />
           {errors.bill_to?.client_email &&
@@ -54,7 +54,7 @@ export default function BillTo() {
             className={`
           w-full border-5-secondary 
           focus:border-1-primary focus:outline-none focus:ring-0 h-12
-          ${errors.bill_to?.street_address ? 'border-red-600 mb-[-0.75rem]' : 'mb-6'} 
+          ${errors.bill_to?.street_address ? 'border-red-600 mb-[-0.75rem]' : ''} 
           `}
           />
           {errors.bill_to?.street_address &&
@@ -62,10 +62,10 @@ export default function BillTo() {
         </div>
 
         {/* City, Post Code, Country group*/}
-        <div className="bill-to-group__group3 flex flex-row justify-between w-full flex-wrap">
+        <div className="bill-to-group__group3 flex flex-row justify-between w-full flex-wrap lg:flex-nowrap lg:gap-4">
 
           {/* City */}
-          <div className="group flex flex-col gap-[0.625rem] grow max-w-[48%] flex-nowrap">
+          <div className="group flex flex-col gap-[0.625rem] grow max-w-[48%] lg:max-w-[33%] flex-nowrap">
             <Label htmlFor="to_city" className="body-v text-7-info">City</Label>
             <Input
               {...register('bill_to.city')}
@@ -80,7 +80,7 @@ export default function BillTo() {
           </div>
 
           {/* Post Code */}
-          <div className="group flex flex-col gap-[0.625rem] grow max-w-[48%] flex-nowrap">
+          <div className="group flex flex-col gap-[0.625rem] grow max-w-[48%] lg:max-w-[33%] flex-nowrap">
             <Label htmlFor="to_post_code" className="body-v text-7-info">Post Code</Label>
             <Input
               {...register('bill_to.post_code')}
@@ -95,7 +95,7 @@ export default function BillTo() {
           </div>
 
           {/* Country */}
-          <div className="group flex flex-col gap-[0.625rem] grow">
+          <div className="group flex flex-col gap-[0.625rem] grow lg:max-w-[33%]">
             <Label htmlFor="to_country" className="body-v text-7-info">Country</Label>
             <Input
               {...register('bill_to.country')}
