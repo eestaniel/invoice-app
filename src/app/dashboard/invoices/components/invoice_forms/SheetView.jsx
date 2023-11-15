@@ -8,12 +8,12 @@ import {useForm, FormProvider, useFieldArray} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {invoiceFormSchema} from "@/app/dashboard/invoices/components/invoice_forms/schemas/invoiceSchema";
 import {InvoiceContext} from "@/app/dashboard/context/InvoiceContext";
-import {useContext, useEffect} from "react";
+import {useContext, useEffect, useState} from "react";
 
 
 export default function SheetView({setSheetOpen, sheetType, data}) {
   const {useCallback, setUseCallback} = useContext(InvoiceContext);
-
+  const [customId, setCustomId] = useState('');
 
   const methods = useForm({
     resolver: zodResolver(invoiceFormSchema),
@@ -26,7 +26,8 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
   });
 
 
-  const {reset, control} = methods;
+  const {reset, control, getValues} = methods;
+  const formValues = getValues().invoice_details;
   const {fields, append, remove} = useFieldArray({
     control,
     name: 'item_list',
@@ -75,7 +76,7 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
       }
       console.log(data.invoice_date)
       console.log(parseDateAsUTC(newData.invoice_details.invoice_date))
-
+      setCustomId(data.custom_id);
       reset(newData);
 
     }
@@ -129,31 +130,35 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
 
           </div>
 
-          <h1 className="heading-m">New Invoice</h1>
+          {/* check if custom id*/}
+          {customId === '' ? <h1 className="heading-m">New Invoice</h1> :
+            <h1 className="heading-m">
+              Edit <span className="text-7-info">#</span>{customId}</h1> }
 
           {/* Bill From*/}
-          <BillFrom/>
+            <BillFrom/>
 
           {/* Bill to*/}
-          <BillTo/>
+            <BillTo/>
 
           {/* Invoice Details */}
-          <InvoiceDetails/>
+            <InvoiceDetails/>
 
           {/* Invoice Item List */}
-          <InvoiceList fields={fields} onAppend={append} onRemove={remove}/>
+            <InvoiceList fields={fields} onAppend={append} onRemove={remove}/>
 
-        </div>
-        {/* Button Groups*/}
-        <div className="container-bottom-nav w-full h-fit lg:h-[6.875rem] lg:sticky lg:bottom-0 bg-white xl:pl-[7rem]">
-          {sheetType !== 'edit' ?
-            <CreateButtons/>
-            :
-            <EditButtons/>
-          }
-        </div>
+      </div>
+      {/* Button Groups*/}
+      <div className="container-bottom-nav w-full h-fit lg:h-[6.875rem] lg:sticky lg:bottom-0 bg-white xl:pl-[7rem]">
+        {sheetType !== 'edit' ?
+          <CreateButtons/>
+          :
+          <EditButtons/>
+        }
+      </div>
 
-      </form>
-    </FormProvider>
-  );
+    </form>
+</FormProvider>
+)
+  ;
 }
