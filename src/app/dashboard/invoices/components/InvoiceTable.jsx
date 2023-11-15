@@ -66,10 +66,10 @@ export default function InvoiceTable() {
 
 
   return (
-    <div className="w-full lg:w-[45.625rem] flex flex-col justify-center items-center text-center">
-      <div className="hidden lg:inline">
-        <table className="w-full text-center items-center justify-center">
-          <tbody className="flex flex-col gap-4 w-full text-center ">
+    <div className="w-full lex flex-col ">
+      <div className="hidden md:inline">
+        <table className="flex w-full text-center items-center justify-center">
+          <tbody className="flex flex-col gap-4 w-fit text-center justify-center">
           {invoiceArray.map((invoice, key) => {
             return (
               <tr key={key} className="row_contaienr flex flex-row  bg-white h-[4.5rem] justify-start items-center w-full
@@ -78,22 +78,23 @@ export default function InvoiceTable() {
                     router.push(`/dashboard/invoices/${invoice.id}`)
                   }}
               >
-                <td className="flex flex-row justify-start items-center w-[6rem] group"><span
+                <td className="flex flex-row justify-start items-center group min-w-[6rem]"><span
                   className="text-7-info heading-s-v">#</span>
                   <div className="heading-s-v">{invoice.id}</div>
                 </td>
-                <td className="flex flex-row justify-center heading-s-v text-7-info gap-2 w-[12rem] mr-[2rem]"><span
+                <td className="flex flex-row justify-start heading-s-v text-7-info gap-2 min-w-[8rem]"><span
                   className="text-6-muted">Due</span> {invoice.due_date}</td>
                 <td
-                  className="flex flex-row heading-s-v text-7-info w-[8rem]">{invoice.clientName ? invoice.clientName : 'Not Available'}</td>
+                  className="flex flex-row heading-s-v text-7-info  min-w-[6rem] justify-center">{invoice.clientName ? invoice.clientName : 'Not Available'}</td>
                 <td
-                  className="heading-s text-8-text flex flex-row justify-center items-center w-[7rem]">$ {invoice.total}</td>
+                  className="heading-s text-8-text flex flex-row justify-end  mr-8 items-center min-w-[6rem] ">$ {invoice.total}</td>
                 <td className={getStatusClasses(invoice.status)}>
                   <li>{invoice.status}</li>
                 </td>
 
                 <td>
-                  <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
+                  <svg className="ml-4"
+                    width="7" height="10" xmlns="http://www.w3.org/2000/svg">
                     <path d="M1 1l4 4-4 4" stroke="#7C5DFA" strokeWidth="2" fill="none" fillRule="evenodd"/>
                   </svg>
                 </td>

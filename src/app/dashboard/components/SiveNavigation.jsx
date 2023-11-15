@@ -4,7 +4,7 @@ export default function SiveNavigation() {
   return (
     <div className="z-50 bg-red h-[72px] lg:h-[80px] xl:h-screen min-w-[7rem] sticky top-0 overflow-y-hidden">
       <div
-        className="nav-container flex flex-row xl:flex-col justify-end xl:justify-start h-[72px] lg:h-[80px]  xl:h-screen
+        className="nav-container flex flex-row xl:flex-col justify-end lg:justify-start h-[72px] lg:h-[80px]  xl:h-screen
         bg-[#373B53] m-0 p-0 overflow-clip rounded-none xl:rounded-icon1 z-50  w-full"
       >
         <div className="icon-container  h-[72px] lg:h-[80px] xl:h-[103px]  w-[72px] xl:w-full bg-yellow-400 rounded-icon1 relative overflow-clip">
@@ -21,7 +21,7 @@ export default function SiveNavigation() {
         </div>
 
         {/* nav content */}
-        <div className="nav-content flex flex-row xl:flex-col h-full xl:h-auto grow xl:grow-0 justify-end pr-6 xl:pr-0 xl:pb-8 items-center ">
+        <div className="nav-content flex flex-row xl:flex-col h-full xl:h-auto grow justify-end pr-6 xl:pr-0 xl:mb-8 items-center ">
           {/* dark mode icon */}
           <svg className="h-5 w-5 xl:h-5 xl:w-full "
                width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
