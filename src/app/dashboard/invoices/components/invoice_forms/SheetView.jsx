@@ -131,16 +131,16 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
 
           {/* Invoice Item List */}
           <InvoiceList fields={fields} onAppend={append} onRemove={remove}/>
-          {/* Button Groups*/}
-          <div className="container-bottom-nav w-full h-[6.875rem] xl:sticky xl:bottom-0 bg-white xl:pl-[7rem]">
-            {sheetType !== 'edit' ?
-              <CreateButtons/>
-              :
-              <EditButtons/>
-            }
-          </div>
-        </div>
 
+        </div>
+        {/* Button Groups*/}
+        <div className="container-bottom-nav w-full h-fit xl:h-[6.875rem] xl:sticky xl:bottom-0 bg-white xl:pl-[7rem]">
+          {sheetType !== 'edit' ?
+            <CreateButtons/>
+            :
+            <EditButtons/>
+          }
+        </div>
 
       </form>
     </FormProvider>
