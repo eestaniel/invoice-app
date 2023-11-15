@@ -1,5 +1,5 @@
 "use client"
-import {useContext, useState} from "react"
+import {useContext, useEffect, useState} from "react"
 import {Button} from "@/@/components/ui/button";
 import {InvoiceContext} from "@/app/dashboard/context/InvoiceContext";
 import Filter from "@/app/dashboard/invoices/components/Filter";
@@ -9,6 +9,10 @@ import {Sheet, SheetTrigger, SheetContent} from "@/@/components/ui/sheet";
 export default function HeaderGroup() {
   const {invoiceList} = useContext(InvoiceContext);
   const [sheetOpen, setSheetOpen] = useState(false);
+
+  useEffect(() => {
+
+  }, [invoiceList]);
 
   return (
     <div className="header-container  w-full h-fit justify-center relative flex flex-row">

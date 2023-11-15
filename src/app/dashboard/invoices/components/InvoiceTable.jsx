@@ -5,7 +5,7 @@ import {useRouter} from "next/navigation";
 export default function InvoiceTable() {
   const router = useRouter();
   const [invoiceArray, setInvoiceArray] = useState([]);
-  const {filterList, setFilterList, useCallback} = useContext(InvoiceContext);
+  const {filterList, setFilterList, useCallback, setUseCallback} = useContext(InvoiceContext);
   const statusColor = {
     draft: '#373B53',
     pending: '#FF8F00',
@@ -36,18 +36,10 @@ export default function InvoiceTable() {
     }
 
 
-  }, [filterList, setFilterList]);
+  }, [filterList]);
 
 
-  useEffect(() => {
-    // send fetch get to /api/invoices to get object of invoices
-    const type = 'invoice-table'
 
-    fetch(`/api/invoices?type=${type}`).then(res => res.json()).then(data => {
-      // get invoice data by data asscending order
-      setInvoiceArray(data.body.invoices)
-    })
-  }, [useCallback]);
 
 
   function getStatusClasses(status, size) {
@@ -94,7 +86,7 @@ export default function InvoiceTable() {
 
                 <td>
                   <svg className="ml-4"
-                    width="7" height="10" xmlns="http://www.w3.org/2000/svg">
+                       width="7" height="10" xmlns="http://www.w3.org/2000/svg">
                     <path d="M1 1l4 4-4 4" stroke="#7C5DFA" strokeWidth="2" fill="none" fillRule="evenodd"/>
                   </svg>
                 </td>
