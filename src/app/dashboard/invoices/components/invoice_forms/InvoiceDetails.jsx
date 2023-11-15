@@ -16,9 +16,9 @@ export default function InvoiceDetails() {
 
 
   return (
-    <div className="bill-to-group flex flex-col lg:flex-row gap-[1.5rem] mb-[1.5rem] mt-[3rem] flex-wrap">
-      <div className="invoice-date-term-group flex flex-row gap-[1.5rem] w-full lg:w-[46%] flex-nowrap">
-        <div className="group flex flex-col h-full w-full gap-[0.625rem] relative ">
+    <div className="bill-to-group flex flex-col lg:flex-row gap-[1.5rem] mb-[1.5rem] mt-[3rem] w-full flex-wrap lg:flex-nowrap">
+      <div className="invoice-date-term-group flex flex-row gap-[1.5rem]  grow">
+        <div className="group flex flex-col h-full grow gap-[0.625rem] relative ">
           <Label htmlFor="invoice_date" className="body-v text-7-info">Invoice Date</Label>
           <Popover>
             <PopoverTrigger asChild>
@@ -46,15 +46,16 @@ export default function InvoiceDetails() {
           </Popover>
         </div>
       </div>
+
       {/* payment Terms*/}
-      <div className="group flex flex-col w-full gap-[0.625rem] relative lg:w-[46%] flex-nowrap">
+      <div className="group flex flex-col gap-[0.625rem] relative flex-wrap">
         <Label htmlFor="payment_terms" className="body-v text-7-info">Payment Terms</Label>
         <Popover isOpen={isTermsPopoverOpen} onOpenChange={setIsTermsPopoverOpen}>
           <PopoverTrigger asChild>
             <div className="flex justify-between items-center hover:cursor-pointer group">
               <Input
                 {...register('invoice_details.payment_terms')}
-                className="w-full h-12 heading-s-v text-8-text opacity-[50%] pl-[1.25rem] border-5-secondary group-hover:border-1-primary group-hover:opacity-100
+                className="grow h-12 heading-s-v text-8-text opacity-[50%] pl-[1.25rem] border-5-secondary group-hover:border-1-primary group-hover:opacity-100
                                             group-hover:cursor-pointer"
               />
               <div className="svg absolute right-4">

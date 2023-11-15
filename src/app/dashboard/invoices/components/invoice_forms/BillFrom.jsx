@@ -25,10 +25,10 @@ export default function BillFrom() {
       </div>
 
       {/* City, Post Code, Country group*/}
-      <div className="bill-from-group__group2 flex flex-row justify-between w-full gap-[1.5rem] flex-wrap lg:flex-nowrap">
+      <div className="bill-from-group__group2 flex flex-row md:flexrow justify-start w-full flex-wrap gap-2">
 
         {/* City */}
-        <div className="group flex flex-col grow gap-[0.625rem]">
+        <div className="group flex flex-col max-w-[48%] grow gap-[0.625rem]">
           <Label htmlFor="from_city" className="body-v text-7-info">City</Label>
           <Input
             {...register('bill_from.city')}
@@ -43,7 +43,7 @@ export default function BillFrom() {
         </div>
 
         {/* Post Code */}
-        <div className="group flex flex-col grow gap-[0.625rem] flex-wrap">
+        <div className="group flex flex-col max-w-[48%] grow gap-[0.625rem] flex-nowrap">
           <Label htmlFor="from_post_code" className="body-v text-7-info">Post Code</Label>
           <Input
             {...register('bill_from.post_code')}
@@ -56,12 +56,12 @@ export default function BillFrom() {
         </div>
 
         {/* Country */}
-        <div className="group flex flex-col grow gap-[0.625rem] h-fit">
+        <div className="group flex flex-row grow gap-[0.625rem] h-fit flex-wrap mt-4">
           <Label htmlFor="from_country" className="body-v text-7-info">Country</Label>
           <Input
             {...register('bill_from.country')}
             className={
-              `w-full border-5-secondary focus:border-1-primary focus:outline-none focus:ring-0 h-12
+              ` border-5-secondary focus:border-1-primary focus:outline-none focus:ring-0 h-12 flex-wrap
               ${errors.bill_from?.country ? 'border-red-600 mb-[-0.75rem]' : ''}
           `}
           />

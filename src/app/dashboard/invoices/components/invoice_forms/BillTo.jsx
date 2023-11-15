@@ -62,9 +62,10 @@ export default function BillTo() {
         </div>
 
         {/* City, Post Code, Country group*/}
-        <div className="bill-to-group__group3 flex flex-row justify-center w-full gap-[1.5rem] flex-wrap lg:flex-nowrap">
+        <div className="bill-to-group__group3 flex flex-row justify-start w-full gap-2 flex-wrap">
+
           {/* City */}
-          <div className="group flex flex-col w-auto gap-[0.625rem] grow">
+          <div className="group flex flex-col gap-[0.625rem] grow max-w-[48%] flex-nowrap">
             <Label htmlFor="to_city" className="body-v text-7-info">City</Label>
             <Input
               {...register('bill_to.city')}
@@ -79,7 +80,7 @@ export default function BillTo() {
           </div>
 
           {/* Post Code */}
-          <div className="group flex flex-col w-auto gap-[0.625rem] flex-wrap grow">
+          <div className="group flex flex-col gap-[0.625rem] grow max-w-[48%] flex-nowrap">
             <Label htmlFor="to_post_code" className="body-v text-7-info">Post Code</Label>
             <Input
               {...register('bill_to.post_code')}
