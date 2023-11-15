@@ -34,7 +34,7 @@ export default function CreateButtons() {
 
   return (
     <div
-      className="group-buttons flex flex-row justify-between gap-[0.5rem] mt-[3rem] w-full h-fit grow p-[1.5rem] shadow-[rgba(0,0,0,0.1)_1px_4px_100px_30px]">
+      className="group-buttons flex flex-row justify-between items-center gap-[0.5rem] mt-[3rem] w-full h-full grow p-[1.5rem] shadow-[rgba(0,0,0,0.1)_1px_4px_100px_30px]">
       <SheetClose asChild>
         <Button
           className="w-[84px] lg:w-[6rem] h-[3rem] rounded-[1.5rem] bg-[#F9FAFE] text-7-info heading-s-v stick hover:bg-9-accent hover:text-8-text">
