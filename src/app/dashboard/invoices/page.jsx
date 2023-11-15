@@ -19,7 +19,7 @@ export default function Page() {
   // useEffect that depends on the state updated by useCallback
   useEffect(() => {
     fetchInvoices();
-  }, [shouldFetchInvoices, invoiceList]);
+  }, [shouldFetchInvoices]);
 
 
   return (

@@ -226,6 +226,7 @@ export async function PUT(req) {
     })
   } else {
     const body = await req.json()
+    console.log(body)
 
     try {
       // update invoice
@@ -265,8 +266,7 @@ export async function PUT(req) {
               }
             }
           },
-
-          /* itemlist table */
+          /* map data.item_list and update index position with values*/
           itemlist: {
             updateMany: body.item_list.map((item) => {
               return {
@@ -281,17 +281,20 @@ export async function PUT(req) {
               }
             })
           },
+
+
           /* invoices table */
           invoice_date: body.invoice_details.invoice_date,
           due_date: body.invoice_details.due_date,
           payment_terms: body.invoice_details.payment_terms,
           project_description: body.invoice_details.project_description,
           total: body.invoice_details.total,
-
         },
-
-
       })
+
+
+
+
       return Response.json({
         status: '201',
         body: {

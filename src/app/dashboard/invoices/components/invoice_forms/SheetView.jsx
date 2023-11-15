@@ -66,6 +66,7 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
         //convert itemlist to object instead ...
         item_list: data.itemlist.map((item) => {
           return {
+            id: item.id,
             name: item.item_name,
             quantity: item.quantity,
             price: item.price,
