@@ -12,10 +12,13 @@ Invoice App is a full-stack application designed to simplify the process of crea
 - **Invoice Viewing:** The app provides a summary view of all created invoices, where users can mark invoices as paid, edit, or delete them.
 
 ## Tech Stack
-- **Frontend:** Next.js - A React framework that enables functionality such as server-side rendering and generating static websites for React-based web applications.
-- **Backend:** Node.js with Next.js API Routes - Server-side logic is handled by Next.js's integrated API routes feature, providing a streamlined setup for both frontend and backend in a single application.
-- **Database:** PostgreSQL - A powerful, open-source object-relational database system that uses and extends the SQL language combined with many features that safely store and scale the most complicated data workloads.
-
+- **Frontend:** 
+  - Next.js - A React framework that enables functionality such as server-side rendering and generating static websites for React-based web applications.
+  - Tailwind CSS - A utility-first CSS framework for rapidly building custom designs, providing a wide range of styling options with minimal CSS.
+- **Backend:** 
+  - Node.js with Next.js API Routes - Server-side logic is handled by Next.js's integrated API routes feature, providing a streamlined setup for both frontend and backend in a single application.
+- **Database:** 
+  - PostgreSQL - A powerful, open-source object-relational database system that uses and extends the SQL language combined with many features that safely store and scale the most complicated data workloads.
 
 ## Responsive Design
 The app is fully responsive, ensuring a consistent and accessible user experience on devices of varying sizes, from smartphones to desktop computers.
