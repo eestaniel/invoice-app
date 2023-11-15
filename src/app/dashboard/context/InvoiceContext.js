@@ -1,12 +1,12 @@
 "use client"
-import {createContext, useState, useEffect} from 'react';
+import {createContext, useState} from 'react';
 
 // Create a context
 export const InvoiceContext = createContext();
 
 export const InvoiceProvider = ({children}) => {
   const [invoiceList, setInvoiceList] = useState([]);
-  const [useCallback, setUseCallback] = useState(false);
+  const [shouldFetchInvoices , setShouldFetchInvoices ] = useState(false);
   const [filterList, setFilterList] = useState([]);
 
 
@@ -33,13 +33,13 @@ export const InvoiceProvider = ({children}) => {
   // function to remove invoice from invoice list
   const removeInvoice = (invoiceId) => {
     // scan array, remove invoice with matching id
-    const newInvoiceList = invoiceList.filter((id) => id !== invoiceId);
+    invoiceList.filter((id) => id !== invoiceId);
   }
 
   return (
     < InvoiceContext.Provider value={{
       invoiceList, addInvoice, setInvoices, getInvoices, removeInvoice,
-      useCallback, setUseCallback,
+      shouldFetchInvoices, setShouldFetchInvoices,
       filterList, setFilterList
     }}>
       {children}

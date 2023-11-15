@@ -7,22 +7,20 @@ import InvoiceTable from "@/app/dashboard/invoices/components/InvoiceTable";
 
 
 export default function Page() {
-  const {invoiceList, setInvoices, useCallback} = useContext(InvoiceContext);
+  const {invoiceList, setInvoices, shouldFetchInvoices} = useContext(InvoiceContext);
 
-  // on mount, fetch invoices from api
-  useEffect(() => {
-    const type = ['ids']
+  const fetchInvoices = () => {
+    const type = ['ids'];
     fetch(`/api/invoices?type=${type}`).then(res => res.json()).then(data => {
-      setInvoices(data.body.invoices)
-    })
-  }, [])
-  // on mount, fetch invoices from api
+      setInvoices(data.body.invoices);
+    });
+  };
+
+  // useEffect that depends on the state updated by useCallback
   useEffect(() => {
-    const type = ['ids']
-    fetch(`/api/invoices?type=${type}`).then(res => res.json()).then(data => {
-      setInvoices(data.body.invoices)
-    })
-  }, [useCallback])
+    fetchInvoices();
+  }, [shouldFetchInvoices, invoiceList]);
+
 
   return (
     <div className="invoices__page-container bg-11-light flex flex-col 100%  min-h-screen h-fit items-center z-50 w-full

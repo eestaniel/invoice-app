@@ -12,7 +12,7 @@ import {useContext, useEffect, useState} from "react";
 
 
 export default function SheetView({setSheetOpen, sheetType, data}) {
-  const {useCallback, setUseCallback} = useContext(InvoiceContext);
+  const {shouldFetchInvoices, setShouldFetchInvoices} = useContext(InvoiceContext);
   const [customId, setCustomId] = useState('');
 
   const methods = useForm({
@@ -26,8 +26,7 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
   });
 
 
-  const {reset, control, getValues} = methods;
-  const formValues = getValues().invoice_details;
+  const {reset, control} = methods;
   const {fields, append, remove} = useFieldArray({
     control,
     name: 'item_list',
@@ -85,7 +84,7 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
   const onSubmit = (data) => {
     console.log(data);
     setSheetOpen(false);
-    setUseCallback(!useCallback);
+
     if (data.invoice_details.type === 'create') {
       fetch('/api/invoices', {
         method: 'POST',
@@ -94,7 +93,11 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
           'Content-Type': 'application/json'
         },
       }).then(res => res.json())
-        .then(data => console.log(data))
+        .then(data => {
+          console.log(data)
+          setShouldFetchInvoices(!shouldFetchInvoices);
+          console.log('shouldFetchInvoices', shouldFetchInvoices)
+        })
         .catch(err => console.error(err))
         .finally(() => {
         })
@@ -106,7 +109,11 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
           'Content-Type': 'application/json'
         },
       }).then(res => res.json())
-        .then(data => console.log(data))
+        .then(data => {
+          console.log(data)
+          setShouldFetchInvoices(!shouldFetchInvoices);
+          console.log('shouldFetchInvoices', shouldFetchInvoices)
+        })
         .catch(err => console.error(err))
         .finally(() => {
         })
@@ -133,32 +140,32 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
           {/* check if custom id*/}
           {customId === '' ? <h1 className="heading-m">New Invoice</h1> :
             <h1 className="heading-m">
-              Edit <span className="text-7-info">#</span>{customId}</h1> }
+              Edit <span className="text-7-info">#</span>{customId}</h1>}
 
           {/* Bill From*/}
-            <BillFrom/>
+          <BillFrom/>
 
           {/* Bill to*/}
-            <BillTo/>
+          <BillTo/>
 
           {/* Invoice Details */}
-            <InvoiceDetails/>
+          <InvoiceDetails/>
 
           {/* Invoice Item List */}
-            <InvoiceList fields={fields} onAppend={append} onRemove={remove}/>
+          <InvoiceList fields={fields} onAppend={append} onRemove={remove}/>
 
-      </div>
-      {/* Button Groups*/}
-      <div className="container-bottom-nav w-full h-fit lg:h-[6.875rem] lg:sticky lg:bottom-0 bg-white xl:pl-[7rem]">
-        {sheetType !== 'edit' ?
-          <CreateButtons/>
-          :
-          <EditButtons/>
-        }
-      </div>
+        </div>
+        {/* Button Groups*/}
+        <div className="container-bottom-nav w-full h-fit lg:h-[6.875rem] lg:sticky lg:bottom-0 bg-white xl:pl-[7rem]">
+          {sheetType !== 'edit' ?
+            <CreateButtons/>
+            :
+            <EditButtons/>
+          }
+        </div>
 
-    </form>
-</FormProvider>
-)
-  ;
+      </form>
+    </FormProvider>
+  )
+    ;
 }

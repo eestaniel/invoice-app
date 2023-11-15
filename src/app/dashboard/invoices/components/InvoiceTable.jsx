@@ -5,12 +5,8 @@ import {useRouter} from "next/navigation";
 export default function InvoiceTable() {
   const router = useRouter();
   const [invoiceArray, setInvoiceArray] = useState([]);
-  const {filterList, setFilterList, useCallback, setUseCallback} = useContext(InvoiceContext);
-  const statusColor = {
-    draft: '#373B53',
-    pending: '#FF8F00',
-    paid: '#33D69F'
-  }
+  const {filterList, shouldFetchInvoices} = useContext(InvoiceContext);
+
 
   useEffect(() => {
     // send fetch get to /api/invoices to get object of invoices
@@ -36,13 +32,13 @@ export default function InvoiceTable() {
     }
 
 
-  }, [filterList]);
+  }, [filterList, shouldFetchInvoices]);
 
 
 
 
 
-  function getStatusClasses(status, size) {
+  function getStatusClasses(status) {
     let baseClasses = " flex flex-row rounded-[0.375rem] justify-center items-center heading-s-v capitalize bg-opacity-[10%]";
     switch (status) {
       case 'draft':
