@@ -25,7 +25,7 @@ export default function BillFrom() {
       </div>
 
       {/* City, Post Code, Country group*/}
-      <div className="bill-from-group__group2 flex flex-row md:flexrow justify-start w-full flex-wrap gap-2">
+      <div className="bill-from-group__group2 flex flex-row md:flexrow justify-between w-full flex-wrap">
 
         {/* City */}
         <div className="group flex flex-col max-w-[48%] grow gap-[0.625rem]">

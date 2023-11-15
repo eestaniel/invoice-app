@@ -62,7 +62,7 @@ export default function BillTo() {
         </div>
 
         {/* City, Post Code, Country group*/}
-        <div className="bill-to-group__group3 flex flex-row justify-start w-full gap-2 flex-wrap">
+        <div className="bill-to-group__group3 flex flex-row justify-between w-full flex-wrap">
 
           {/* City */}
           <div className="group flex flex-col gap-[0.625rem] grow max-w-[48%] flex-nowrap">
