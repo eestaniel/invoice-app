@@ -9,7 +9,7 @@ export default function BillTo() {
   return (
     <div className="bill-to-group flex flex-col">
       <Label htmlFor="bill-to"
-             className="heading-s-v text-1-primary mb-[1.5rem] mt-2.5 lg:mt-[3rem] gap-[0.625rem]">
+             className="heading-s-v text-1-primary mb-[1.5rem] mt-10 lg:mt-[3rem] gap-[0.625rem]">
         BillTo
       </Label>
 
@@ -62,64 +62,9 @@ export default function BillTo() {
         </div>
 
         {/* City, Post Code, Country group*/}
-        {/*################### Desktop View ###################*/}
-        <div className="hidden lg:inline">
-          <div className="bill-to-group__group3 flex flex-row justify-between w-full gap-[1.5rem]">
-
-            {/* City */}
-            <div className="group flex flex-col w-full gap-[0.625rem]">
-              <Label htmlFor="to_city" className="body-v text-7-info">City</Label>
-              <Input
-                {...register('bill_to.city')}
-                className={`
-          w-full border-5-secondary 
-          focus:border-1-primary focus:outline-none focus:ring-0 h-12
-          ${errors.bill_to?.city ? 'border-red-600 mb-[-0.75rem]' : 'mb-6'} 
-          `}
-              />
-              {errors.bill_to?.city &&
-                <span className="text-red-600 mb-4">{errors.bill_to?.city?.message}</span>}
-            </div>
-
-            {/* Post Code */}
-            <div className="group flex flex-col w-full gap-[0.625rem]">
-              <Label htmlFor="to_post_code" className="body-v text-7-info">Post Code</Label>
-              <Input
-                {...register('bill_to.post_code')}
-                className={`
-          w-full border-5-secondary 
-          focus:border-1-primary focus:outline-none focus:ring-0 h-12
-          ${errors.bill_to?.post_code ? 'border-red-600 mb-[-0.75rem]' : 'mb-6'} 
-          `}
-              />
-              {errors.bill_to?.post_code &&
-                <span className="text-red-600 mb-4">Invalid Post Code</span>}
-            </div>
-
-            {/* Country */}
-            <div className="group flex flex-col w-full gap-[0.625rem]">
-              <Label htmlFor="to_country" className="body-v text-7-info">Country</Label>
-              <Input
-                {...register('bill_to.country')}
-                className={`
-          w-full border-5-secondary 
-          focus:border-1-primary focus:outline-none focus:ring-0 h-12
-          ${errors.bill_to?.country ? 'border-red-600 mb-[-0.75rem]' : 'mb-6'} 
-          `}
-              />
-              {errors.bill_to?.country &&
-                <span className="text-red-600 mb-4">{errors.bill_to?.country?.message}</span>}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/*################### Mobile View ###################*/}
-      <div className="lg:hidden">
-        <div className="bill-to-group__group3 flex flex-row justify-between w-full gap-[1.5rem]">
-
+        <div className="bill-to-group__group3 flex flex-row justify-center w-full gap-[1.5rem] flex-wrap lg:flex-nowrap">
           {/* City */}
-          <div className="group flex flex-col w-full gap-[0.625rem]">
+          <div className="group flex flex-col w-auto gap-[0.625rem] grow">
             <Label htmlFor="to_city" className="body-v text-7-info">City</Label>
             <Input
               {...register('bill_to.city')}
@@ -134,7 +79,7 @@ export default function BillTo() {
           </div>
 
           {/* Post Code */}
-          <div className="group flex flex-col w-full gap-[0.625rem]">
+          <div className="group flex flex-col w-auto gap-[0.625rem] flex-wrap grow">
             <Label htmlFor="to_post_code" className="body-v text-7-info">Post Code</Label>
             <Input
               {...register('bill_to.post_code')}
@@ -147,20 +92,21 @@ export default function BillTo() {
             {errors.bill_to?.post_code &&
               <span className="text-red-600 mb-4">Invalid Post Code</span>}
           </div>
-        </div>
-        {/* Country */}
-        <div className="group flex flex-col w-full gap-[0.625rem]">
-          <Label htmlFor="to_country" className="body-v text-7-info">Country</Label>
-          <Input
-            {...register('bill_to.country')}
-            className={`
+
+          {/* Country */}
+          <div className="group flex flex-col gap-[0.625rem] grow">
+            <Label htmlFor="to_country" className="body-v text-7-info">Country</Label>
+            <Input
+              {...register('bill_to.country')}
+              className={`
           w-full border-5-secondary 
           focus:border-1-primary focus:outline-none focus:ring-0 h-12
-          ${errors.bill_to?.country ? 'border-red-600 mb-[-0.75rem]' : ''} 
+          ${errors.bill_to?.country ? 'border-red-600 mb-[-0.75rem]' : 'mb-6'} 
           `}
-          />
-          {errors.bill_to?.country &&
-            <span className="text-red-600 mb-4">{errors.bill_to?.country?.message}</span>}
+            />
+            {errors.bill_to?.country &&
+              <span className="text-red-600 mb-4">{errors.bill_to?.country?.message}</span>}
+          </div>
         </div>
       </div>
     </div>

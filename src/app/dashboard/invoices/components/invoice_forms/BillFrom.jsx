@@ -17,106 +17,57 @@ export default function BillFrom() {
           className={`
           w-full border-5-secondary h-12
           focus:border-1-primary focus:outline-none focus:ring-0
-          ${errors.bill_from?.street_address ? 'border-red-600 mb-[-0.75rem]' : 'mb-6'}
+          ${errors.bill_from?.street_address ? 'border-red-600 mb-[-0.75rem] whitespace-nowrap' : 'mb-6'}
           `}
         />
         {errors.bill_from?.street_address &&
-          <span className="text-red-600 mb-4">{errors.bill_from?.street_address?.message}</span>}
+          <span className="text-red-600 ">{errors.bill_from?.street_address?.message}</span>}
       </div>
 
       {/* City, Post Code, Country group*/}
-      {/*################### Desktop View ###################*/}
-      <div className="hidden lg:inline">
-        <div className="bill-from-group__group2 flex flex-row justify-between w-full gap-[1.5rem]">
+      <div className="bill-from-group__group2 flex flex-row justify-between w-full gap-[1.5rem] flex-wrap lg:flex-nowrap">
 
-          {/* City */}
-          <div className="group flex flex-col w-full gap-[0.625rem]">
-            <Label htmlFor="from_city" className="body-v text-7-info">City</Label>
-            <Input
-              {...register('bill_from.city')}
-              className={`
+        {/* City */}
+        <div className="group flex flex-col grow gap-[0.625rem]">
+          <Label htmlFor="from_city" className="body-v text-7-info">City</Label>
+          <Input
+            {...register('bill_from.city')}
+            className={`
           w-full border-5-secondary h-12
           focus:border-1-primary focus:outline-none focus:ring-0
-          ${errors.bill_from?.city ? 'border-red-600 mb-[-0.75rem]' : 'mb-6'}
+          ${errors.bill_from?.city ? 'border-red-600 mb-[-0.75rem] ' : ''}
           `}
-            />
-            {errors.bill_from?.city && <span className="text-red-600 mb-4">{errors.bill_from?.city?.message}</span>}
-          </div>
-
-          {/* Post Code */}
-          <div className="group flex flex-col w-full gap-[0.625rem]">
-            <Label htmlFor="from_post_code" className="body-v text-7-info">Post Code</Label>
-            <Input
-              {...register('bill_from.post_code')}
-              className={
-                `w-full border-5-secondary focus:border-1-primary focus:outline-none focus:ring-0 h-12
-              ${errors.bill_from?.post_code ? 'border-red-600 mb-[-0.75rem]' : 'mb-6'}
-            `}
-            />
-            {errors.bill_from?.post_code && <span className="text-red-600 mb-4">Invalid Post Code</span>}
-          </div>
-
-          {/* Country */}
-          <div className="group flex flex-col w-full gap-[0.625rem]">
-            <Label htmlFor="from_country" className="body-v text-7-info">Country</Label>
-            <Input
-              {...register('bill_from.country')}
-              className={
-                `w-full border-5-secondary focus:border-1-primary focus:outline-none focus:ring-0 h-12
-              ${errors.bill_from?.country ? 'border-red-600 mb-[-0.75rem]' : 'mb-6'}
-          `}
-            />
-            {errors.bill_from?.country &&
-              <span className="text-red-600 mb-4">{errors.bill_from?.country?.message}</span>}
-          </div>
+          />
+          {errors.bill_from?.city &&
+            <span className="text-red-600 whitespace-nowrap">{errors.bill_from?.city?.message}</span>}
         </div>
-      </div>
 
-      {/*################### Mobile View ###################*/}
-      <div className="lg:hidden">
-        <div className="bill-from-group__group2 flex flex-row justify-between w-full gap-[1.5rem]">
-
-          {/* City */}
-          <div className="group flex flex-col w-full gap-[0.625rem]">
-            <Label htmlFor="from_city" className="body-v text-7-info">City</Label>
-            <Input
-              {...register('bill_from.city')}
-              className={`
-          w-full border-5-secondary 
-          focus:border-1-primary focus:outline-none focus:ring-0 h-12
-          ${errors.bill_from?.city ? 'border-red-600 mb-[-0.75rem]' : 'mb-6'}
-          `}
-            />
-            {errors.bill_from?.city && <span className="text-red-600 mb-4">{errors.bill_from?.city?.message}</span>}
-          </div>
-
-          {/* Post Code */}
-          <div className="group flex flex-col w-full gap-[0.625rem]">
-            <Label htmlFor="from_post_code" className="body-v text-7-info">Post Code</Label>
-            <Input
-              {...register('bill_from.post_code')}
-              className={
-                `w-full border-5-secondary focus:border-1-primary focus:outline-none focus:ring-0 h-12
-              ${errors.bill_from?.post_code ? 'border-red-600 mb-[-0.75rem]' : 'mb-6'}
+        {/* Post Code */}
+        <div className="group flex flex-col grow gap-[0.625rem] flex-wrap">
+          <Label htmlFor="from_post_code" className="body-v text-7-info">Post Code</Label>
+          <Input
+            {...register('bill_from.post_code')}
+            className={
+              `w-full border-5-secondary focus:border-1-primary focus:outline-none focus:ring-0 h-12
+              ${errors.bill_from?.post_code ? 'border-red-600 mb-[-0.75rem]' : ''}
             `}
-            />
-            {errors.bill_from?.post_code && <span className="text-red-600 mb-4">Invalid Post Code</span>}
-          </div>
+          />
+          {errors.bill_from?.post_code && <span className="text-red-600 whitespace-nowrap">Invalid Post Code</span>}
         </div>
+
         {/* Country */}
-        <div className="group flex flex-col w-full gap-[0.625rem]">
+        <div className="group flex flex-col grow gap-[0.625rem] h-fit">
           <Label htmlFor="from_country" className="body-v text-7-info">Country</Label>
           <Input
             {...register('bill_from.country')}
             className={
               `w-full border-5-secondary focus:border-1-primary focus:outline-none focus:ring-0 h-12
-              ${errors.bill_from?.country ? 'border-red-600 mb-[-0.75rem]' : 'mb-6'}
+              ${errors.bill_from?.country ? 'border-red-600 mb-[-0.75rem]' : ''}
           `}
           />
           {errors.bill_from?.country &&
-            <span className="text-red-600 mb-4">{errors.bill_from?.country?.message}</span>}
+            <span className="text-red-600 whitespace-nowrap">{errors.bill_from?.country?.message}</span>}
         </div>
-
       </div>
     </div>
   );
