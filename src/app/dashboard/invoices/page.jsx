@@ -26,9 +26,9 @@ export default function Page() {
 
   return (
     <div className="invoices__page-container bg-11-light flex flex-col 100%  min-h-screen h-fit items-center z-50 w-full
-    gap-8 xl:gap-[4rem] px-6 pt-8">
+    gap-8 lg:gap-[4rem] px-6 pt-8">
       <HeaderGroup/>
-      <div className=" table_row-container flex w-full h-fit items-center justify-center px:6 xl:px-[15.75rem]
+      <div className="table_row-container flex w-full h-fit items-center justify-center px:6 xl:px-[15.75rem]
       ">
         {invoiceList.length === 0 ? (
           <EmptyInvoice/>

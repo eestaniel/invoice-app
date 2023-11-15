@@ -66,8 +66,8 @@ export default function InvoiceTable() {
 
 
   return (
-    <div className="w-full xl:w-[45.625rem] flex flex-col justify-center items-center text-center">
-      <div className="hidden xl:inline">
+    <div className="w-full lg:w-[45.625rem] flex flex-col justify-center items-center text-center">
+      <div className="hidden lg:inline">
         <table className="w-full text-center items-center justify-center">
           <tbody className="flex flex-col gap-4 w-full text-center ">
           {invoiceArray.map((invoice, key) => {
@@ -103,9 +103,9 @@ export default function InvoiceTable() {
           </tbody>
         </table>
       </div>
-      <div className="xl:hidden w-full">
+      <div className="lg:hidden w-full">
         <table className="w-full text-center items-center justify-center">
-          <tbody className="flex flex-col gap-4 w-full text-center xl:px-0">
+          <tbody className="flex flex-col gap-4 w-full text-center lg:px-0">
           {invoiceArray.map((invoice, key) => {
             return (
               <tr key={key}
@@ -117,7 +117,7 @@ export default function InvoiceTable() {
                     router.push(`/dashboard/invoices/${invoice.id}`)
                   }}
               >
-                <td className="flex flex-col justify-start text-left w-full xl:w-[6rem] group ">
+                <td className="flex flex-col justify-start text-left w-full lg:w-[6rem] group ">
                   <div className="flex flex-row mb-6">
                     <span className="text-7-info heading-s-v">#</span>
                     <div className="heading-s-v">{invoice.id}</div>

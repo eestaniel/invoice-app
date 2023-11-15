@@ -26,7 +26,7 @@ export default function BillFrom() {
 
       {/* City, Post Code, Country group*/}
       {/*################### Desktop View ###################*/}
-      <div className="hidden xl:inline">
+      <div className="hidden lg:inline">
         <div className="bill-from-group__group2 flex flex-row justify-between w-full gap-[1.5rem]">
 
           {/* City */}
@@ -73,7 +73,7 @@ export default function BillFrom() {
       </div>
 
       {/*################### Mobile View ###################*/}
-      <div className="xl:hidden">
+      <div className="lg:hidden">
         <div className="bill-from-group__group2 flex flex-row justify-between w-full gap-[1.5rem]">
 
           {/* City */}

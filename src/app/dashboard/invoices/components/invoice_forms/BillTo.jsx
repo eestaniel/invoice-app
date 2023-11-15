@@ -9,7 +9,7 @@ export default function BillTo() {
   return (
     <div className="bill-to-group flex flex-col">
       <Label htmlFor="bill-to"
-             className="heading-s-v text-1-primary mb-[1.5rem] mt-2.5 xl:mt-[3rem] gap-[0.625rem]">
+             className="heading-s-v text-1-primary mb-[1.5rem] mt-2.5 lg:mt-[3rem] gap-[0.625rem]">
         BillTo
       </Label>
 
@@ -63,7 +63,7 @@ export default function BillTo() {
 
         {/* City, Post Code, Country group*/}
         {/*################### Desktop View ###################*/}
-        <div className="hidden xl:inline">
+        <div className="hidden lg:inline">
           <div className="bill-to-group__group3 flex flex-row justify-between w-full gap-[1.5rem]">
 
             {/* City */}
@@ -115,7 +115,7 @@ export default function BillTo() {
       </div>
 
       {/*################### Mobile View ###################*/}
-      <div className="xl:hidden">
+      <div className="lg:hidden">
         <div className="bill-to-group__group3 flex flex-row justify-between w-full gap-[1.5rem]">
 
           {/* City */}

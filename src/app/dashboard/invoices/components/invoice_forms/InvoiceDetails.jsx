@@ -18,7 +18,7 @@ export default function InvoiceDetails() {
   return (
     <div className="bill-to-group flex flex-col gap-[1.5rem] mb-[1.5rem] mt-[3rem]">
       {/*################### Desktop View ###################*/}
-      <div className="hidden xl:inline">
+      <div className="hidden lg:inline">
         <div className="invoice-date-term-group flex flex-row gap-[1.5rem]">
           <div className="group flex flex-col h-full w-full gap-[0.625rem] relative ">
             <Label htmlFor="invoice_date" className="body-v text-7-info">Invoice Date</Label>
@@ -116,7 +116,7 @@ export default function InvoiceDetails() {
       </div>
 
       {/*################### Mobile View ###################*/}
-      <div className="xl:hidden">
+      <div className="lg:hidden">
         <div className="invoice-date-term-group flex flex-row gap-[1.5rem]">
           <div className="group flex flex-col h-full w-full gap-[0.625rem] relative ">
             <Label htmlFor="invoice_date" className="body-v text-7-info">Invoice Date</Label>

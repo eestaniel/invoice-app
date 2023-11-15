@@ -11,13 +11,13 @@ export default function InvoiceList({fields, onAppend, onRemove}) {
     <div
       className="item-list-group flex flex-col w-full">
       <Label htmlFor="bill-to"
-             className=" text-[#777F98] font-spartan font-bold text-[1.75rem]  mb-[1.5rem] xl:mt-[2rem] gap-[0.625rem]">
+             className=" text-[#777F98] font-spartan font-bold text-[1.75rem]  mb-[1.5rem] lg:mt-[2rem] gap-[0.625rem]">
         Item List
       </Label>
 
 
       {/* map items and display to screen*/}
-      <div className="hidden xl:inline">
+      <div className="hidden lg:inline">
         <div className="item-name-group flex flex-row gap-[1rem] w-full justify-start items-center mb-[1rem]">
           <div className="group flex flex-col w-[13.375rem] gap-[0.625rem]">
             <Label htmlFor="to_country" className="body-v text-7-info">Item Name</Label>
@@ -93,7 +93,7 @@ export default function InvoiceList({fields, onAppend, onRemove}) {
           })}
         </div>
       </div>
-      <div className="xl:hidden">
+      <div className="lg:hidden">
         <div
           className="item-row flex flex-col justify-start items-center gap-[1rem] mb-4">
           {fields.map((item, index) => {

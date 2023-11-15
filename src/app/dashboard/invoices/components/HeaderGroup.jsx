@@ -11,17 +11,17 @@ export default function HeaderGroup() {
   const [sheetOpen, setSheetOpen] = useState(false);
 
   return (
-    <div className="header-container xl:px-[22rem] xl:pt-[4.875rem] w-full h-fit justify-center relative">
+    <div className="header-container lg:px-[22rem] lg:pt-[4.875rem] w-full h-fit justify-center relative">
       <div className="invoice-header-container flex flex-row items-center justify-between w-full relative">
         <div className="group1 flex flex-row justify-between w-fit">
           <div className="header-group">
-            <h1 className="heading-m xl:heading-l">Invoices</h1>
+            <h1 className="heading-m lg:heading-l">Invoices</h1>
             <p className="body-v text-6-muted">
               {/* Default text for smaller screens */}
-              <span className="xl:hidden">{invoiceList.length} invoices</span>
+              <span className="lg:hidden">{invoiceList.length} invoices</span>
 
               {/* Text for xl screens and larger */}
-              <span className="hidden xl:inline">There are {invoiceList.length} total invoices</span>
+              <span className="hidden lg:inline">There are {invoiceList.length} total invoices</span>
             </p>
           </div>
         </div>
@@ -32,8 +32,8 @@ export default function HeaderGroup() {
             <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
               <SheetTrigger asChild>
                 <Button
-                  className="bg-1-primary text-white rounded-[1.5rem] h-[44px] xl:h-[3rem] w-[90px] xl:w-[9.375rem] p-0
-                   gap-2 xl:gap-[1rem] hover:bg-2-highlight"
+                  className="bg-1-primary text-white rounded-[1.5rem] h-[44px] lg:h-[3rem] w-[90px] lg:w-[9.375rem] p-0
+                   gap-2 lg:gap-[1rem] hover:bg-2-highlight"
                 >
                   <svg className="w-[2rem] h-[2rem] bg-white rounded-full flex justify-center " width="11" height="11"
                        xmlns="http://www.w3.org/2000/svg" viewBox="-7 0 25 10">
@@ -41,8 +41,8 @@ export default function HeaderGroup() {
                           fillRule="nonzero"/>
                   </svg>
                   <p className="heading-s-v whitespace-nowrap">
-                    <span className="xl:hidden pr-2">New</span>
-                    <span className="hidden xl:inline">New Invoice</span>
+                    <span className="lg:hidden pr-2">New</span>
+                    <span className="hidden lg:inline">New Invoice</span>
                   </p>
                 </Button>
               </SheetTrigger>
