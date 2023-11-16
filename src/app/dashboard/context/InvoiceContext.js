@@ -73,6 +73,9 @@ export const InvoiceProvider = ({children}) => {
     summary_table: isNightMode ? 'bg-4-base' : 'bg-[#F9FAFE]',
     summary_total: isNightMode ? 'text-white bg-8-text' : 'bg-[#373B53] text-7-info',
     summary_text: isNightMode ? 'text-5-secondary' : 'text-8-text',
+
+    // Navigation
+    navigation: isNightMode ? 'bg-3-dark' : 'bg-[#373B53]',
   };
 
 
