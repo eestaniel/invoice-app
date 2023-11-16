@@ -96,6 +96,7 @@
 
         .hide-arrow-input {
             /* Hide arrow for number input */
+
             &::-webkit-outer-spin-button,
             &::-webkit-inner-spin-button {
                 -webkit-appearance: none;
@@ -103,6 +104,7 @@
             }
 
             /* Firefox */
+
             &[type=number] {
                 -moz-appearance: textfield;
             }
@@ -111,6 +113,16 @@
         .responsive-clamp {
             font-size: clamp(1rem, 2.5vw, 1.5rem);
         }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
 
     }
 

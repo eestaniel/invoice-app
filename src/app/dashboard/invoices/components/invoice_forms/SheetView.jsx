@@ -126,7 +126,7 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit, onInvalid)} className={`${theme.sheet_bg}`}>
         <div id="thisForm"
-             className={`px-6 lg:px-[3.5rem] pt-24 lg:pt-[8.75rem] lg:mt-[0] xl:mt-[3.75rem]  xl:pl-[10.5rem] xl:pr-[3.5rem] w-full
+             className={`px-6 lg:px-[3.5rem] pt-24 lg:pt-[8.75rem] lg:mt-[0]   xl:pl-[10.5rem] xl:pr-[3.5rem] w-full 
                flex flex-col flex-grow  ${theme.sheet_bg}`}>
 
           <div className="lg:hidden flex flex-row items-center gap-6 mb-6">
