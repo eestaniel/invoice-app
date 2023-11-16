@@ -228,6 +228,29 @@ export async function PUT(req) {
     const body = await req.json()
     console.log(body)
 
+    // Splitting items into updates and creates
+    const itemUpdates = [];
+    const itemCreates = [];
+
+    body.item_list.forEach(item => {
+      if (item.id) {
+        itemUpdates.push({
+          where: {id: item.id},
+          data: {
+            item_name: item.name,
+            quantity: parseInt(item.quantity),
+            price: parseFloat(item.price),
+          }
+        });
+      } else {
+        itemCreates.push({
+          item_name: item.name,
+          quantity: parseInt(item.quantity),
+          price: parseFloat(item.price),
+        });
+      }
+    });
+
     try {
       // update invoice
       await prisma.invoices.update({
@@ -267,19 +290,14 @@ export async function PUT(req) {
             }
           },
           /* map data.item_list and update index position with values*/
+          // Item list handling
           itemlist: {
-            updateMany: body.item_list.map((item) => {
-              return {
-                where: {
-                  id: item.id
-                },
-                data: {
-                  item_name: item.name,
-                  quantity: parseInt(item.quantity),
-                  price: parseFloat(item.price),
-                }
-              }
-            })
+            // Update existing items
+            updateMany: itemUpdates,
+            // Create new items
+            createMany: {
+              data: itemCreates,
+            }
           },
 
 
@@ -291,8 +309,6 @@ export async function PUT(req) {
           total: body.invoice_details.total,
         },
       })
-
-
 
 
       return Response.json({
