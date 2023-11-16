@@ -116,18 +116,9 @@ export default function Page({params}) {
         setStatus(data.body.invoice.status)
       })
 
-  }, []);
+  }, [callback]);
 
 
-  useEffect(() => {
-    fetch(`/api/invoices?type=${type}&id=${id}`)
-      .then(res => res.json())
-      .then(data => {
-        setInvoiceData(data.body.invoice)
-        setStatus(data.body.invoice.status)
-      })
-
-  }, [sheetOpen]);
 
   return (
     <div className={`${theme.background} min-h-screen`}>
