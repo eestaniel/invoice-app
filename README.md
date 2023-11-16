@@ -1,7 +1,8 @@
 # Invoice App
 
 ## Live Demo
-https://invoice-app.eestaniel.com
+
+<a href="https://invoice-app.eestaniel.com" target="_blank">Invoice App</a>
 
 
 ## Overview
