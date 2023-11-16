@@ -51,13 +51,13 @@ export default function InvoiceTable() {
 
 
   return (
-    <div className="w-full lex flex-col ">
+    <div className="w-full lg:basis-[730px] md:flex-shrink  lg:w-0 flex flex-col ">
       <div className="hidden lg:inline">
         <table className="flex w-full text-center items-center justify-center">
           <tbody className="flex flex-col gap-4 text-center justify-center lg:basis-full flex-shrink">
           {invoiceArray.map((invoice, key) => {
             return (
-              <tr key={key} className={`row_contaienr flex flex-row  ${theme.table_row} h-[4.5rem] justify-start items-center w-full
+              <tr key={key} className={`row_contaienr flex flex-row  ${theme.table_row} h-[4.5rem] justify-start items-center basis-[730px]]
                 px-[2rem] hover:border-1-primary hover:border-[1px] hover:cursor-pointer hover:scale-110 rounded-[.5rem] gap-4`}
                   onClick={() => {
                     router.push(`/dashboard/invoices/${invoice.id}`)

@@ -12,7 +12,7 @@ export default function HeaderGroup() {
 
   return (
     <div className="header-container w-full h-fit justify-center relative flex flex-row">
-      <div className="invoice-header-container flex flex-row items-center justify-between lg:basis-[520px] flex-grow flex-shrink-0  relative
+      <div className="invoice-header-container flex flex-row items-center justify-between lg:basis-[520px] flex-grow max-w-[730px] flex-shrink-0  relative
         ">
 
         <div className="group1 flex flex-row justify-between flex-grow">

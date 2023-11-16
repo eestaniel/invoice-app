@@ -57,6 +57,8 @@ module.exports = {
         'xl': '961px', // tablet, landscape iPad, lo-res laptops and desktops
         '2xl': '1025px', // big landscape tablets, laptops, and desktops
         '3xl': '1281px', // hi-res laptops and desktops
+        '4xl': '1441px', // large desktops and hi-res laptops
+        '5xl': '1761', // hi-res laptops and desktops
       },
 
       borderRadius: {

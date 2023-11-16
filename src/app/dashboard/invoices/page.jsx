@@ -25,7 +25,7 @@ export default function Page() {
 
   return (
     <div className={`invoices__page-container ${theme.background} flex flex-col 100%  min-h-screen h-fit items-center z-50 w-full
-      gap-8 lg:gap-[4rem] px-6  xl:px-[21rem] pt-8 xl:pt-[5.785rem]`}>
+      gap-8 lg:gap-[4rem] px-6 ] 2xl:px-[12rem]  pt-8 xl:pt-[5.785rem]`}>
       <HeaderGroup/>
       <div className="table_row-container flex w-full h-fit items-center justify-center px:6 xl:
       ">
