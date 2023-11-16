@@ -74,8 +74,6 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
           }
         })
       }
-      console.log(data.invoice_date)
-      console.log(parseDateAsUTC(newData.invoice_details.invoice_date))
       setCustomId(data.custom_id);
       reset(newData);
 
@@ -83,7 +81,6 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
   }, []);
 
   const onSubmit = (data) => {
-    console.log(data);
     setSheetOpen(false);
 
     if (data.invoice_details.type === 'create') {
@@ -94,10 +91,8 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
           'Content-Type': 'application/json'
         },
       }).then(res => res.json())
-        .then(data => {
-          console.log(data)
+        .then(() => {
           setShouldFetchInvoices(!shouldFetchInvoices);
-          console.log('shouldFetchInvoices', shouldFetchInvoices)
         })
         .catch(err => console.error(err))
         .finally(() => {
@@ -110,10 +105,8 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
           'Content-Type': 'application/json'
         },
       }).then(res => res.json())
-        .then(data => {
-          console.log(data)
+        .then(() => {
           setShouldFetchInvoices(!shouldFetchInvoices);
-          console.log('shouldFetchInvoices', shouldFetchInvoices)
         })
         .catch(err => console.error(err))
         .finally(() => {

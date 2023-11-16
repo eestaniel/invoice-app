@@ -74,7 +74,6 @@ export async function GET(req) {
         status: invoice.status
       })
     })
-    //console.log(newInvoices)
 
     return Response.json({
       status: '201',
@@ -226,7 +225,6 @@ export async function PUT(req) {
     })
   } else {
     const body = await req.json()
-    console.log(body)
 
     // Splitting items into updates and creates
     const itemUpdates = [];

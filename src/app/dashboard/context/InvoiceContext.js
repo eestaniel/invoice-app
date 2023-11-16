@@ -41,7 +41,6 @@ export const InvoiceProvider = ({children}) => {
   const toggleNightMode = () => {
     // toggle night mode
     setIsNightMode(!isNightMode);
-    console.log(isNightMode)
   }
 
   const theme = {

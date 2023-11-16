@@ -12,14 +12,12 @@ export default function InvoiceTable() {
     // send fetch get to /api/invoices to get object of invoices
     const type = 'invoice-table'
     let query = ''
-    console.log(filterList)
     // if filterList is not empty, create a query string, up to 3 max, dynamic naming, status1, status2, status3
     if (filterList.length > 0) {
       filterList.forEach((status, index) => {
         query += `status${index + 1}=${status}&`
       })
       query = query.slice(0, -1)
-      console.log(query)
       fetch(`/api/invoices?type=${type}&${query}`).then(res => res.json()).then(data => {
         // get invoice data by data asscending order
         setInvoiceArray(data.body.invoices)
