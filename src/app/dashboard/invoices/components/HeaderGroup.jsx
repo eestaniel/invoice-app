@@ -7,22 +7,23 @@ import SheetView from "@/app/dashboard/invoices/components/invoice_forms/SheetVi
 import {Sheet, SheetTrigger, SheetContent} from "@/@/components/ui/sheet";
 
 export default function HeaderGroup() {
-  const {invoiceList} = useContext(InvoiceContext);
+  const {invoiceList, theme} = useContext(InvoiceContext);
   const [sheetOpen, setSheetOpen] = useState(false);
 
   return (
-    <div className="header-container  w-full h-fit justify-center relative flex flex-row">
-      <div className="invoice-header-container flex flex-row items-center justify-between w-full md:w-fit relative
-       md:gap-[18rem] lg:gap-[10rem]">
-        <div className="group1 flex flex-row justify-between w-fit">
+    <div className="header-container w-full h-fit justify-center relative flex flex-row">
+      <div className="invoice-header-container flex flex-row items-center justify-between basis-[520px] flex-grow flex-shrink-0  relative
+        ">
+
+        <div className="group1 flex flex-row justify-between flex-grow">
           <div className="header-group">
-            <h1 className="heading-m lg:heading-l">Invoices</h1>
+            <h1 className={`heading-m lg:heading-l ${theme.page_header}`}>Invoices</h1>
             <p className="body-v text-6-muted">
               {/* Default text for smaller screens */}
               <span className="lg:hidden">{invoiceList.length} invoices</span>
 
               {/* Text for xl screens and larger */}
-              <span className="hidden lg:inline">There are {invoiceList.length} total invoices</span>
+              <span className="hidden lg:inline  ">There are {invoiceList.length} total invoices</span>
             </p>
           </div>
         </div>

@@ -8,7 +8,7 @@ import {InvoiceContext} from "@/app/dashboard/context/InvoiceContext";
 export default function Filter() {
   const [filterState, setFilterState] = useState(false);
   const filterRef = useRef(null);
-  const {filterList, setFilterList} = useContext(InvoiceContext);
+  const {filterList, setFilterList, theme} = useContext(InvoiceContext);
 
 
 
@@ -18,7 +18,7 @@ export default function Filter() {
       <div className="filter-group flex flex-row justify-center items-center gap-[0.875rem]">
         <Popover open={filterState} onOpenChange={setFilterState}>
           <PopoverTrigger>
-            <p className="heading-s-v text-8-text flex flex-row justify-center items-center gap-3 lg:gap-[0.875rem] whitespace-nowrap hover:cursor-pointer">
+            <p className={`heading-s-v ${theme.page_header} flex flex-row justify-center items-center gap-3 lg:gap-[0.875rem] whitespace-nowrap hover:cursor-pointer`}>
               <span className="lg:hidden">Filter</span>
               <span className=" hidden lg:inline">Filter by status</span>
               {!filterState ?
@@ -36,8 +36,8 @@ export default function Filter() {
           </PopoverTrigger>
           {/* Popover Contents */}
           <PopoverContent
-            id="filterPopup" ref={filterRef} className=" w-[12rem] h-[8rem] flex flex-col items-start justify-center text-left gap-5 lg:gap-2 pl-[1.5rem]">
-            <div className="flex items-center space-x-2  hover:cursor-pointer group ">
+            id="filterPopup" ref={filterRef} className={`${theme.filter_popup} w-[12rem] h-[8rem] flex flex-col items-start justify-center text-left gap-5 lg:gap-2 pl-[1.5rem]`}>
+            <div className="flex items-center space-x-2  hover:cursor-pointer group text-red-600">
               {/* option 1*/}
               <Checkbox
                 id="draft"
@@ -53,7 +53,7 @@ export default function Filter() {
               />
               <label
                 htmlFor="draft"
-                className="heading-s-v text-3-dark leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 group-hover:cursor-pointer"
+                className={`heading-s-v ${theme.filter_options} leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 group-hover:cursor-pointer`}
               >
                 Draft
               </label>
@@ -75,7 +75,7 @@ export default function Filter() {
               />
               <label
                 htmlFor="pending"
-                className="heading-s-v text-3-dark leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 group-hover:cursor-pointer"
+                className={`heading-s-v ${theme.filter_options} leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 group-hover:cursor-pointer`}
               >
                 Pending
               </label>
@@ -97,7 +97,7 @@ export default function Filter() {
               />
               <label
                 htmlFor="paid"
-                className="heading-s-v text-3-dark leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 group-hover:cursor-pointer"
+                className={`heading-s-v ${theme.filter_options} leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 group-hover:cursor-pointer`}
               >
                 Paid
               </label>

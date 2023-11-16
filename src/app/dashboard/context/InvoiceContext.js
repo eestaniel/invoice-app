@@ -6,11 +6,11 @@ export const InvoiceContext = createContext();
 
 export const InvoiceProvider = ({children}) => {
   const [invoiceList, setInvoiceList] = useState([]);
-  const [shouldFetchInvoices , setShouldFetchInvoices ] = useState(false);
+  const [shouldFetchInvoices, setShouldFetchInvoices] = useState(false);
   const [filterList, setFilterList] = useState([]);
+  const [isNightMode, setIsNightMode] = useState(false);
 
-
-
+  /*#################### Invoice functions ####################*/
   // Function to update invoices
   const addInvoice = (invoiceId) => {
 
@@ -36,11 +36,35 @@ export const InvoiceProvider = ({children}) => {
     invoiceList.filter((id) => id !== invoiceId);
   }
 
+  /*#################### Color Theme ####################*/
+  // function to toggle night mode
+  const toggleNightMode = () => {
+    // toggle night mode
+    setIsNightMode(!isNightMode);
+    console.log(isNightMode)
+  }
+
+  const theme = {
+    background: isNightMode ? 'bg-12-subtext' : 'bg-11-light',
+    page_header: isNightMode ? 'text-white' : 'text-8-text',
+
+    // Invoice List
+    filter_popup: isNightMode ? 'bg-4-base' : 'bg-white',
+    filter_options: isNightMode ? 'text-white' : 'text-3-dark',
+    table_row: isNightMode ? 'bg-3-dark' : 'bg-white',
+    text: isNightMode ? 'text-white' : 'text-8-text',
+    table_due: isNightMode ? 'text-5-secondary' : 'text-6-info',
+    table_date: isNightMode ? 'text-5-secondary' : 'text-7-info',
+    table_client_name: isNightMode ? 'text-white' : 'text-7-info',
+  };
+
+
   return (
     < InvoiceContext.Provider value={{
       invoiceList, addInvoice, setInvoices, getInvoices, removeInvoice,
       shouldFetchInvoices, setShouldFetchInvoices,
-      filterList, setFilterList
+      filterList, setFilterList,
+      toggleNightMode, isNightMode,setIsNightMode, theme
     }}>
       {children}
     </InvoiceContext.Provider>

@@ -5,7 +5,7 @@ import {useRouter} from "next/navigation";
 export default function InvoiceTable() {
   const router = useRouter();
   const [invoiceArray, setInvoiceArray] = useState([]);
-  const {filterList, shouldFetchInvoices} = useContext(InvoiceContext);
+  const {filterList, shouldFetchInvoices, theme} = useContext(InvoiceContext);
 
 
   useEffect(() => {
@@ -35,9 +35,6 @@ export default function InvoiceTable() {
   }, [filterList, shouldFetchInvoices]);
 
 
-
-
-
   function getStatusClasses(status) {
     let baseClasses = " flex flex-row rounded-[0.375rem] justify-center items-center heading-s-v capitalize bg-opacity-[10%]";
     switch (status) {
@@ -57,26 +54,27 @@ export default function InvoiceTable() {
     <div className="w-full lex flex-col ">
       <div className="hidden md:inline">
         <table className="flex w-full text-center items-center justify-center">
-          <tbody className="flex flex-col gap-4 w-fit text-center justify-center">
+          <tbody className="flex flex-col gap-4 text-center justify-center lg:basis-full flex-shrink">
           {invoiceArray.map((invoice, key) => {
             return (
-              <tr key={key} className="row_contaienr flex flex-row  bg-white h-[4.5rem] justify-start items-center w-full
-            px-[2rem] hover:border-1-primary hover:border-[1px] hover:cursor-pointer hover:scale-110 rounded-[.5rem]"
+              <tr key={key} className={`row_contaienr flex flex-row  ${theme.table_row} h-[4.5rem] justify-start items-center w-full
+                px-[2rem] hover:border-1-primary hover:border-[1px] hover:cursor-pointer hover:scale-110 rounded-[.5rem] gap-4`}
                   onClick={() => {
                     router.push(`/dashboard/invoices/${invoice.id}`)
                   }}
               >
-                <td className="flex flex-row justify-start items-center group min-w-[6rem]"><span
+                <td className="flex flex-row justify-start items-center group flex-grow basis-[3.75rem] "><span
                   className="text-7-info heading-s-v">#</span>
-                  <div className="heading-s-v">{invoice.id}</div>
+                  <div className={`heading-s-v ${theme.text}`}>{invoice.id}</div>
                 </td>
-                <td className="flex flex-row justify-start heading-s-v text-7-info gap-2 min-w-[8rem]"><span
-                  className="text-6-muted">Due</span> {invoice.due_date}</td>
+                <td className="flex flex-row justify-start body-v text-7-info gap-2 basis[6.25rem] flex-grow  whitespace-nowrap">
+                  <p className={`${theme.table_due}`}>Due <span className={`${theme.table_date}`}>{invoice.due_date}</span></p>
+                </td>
                 <td
-                  className="flex flex-row heading-s-v text-7-info  min-w-[6rem] justify-center">{invoice.clientName ? invoice.clientName : 'Not Available'}</td>
+                  className={`flex flex-row body-v ${theme.table_client_name} justify-left basis-[8rem] whitespace-nowrap`}>{invoice.clientName ? invoice.clientName : 'Not Available'}</td>
                 <td
-                  className="heading-s text-8-text flex flex-row justify-end  mr-8 items-center min-w-[6rem] ">$ {invoice.total}</td>
-                <td className={getStatusClasses(invoice.status)}>
+                  className={`heading-s ${theme.text} flex flex-row justify-end   items-center basis-full] flex-grow whitespace-nowrap`}>$ {invoice.total}</td>
+                <td className={`w-fit h-fit p-4 flex items-center justify-end flex-grow flex-shrink-0  basis-[6.5rem] ${getStatusClasses(invoice.status)}`}>
                   <li>{invoice.status}</li>
                 </td>
 
