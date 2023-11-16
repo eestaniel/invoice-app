@@ -51,11 +51,13 @@ export const InvoiceProvider = ({children}) => {
     // Invoice List
     filter_popup: isNightMode ? 'bg-4-base' : 'bg-white',
     filter_options: isNightMode ? 'text-white' : 'text-3-dark',
+    filter_box: isNightMode ? 'border-4-base bg-3-dark' : ' group-hover:border-1-primary group-hover:bg-5-secondary',
     table_row: isNightMode ? 'bg-3-dark' : 'bg-white',
     text: isNightMode ? 'text-white' : 'text-8-text',
     table_due: isNightMode ? 'text-5-secondary' : 'text-6-info',
     table_date: isNightMode ? 'text-5-secondary' : 'text-7-info',
     table_client_name: isNightMode ? 'text-white' : 'text-7-info',
+
   };
 
 

@@ -108,6 +108,10 @@
             }
         }
 
+        .responsive-clamp {
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+        }
+
     }
 
 

@@ -52,7 +52,7 @@ export default function InvoiceTable() {
 
   return (
     <div className="w-full lex flex-col ">
-      <div className="hidden md:inline">
+      <div className="hidden lg:inline">
         <table className="flex w-full text-center items-center justify-center">
           <tbody className="flex flex-col gap-4 text-center justify-center lg:basis-full flex-shrink">
           {invoiceArray.map((invoice, key) => {
@@ -96,9 +96,9 @@ export default function InvoiceTable() {
           {invoiceArray.map((invoice, key) => {
             return (
               <tr key={key}
-                  className="row_contaienr flex flex-row  bg-white h-fit justify-between items-center w-full
-                  p-6 hover:border-1-primary gap-8
-                  hover:border-[1px] hover:cursor-pointer hover:scale-110 rounded-[.5rem]"
+                  className={`row_contaienr flex flex-row  ${theme.table_row} h-fit justify-between items-center w-full
+                    p-6 hover:border-1-primary gap-8
+                    hover:border-[1px] hover:cursor-pointer hover:scale-110 rounded-[.5rem]`}
 
                   onClick={() => {
                     router.push(`/dashboard/invoices/${invoice.id}`)
@@ -107,18 +107,18 @@ export default function InvoiceTable() {
                 <td className="flex flex-col justify-start text-left w-full lg:w-[6rem] group ">
                   <div className="flex flex-row mb-6">
                     <span className="text-7-info heading-s-v">#</span>
-                    <div className="heading-s-v">{invoice.id}</div>
+                    <div className={`heading-s-v ${theme.text}`}>{invoice.id}</div>
                   </div>
                   <div className="flex flex-row text-6-muted body-v mb-2">
-                    <p><span className="">Due </span> {invoice.due_date}</p>
+                    <p className={`${theme.table_date}`}><span className={`${theme.table_due}`}>Due </span> {invoice.due_date}</p>
 
                   </div>
-                  <div className="heading-s-v">
+                  <div className={`heading-s-v ${theme.text}`}>
                     $ {invoice.total}
                   </div>
                 </td>
                 <td className="flex flex-col body-v text-7-info w-fit gap-6">
-                  <div className="flex flex-row whitespace-nowrap justify-end">
+                  <div className={`flex flex-row whitespace-nowrap justify-end ${theme.table_client_name}`}>
                     {invoice.clientName ? invoice.clientName : 'Not Available'}
                   </div>
                   <div className={`${getStatusClasses(invoice.status)} h-9 w-[6rem]`}>

@@ -37,12 +37,12 @@ export default function Filter() {
           {/* Popover Contents */}
           <PopoverContent
             id="filterPopup" ref={filterRef} className={`${theme.filter_popup} w-[12rem] h-[8rem] flex flex-col items-start justify-center text-left gap-5 lg:gap-2 pl-[1.5rem]`}>
-            <div className="flex items-center space-x-2  hover:cursor-pointer group text-red-600">
+            <div className="flex items-center space-x-2  hover:cursor-pointer group">
               {/* option 1*/}
               <Checkbox
                 id="draft"
                 checked={filterList.includes("draft")}
-                className="group-hover:border-1-primary group-hover:bg-5-secondary"
+                className={`group-hover:border-1-primary ${theme.filter_box}`}
                 onClick={() => {
                   setFilterList(prevSelection =>
                     prevSelection.includes("draft")
@@ -64,7 +64,7 @@ export default function Filter() {
               <Checkbox
                 id="pending"
                 checked={filterList.includes("pending")}
-                className="group-hover:border-1-primary group-hover:bg-5-secondary"
+                className={`group-hover:border-1-primary ${theme.filter_box}`}
                 onClick={() => {
                   setFilterList(prevSelection =>
                     prevSelection.includes("pending")
@@ -86,7 +86,7 @@ export default function Filter() {
               <Checkbox
                 id="paid"
                 checked={filterList.includes("paid")}
-                className="group-hover:border-1-primary group-hover:bg-5-secondary"
+                className={`group-hover:border-1-primary ${theme.filter_box}`}
                 onClick={() => {
                   setFilterList(prevSelection =>
                     prevSelection.includes("paid")
