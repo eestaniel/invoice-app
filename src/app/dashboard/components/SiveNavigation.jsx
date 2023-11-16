@@ -8,14 +8,14 @@ export default function SiveNavigation() {
 
 
   return (
-    <div className={`z-50 bg-red h-[72px] lg:h-[80px] xl:h-screen min-w-[7rem] sticky top-0 overflow-y-hidden 
+    <div className={`z-50 bg-red h-[72px] lg:h-[80px] xl:h-screen xl:min-w-[103px] sticky top-0 overflow-y-hidden 
     ${theme.background}`}>
       <div
-        className="nav-container flex flex-row xl:flex-col justify-end lg:justify-start h-[72px] lg:h-[80px]  xl:h-screen
-        bg-[#373B53] m-0 p-0 overflow-clip rounded-none xl:rounded-icon1 z-50  w-full"
+        className={`nav-container flex flex-row xl:flex-col justify-end lg:justify-start h-[72px] lg:h-[80px]  xl:h-screen
+          ${theme.navigation} m-0 p-0 overflow-clip rounded-none xl:rounded-icon1 z-50  w-full`}
       >
         <div
-          className="icon-container  h-[72px] lg:h-[80px] xl:h-[103px]  w-[72px] xl:w-full bg-yellow-400 rounded-icon1 relative overflow-clip">
+          className="icon-container  h-[72px] lg:h-[80px] xl:h-[103px]  min-w-[80px] xl:w-full bg-yellow-400 rounded-icon1 relative overflow-clip">
           <div className="icon1 bg-1-primary h-full w-full relative flex justify-center items-center">
             {/* logo icon*/}
             <svg className="z-50 h-[40%] w-[40%]" width="40" height="38" viewBox="0 0 40 38" fill="none"
@@ -30,7 +30,7 @@ export default function SiveNavigation() {
 
         {/* nav content */}
         <div
-          className="nav-content flex flex-row xl:flex-col h-full xl:h-auto grow justify-end pr-6 xl:pr-0 xl:mb-8 items-center ">
+          className="nav-content flex flex-row xl:flex-col h-full xl:h-auto grow justify-end pr-8 xl:pr-0 xl:mb-8 items-center ">
           {/* dark mode icon */}
           {isNightMode ?
 
@@ -54,7 +54,7 @@ export default function SiveNavigation() {
         </div>
         <hr className="border-[#494E6E]"/>
         {/* nav footer */}
-        <div className="nav-footer h-full xl:h-[15%] w-[80px] xl:w-full px-6 py-5 xl:p-4 flex justify-center items-center
+        <div className="nav-footer h-full xl:h-[15%] min-w-[80px] xl:w-full px8 py-5 xl:p-4 flex justify-center items-center
         border-l-[#494E6E] border-l-[1px] xl:border-none ">
 
           <div className="avatar">
