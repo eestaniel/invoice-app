@@ -36,6 +36,9 @@ export const InvoiceProvider = ({children}) => {
     invoiceList.filter((id) => id !== invoiceId);
   }
 
+  const toggleFetchInvoices = () => {
+    setShouldFetchInvoices(!shouldFetchInvoices);
+  }
   /*#################### Color Theme ####################*/
   // function to toggle night mode
   const toggleNightMode = () => {
@@ -86,7 +89,7 @@ export const InvoiceProvider = ({children}) => {
   return (
     < InvoiceContext.Provider value={{
       invoiceList, addInvoice, setInvoices, getInvoices, removeInvoice,
-      shouldFetchInvoices, setShouldFetchInvoices,
+      shouldFetchInvoices, setShouldFetchInvoices, toggleFetchInvoices,
       filterList, setFilterList,
       toggleNightMode, isNightMode,setIsNightMode, theme
     }}>

@@ -40,6 +40,7 @@ export default function EditButtons() {
         <div className="groupbuttons flex flex-row gap-[0.5rem]">
 
           <Button className="w-[8rem] h-[3rem] rounded-[1.5rem] bg-1-primary text-white hover:bg-2-highlight"
+                  type="submit"
                   onClick={() => {
                     // calculate and set due date
                     setDueDate()

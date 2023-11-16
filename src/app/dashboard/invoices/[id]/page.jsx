@@ -27,7 +27,7 @@ export default function Page({params}) {
   const [status, setStatus] = useState('')
   const [sheetOpen, setSheetOpen] = useState(false);
   const [callback, setCallback] = useState(false);
-  const {theme} = useContext(InvoiceContext);
+  const {theme, shouldFetchInvoices} = useContext(InvoiceContext);
 
   const router = useRouter()
 
@@ -116,7 +116,7 @@ export default function Page({params}) {
         setStatus(data.body.invoice.status)
       })
 
-  }, [callback]);
+  }, [shouldFetchInvoices]);
 
 
 

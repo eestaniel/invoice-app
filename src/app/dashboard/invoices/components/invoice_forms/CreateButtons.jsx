@@ -49,6 +49,7 @@ export default function CreateButtons() {
           {...register('invoice_details.status')}
 
           className="w-[117px] lg:w-[8.25rem] h-[3rem] rounded-[1.5rem] bg-[#373B53] heading-s-v text-6-muted hover:cursor-pointer hover:bg-8-text"
+          type="submit"
           onClick={() => {
             // set status pending
             setValue('invoice_details.status', 'draft')
