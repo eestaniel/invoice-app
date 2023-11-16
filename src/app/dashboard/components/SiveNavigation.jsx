@@ -2,10 +2,11 @@
 import Image from "next/image";
 import {useContext} from "react";
 import {InvoiceContext} from "@/app/dashboard/context/InvoiceContext";
+import {useRouter} from "next/navigation";
 
 export default function SiveNavigation() {
   const {toggleNightMode, theme, isNightMode} = useContext(InvoiceContext);
-
+  const router = useRouter();
 
   return (
     <div className={`z-50 bg-red h-[72px] lg:h-[80px] xl:h-screen xl:min-w-[103px] sticky top-0 overflow-y-hidden 
@@ -15,7 +16,9 @@ export default function SiveNavigation() {
           ${theme.navigation} m-0 p-0 overflow-clip rounded-none xl:rounded-icon1 z-50  w-full`}
       >
         <div
-          className="icon-container  h-[72px] lg:h-[80px] xl:h-[103px]  min-w-[80px] xl:w-full bg-yellow-400 rounded-icon1 relative overflow-clip">
+          className="icon-container  h-[72px] lg:h-[80px] xl:h-[103px]  min-w-[80px] xl:w-full bg-yellow-400 rounded-icon1 relative overflow-clip hover:cursor-pointer"
+          onClick={() => router.push("/dashboard/invoices")}>
+
           <div className="icon1 bg-1-primary h-full w-full relative flex justify-center items-center">
             {/* logo icon*/}
             <svg className="z-50 h-[40%] w-[40%]" width="40" height="38" viewBox="0 0 40 38" fill="none"
@@ -39,8 +42,8 @@ export default function SiveNavigation() {
                  onClick={() => toggleNightMode()}
                  width="20" height="20" xmlns="http://www.w3.org/2000/svg">
               <path className="group-hover:cursor-pointer group-hover:fill-5-secondary"
-                d="M9.817 16.18a.96.96 0 01.953.848l.007.112v1.535a.96.96 0 01-1.913.112l-.006-.112V17.14c0-.53.43-.96.96-.96zm-4.5-1.863c.347.346.373.89.08 1.266l-.08.09-1.085 1.087a.96.96 0 01-1.437-1.267l.08-.09 1.086-1.086a.959.959 0 011.357 0zm10.356 0l1.086 1.086a.959.959 0 11-1.357 1.357l-1.085-1.086a.959.959 0 111.356-1.357zM9.817 4.9a4.924 4.924 0 014.918 4.918 4.924 4.924 0 01-4.918 4.918A4.924 4.924 0 014.9 9.818 4.924 4.924 0 019.817 4.9zm8.858 3.958a.96.96 0 110 1.919H17.14a.96.96 0 110-1.92h1.535zm-16.18 0a.96.96 0 01.112 1.912l-.112.007H.96a.96.96 0 01-.112-1.913l.112-.006h1.534zm14.264-5.983a.96.96 0 010 1.357l-1.086 1.086a.96.96 0 11-1.356-1.357l1.085-1.086a.96.96 0 011.357 0zm-12.617-.08l.09.08 1.086 1.086A.96.96 0 014.05 5.398l-.09-.08-1.086-1.086a.959.959 0 011.267-1.436zM9.817 0c.53 0 .96.43.96.96v1.535a.96.96 0 01-1.92 0V.96c0-.53.43-.96.96-.96z"
-                fill="#858BB2" fillRule="nonzero"/>
+                    d="M9.817 16.18a.96.96 0 01.953.848l.007.112v1.535a.96.96 0 01-1.913.112l-.006-.112V17.14c0-.53.43-.96.96-.96zm-4.5-1.863c.347.346.373.89.08 1.266l-.08.09-1.085 1.087a.96.96 0 01-1.437-1.267l.08-.09 1.086-1.086a.959.959 0 011.357 0zm10.356 0l1.086 1.086a.959.959 0 11-1.357 1.357l-1.085-1.086a.959.959 0 111.356-1.357zM9.817 4.9a4.924 4.924 0 014.918 4.918 4.924 4.924 0 01-4.918 4.918A4.924 4.924 0 014.9 9.818 4.924 4.924 0 019.817 4.9zm8.858 3.958a.96.96 0 110 1.919H17.14a.96.96 0 110-1.92h1.535zm-16.18 0a.96.96 0 01.112 1.912l-.112.007H.96a.96.96 0 01-.112-1.913l.112-.006h1.534zm14.264-5.983a.96.96 0 010 1.357l-1.086 1.086a.96.96 0 11-1.356-1.357l1.085-1.086a.96.96 0 011.357 0zm-12.617-.08l.09.08 1.086 1.086A.96.96 0 014.05 5.398l-.09-.08-1.086-1.086a.959.959 0 011.267-1.436zM9.817 0c.53 0 .96.43.96.96v1.535a.96.96 0 01-1.92 0V.96c0-.53.43-.96.96-.96z"
+                    fill="#858BB2" fillRule="nonzero"/>
             </svg>
             :
             /* Moon */
