@@ -189,17 +189,17 @@ export default function Page({params}) {
                             Delete
                           </Button>
                         </AlertDialogTrigger>
-                        <AlertDialogContent className={"p-12"}>
+                        <AlertDialogContent className={`p-12 ${theme.table_row} ${theme.delete_border}`}>
                           <AlertDialogHeader>
-                            <AlertDialogTitle className={"heading-m"}>Confirm Deletion</AlertDialogTitle>
+                            <AlertDialogTitle className={`heading-m ${theme.text}`}>Confirm Deletion</AlertDialogTitle>
                             <AlertDialogDescription className={"body text-6-muted"}>
                               Are you sure you want to delete invoice #{invoiceData.custom_id}? This action cannot be.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter className={"mt-4"}>
                             <AlertDialogCancel
-                              className={"rounded-[1.5rem] bg-[#F9FAFE] text-7-info"}>Cancel</AlertDialogCancel>
-                            <AlertDialogAction className={"rounded-[1.5rem] bg-9-accent text-white"}
+                              className={`rounded-[1.5rem] ${theme.cancel_button}`}>Cancel</AlertDialogCancel>
+                            <AlertDialogAction className={"rounded-[1.5rem] bg-9-accent text-white hover:brightness-75"}
                                                onClick={() => handleDelete(invoiceData.custom_id)}>Delete</AlertDialogAction>
                           </AlertDialogFooter>
                         </AlertDialogContent>
@@ -345,17 +345,17 @@ export default function Page({params}) {
                           Delete
                         </Button>
                       </AlertDialogTrigger>
-                      <AlertDialogContent className={"p-12"}>
+                      <AlertDialogContent className={`p-12 ${theme.table_row} ${theme.delete_border}`}>
                         <AlertDialogHeader>
-                          <AlertDialogTitle className={"heading-m"}>Confirm Deletion</AlertDialogTitle>
+                          <AlertDialogTitle className={`heading-m ${theme.text}`}>Confirm Deletion</AlertDialogTitle>
                           <AlertDialogDescription className={"body text-6-muted"}>
                             Are you sure you want to delete invoice #{invoiceData.custom_id}? This action cannot be.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter className={"mt-4"}>
                           <AlertDialogCancel
-                            className={"rounded-[1.5rem] bg-[#F9FAFE] text-7-info"}>Cancel</AlertDialogCancel>
-                          <AlertDialogAction className={"rounded-[1.5rem] bg-9-accent text-white"}
+                            className={`rounded-[1.5rem] ${theme.cancel_button}`}>Cancel</AlertDialogCancel>
+                          <AlertDialogAction className={"rounded-[1.5rem] bg-9-accent text-white hover:bg-10-soft-red"}
                                              onClick={() => handleDelete(invoiceData.custom_id)}>Delete</AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>

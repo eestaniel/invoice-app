@@ -76,6 +76,10 @@ export const InvoiceProvider = ({children}) => {
 
     // Navigation
     navigation: isNightMode ? 'bg-3-dark' : 'bg-[#373B53]',
+
+    // Confirm Deletion
+    delete_border: isNightMode ? 'border-3-dark' : '',
+    cancel_button: isNightMode ? 'bg-4-base border-none hover:bg-8-text text-5-secondary' : 'bg-[#F9FAFE] text-7-info hover:bg-5-secondary ',
   };
 
 
