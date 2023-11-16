@@ -218,7 +218,7 @@ export default function Page({params}) {
               <div className="lg:hidden">
                 <div className="status_button-container flex justify-between w-full  h-[5.5rem] mb-[1.5rem] ">
                   <div
-                    className="flex flex-row justify-between max-w-[730px] grow bg-white h-full px-8 py-6 rounded-[0.5rem]">
+                    className={`flex flex-row justify-between max-w-[730px] grow ${theme.table_row} h-full px-8 py-6 rounded-[0.5rem]`}>
                     <div
                       className="status-group flex flex-row items-center h-full w-full justify-between gap-5 body-v text-[#858BB2]">
                       <p>Status</p>
@@ -318,9 +318,9 @@ export default function Page({params}) {
               </div>
             </div>
             <div className="lg:hidden">
-              <div className="status_button-container flex justify-center w-full h-[90px] px-6 ">
+              <div className="status_button-container flex justify-center w-full h-[90px] mt-[2.5rem]  ">
                 <div
-                  className="flex flex-row justify-center w-full grow bg-white py-6 h-full  ">
+                  className={`flex flex-row justify-center w-full grow ${theme.table_row} py-6 h-full px-6 `}>
                   <div className="button-group flex flex-row gap-2 w-full justify-center">
                     <Sheet open={sheetOpen} onOpenChange={setSheetOpen} sheetType={'create'}>
                       <SheetTrigger asChild>

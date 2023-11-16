@@ -65,9 +65,10 @@ export const InvoiceProvider = ({children}) => {
     sheet_add_button: isNightMode ? 'bg-4-base hover:brightness-150 text-white' : 'bg-[#F9FAFE] text-7-info hover:bg-5-secondary ',
     popup: isNightMode ? 'bg-4-base border-4-base text-5-secondary' : 'bg-white',
     payment_border: isNightMode ? 'border-3-dark' : '',
+    edit_cancel: isNightMode ? 'bg-4-base hover:text-7-info hover:bg-white text-5-secondary' : 'bg-[#F9FAFE] text-7-info hover:bg-5-secondary ',
 
     // Summary Page
-    go_back: isNightMode ? 'text-5-secondary hover:text-6-muted' : 'text-7-info',
+    go_back: isNightMode ? 'text-5-secondary hover:text-6-muted' : 'text-7-info hover:text-8-text',
     edit_button: isNightMode ? 'bg-4-base hover:text-7-info hover:bg-white text-5-secondary' : ' bg-[#F9FAFE] text-7-info hover:bg-5-secondary ',
     summary_table: isNightMode ? 'bg-4-base' : 'bg-[#F9FAFE]',
     summary_total: isNightMode ? 'text-white bg-8-text' : 'bg-[#373B53] text-7-info',

@@ -134,7 +134,13 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
               <path d="M6.342.886L2.114 5.114l4.228 4.228" stroke="#9277FF" strokeWidth="2" fill="none"
                     fillRule="evenodd"/>
             </svg>
-            <p className="heading-s text-8-text">Go back</p>
+            <p className={`heading-s ${theme.go_back} hover:cursor-pointer`}
+                onClick={() => {
+                  setSheetOpen(false);
+                }}
+            >
+              Go back
+            </p>
 
           </div>
 
