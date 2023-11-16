@@ -35,7 +35,7 @@ export default function SiveNavigation() {
           {isNightMode ?
 
             /* Sun */
-            <svg className="h-5 w-5 xl:h-5 xl:w-full group flex lg:justify-center "
+            <svg className="h-5 w-5 xl:h-5 group flex lg:justify-center hover:cursor-pointer hover:fill-5-secondary"
                  onClick={() => toggleNightMode()}
                  width="20" height="20" xmlns="http://www.w3.org/2000/svg">
               <path className="group-hover:cursor-pointer group-hover:fill-5-secondary"
@@ -44,7 +44,7 @@ export default function SiveNavigation() {
             </svg>
             :
             /* Moon */
-            <svg className="h-5 w-5 xl:h-5 xl:w-full group"
+            <svg className="h-5 w-5 xl:h-5 xl:w-full group hover:cursor-pointer hover:fill-5-secondary"
                  onClick={() => toggleNightMode()}
                  width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path className="group-hover:cursor-pointer group-hover:fill-5-secondary"

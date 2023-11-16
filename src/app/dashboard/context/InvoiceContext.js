@@ -63,6 +63,15 @@ export const InvoiceProvider = ({children}) => {
     sheet_label: isNightMode ? 'body-v text-5-secondary' : 'body-v text-7-info',
     sheet_input: isNightMode ? 'bg-3-dark border-3-dark text-white caret-1-primary heading-s-v ' : 'heading-s-v caret-1-primary',
     sheet_add_button: isNightMode ? 'bg-4-base hover:brightness-150 text-white' : 'bg-[#F9FAFE] text-7-info hover:bg-5-secondary ',
+    popup: isNightMode ? 'bg-4-base border-4-base text-5-secondary' : 'bg-white',
+    payment_border: isNightMode ? 'border-3-dark' : '',
+
+    // Summary Page
+    go_back: isNightMode ? 'text-5-secondary hover:text-6-muted' : 'text-7-info',
+    edit_button: isNightMode ? 'bg-4-base hover:text-7-info hover:bg-white text-5-secondary' : ' bg-[#F9FAFE] text-7-info hover:bg-5-secondary ',
+    summary_table: isNightMode ? 'bg-4-base' : 'bg-[#F9FAFE]',
+    summary_total: isNightMode ? 'text-white bg-8-text' : 'bg-[#373B53] text-7-info',
+    summary_text: isNightMode ? 'text-5-secondary' : 'text-8-text',
   };
 
 

@@ -15,6 +15,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/@/components/ui/alert-dialog"
+import {useContext} from "react";
+import {InvoiceContext} from "@/app/dashboard/context/InvoiceContext";
+
 
 
 export default function Page({params}) {
@@ -24,6 +27,7 @@ export default function Page({params}) {
   const [status, setStatus] = useState('')
   const [sheetOpen, setSheetOpen] = useState(false);
   const [callback, setCallback] = useState(false);
+  const {theme} = useContext(InvoiceContext);
 
   const router = useRouter()
 
@@ -126,13 +130,13 @@ export default function Page({params}) {
   }, [sheetOpen]);
 
   return (
-    <>
+    <div className={`${theme.background} min-h-screen`}>
       {invoiceData.id ?
         (
           <>
             <div
-              className="page_container  px-6
-              pt-8 lg:pt-[4.0625rem] bg-11-light min-h-screen h-fit w-full justify-center flex flex-col">
+              className={`page_container  px-6
+                pt-8 lg:pt-[4.0625rem] ${theme.background} min-h-screen h-fit w-full justify-center flex flex-col`}>
               <div className="w-full flex justify-center">
                 <div
                   className="back_group flex flex-row items-center justify-start w-full h-[1rem] gap-[1.5rem] heading-s-v text-8-text mb-[2rem]
@@ -145,14 +149,14 @@ export default function Page({params}) {
                     <path d="M6.342.886L2.114 5.114l4.228 4.228" stroke="#9277FF" strokeWidth="2" fill="none"
                           fillRule="evenodd"/>
                   </svg>
-                  <p className="group-hover:text-7-info">Go back</p>
+                  <p className={`${theme.go_back}`}>Go back</p>
                 </div>
               </div>
 
               <div className="hidden lg:inline">
                 <div className="status_button-container flex justify-center w-full  h-[5.5rem] mb-[1.5rem] ">
                   <div
-                    className="flex flex-row justify-between max-w-[730px] grow bg-white h-full px-8 py-6 rounded-[0.5rem]">
+                    className={`flex flex-row justify-between max-w-[730px] grow ${theme.table_row} h-full px-8 py-6 rounded-[0.5rem]`}>
                     <div className="status-group flex flex-row items-center h-full gap-5 body-v text-[#858BB2]">
                       <p>Status</p>
                       <div
@@ -165,7 +169,7 @@ export default function Page({params}) {
                       <Sheet open={sheetOpen} onOpenChange={setSheetOpen} sheetType={'create'}>
                         <SheetTrigger asChild>
                           <Button
-                            className="px-6 py-[1.125rem] rounded-[1.5rem] bg-[#F9FAFE] text-7-info heading-s-v hover:bg-5-secondary"
+                            className={`px-6 py-[1.125rem] rounded-[1.5rem] heading-s-v ${theme.edit_button}`}
                           >
                             Edit
                           </Button>
@@ -230,16 +234,16 @@ export default function Page({params}) {
               <div
                 className="invoice_summary-container flex h-fit gap-4 w-full justify-center">
                 <div
-                  className="w-full lg:max-w-[730px] grow justify-center flex flex-col bg-white p-6 lg:p-12 rounded-[0.5rem]">
+                  className={`w-full lg:max-w-[730px] grow justify-center flex flex-col ${theme.table_row} p-6 lg:p-12 rounded-[0.5rem]`}>
                   <div
                     className="invoice_summary-header-group flex flex-col md:flex-row justify-between gap-8 lg:gap-0">
                     <div className="summary_header gap-1 lg:gap-2 flex flex-col">
                       <h1 className="heading-s text-6-muted">#<span
-                        className="text-8-text">{invoiceData.custom_id}</span>
+                        className={`${theme.text}`}>{invoiceData.custom_id}</span>
                       </h1>
-                      <p className=" body text-7-info uppercase ">{invoiceData.project_description}</p>
+                      <p className={`body ${theme.table_date} uppercase `}>{invoiceData.project_description}</p>
                     </div>
-                    <div className="summary_billfrom-group body text-7-info">
+                    <div className={`text-right summary_billfrom-group body ${theme.table_date}`}>
                       <p className="capitalize">{invoiceData.billfrom[0].street_address}</p>
                       <p className="capitalize">{invoiceData.billfrom[0].city}</p>
                       <p>{invoiceData.billfrom[0].post_code}</p>
@@ -251,61 +255,61 @@ export default function Page({params}) {
                     <div className="invoice_payment-group flex flex-col gap-8 mr-[3.75rem] md:mr-0
                     md:justify-between">
                       <div className="invoice_date-group">
-                        <p className="payment_due_text text-7-info body-v mb-3 ">Invoice Date</p>
+                        <p className={`payment_due_text ${theme.table_date} body-v mb-3 `}>Invoice Date</p>
                         <p
-                          className="payment_due_date heading-s text-8-text whitespace-nowrap">{convertDate(invoiceData.invoice_date)}</p>
+                          className={`payment_due_date heading-s ${theme.text} whitespace-nowrap`}>{convertDate(invoiceData.invoice_date)}</p>
                       </div>
                       <div className="invoice_due_date-group">
-                        <p className="payment_due_text text-7-info body-v mb-3">Payment Due</p>
+                        <p className={`payment_due_text ${theme.table_date} body-v mb-3`}>Payment Due</p>
                         <p
-                          className="payment_due_date heading-s text-8-text">{getPaymentDueDate(invoiceData.invoice_date)}</p>
+                          className={`payment_due_date heading-s ${theme.text}`}>{getPaymentDueDate(invoiceData.invoice_date)}</p>
                       </div>
                     </div>
 
-                    <div className="invoice_billto-group flex flex-col">
-                      <h2 className="body-v text-7-info mb-3">Bill To</h2>
-                      <p className="heading-s capitalize mb-2 whitespace-nowrap">{invoiceData.billto[0].client_name}</p>
+                    <div className={`invoice_billto-group flex flex-col ${theme.table_date}`}>
+                      <h2 className={`body-v ${theme.table_date} mb-3`}>Bill To</h2>
+                      <p className={`heading-s capitalize mb-2 whitespace-nowrap ${theme.text}`}>{invoiceData.billto[0].client_name}</p>
                       <p
-                        className="body text-7-info capitalize whitespace-nowrap">{invoiceData.billto[0].street_address}</p>
-                      <p className="body text-7-info capitalize">{invoiceData.billto[0].city}</p>
-                      <p className="body text-7-info capitalize">{invoiceData.billto[0].post_code}</p>
-                      <p className="body text-7-info capitalize">{invoiceData.billto[0].country}</p>
+                        className="body  capitalize whitespace-nowrap">{invoiceData.billto[0].street_address}</p>
+                      <p className="body  capitalize">{invoiceData.billto[0].city}</p>
+                      <p className="body  capitalize">{invoiceData.billto[0].post_code}</p>
+                      <p className="body  capitalize">{invoiceData.billto[0].country}</p>
                     </div>
 
                     <div className="client_email-group flex flex-col w-full md:w-fit mt-8 md:mt-0 lg:mr-[8rem]">
-                      <p className="body-v text-7-info mb-3">Sent to</p>
-                      <p className="heading-s capitalize ">{invoiceData.billto[0].client_email}</p>
+                      <p className={`body-v ${theme.table_date} mb-3`}>Sent to</p>
+                      <p className={`heading-s capitalize ${theme.text}`}>{invoiceData.billto[0].client_email}</p>
                     </div>
                   </div>
 
-                  <div className="invoice_summary-item-group w-full h-fit  bg-[#F9FAFE] rounded-[0.5rem]">
-                    <div className="bg-[#F9FAFE] p-6 lg:p-8 rounded-t-[0.5rem] ">
+                  <div className="invoice_summary-item-group w-full h-fit  rounded-[0.5rem]">
+                    <div className={`${theme.summary_table} p-6 lg:p-8 rounded-t-[0.5rem] `}>
                       <div className="hidden lg:inline">
                         <div className=" item_table-header-group flex flex-row justify-between mb-6 ">
-                          <div className="item_table-header flex flex-row w-full">
-                            <p className="body text-6-muted max-w-[16rem] w-full">Item Name</p>
-                            <p className="body text-6-muted max-w-[2rem] w-full text-center">QTY.</p>
-                            <p className="body text-6-muted max-w-[8rem] w-full text-right">Price</p>
-                            <p className="body text-6-muted flex-grow text-right">Total</p>
+                          <div className={`item_table-header flex flex-row w-full`}>
+                            <p className={`body max-w-[16rem] w-full ${theme.table_due}`}>Item Name</p>
+                            <p className={`body max-w-[2rem] w-full text-center ${theme.table_due}`}>QTY.</p>
+                            <p className={`body max-w-[8rem] w-full text-right ${theme.table_due}`}>Price</p>
+                            <p className={`body flex-grow text-right ${theme.table_due}`}>Total</p>
                           </div>
                         </div>
                       </div>
                       <div className="item_table-body-group flex flex-col gap-4">
                         {invoiceData.itemlist.map((item, index) => (
                           <div key={index} className="item_table-body flex flex-row text-left flex-wrap h-full">
-                            <p className="heading-s text-8-text w-full lg:max-w-[16rem] lg:w-full ">{item.item_name}</p>
-                            <p className="heading-s text-7-info lg:w-full lg:max-w-[2rem] text-left lg:text-center">{item.quantity} <span
+                            <p className={`heading-s ${theme.text} w-full lg:max-w-[16rem] lg:w-full `}>{item.item_name}</p>
+                            <p className={`heading-s ${theme.table_date} lg:w-full lg:max-w-[2rem] text-left lg:text-center`}>{item.quantity} <span
                               className="lg:hidden mr-1">x</span></p>
                             <p
-                              className="heading-s text-7-info text-left lg:text-right lg:max-w-[8rem] lg:w-full">$ {convertToCurrency(item.price)}</p>
+                              className={`heading-s ${theme.table_date} text-left lg:text-right lg:max-w-[8rem] lg:w-full`}>$ {convertToCurrency(item.price)}</p>
                             <p
-                              className="heading-s text-8-text flex-grow text-right">$ {getInvoiceTotal(item.quantity, item.price)}</p>
+                              className={`heading-s ${theme.text} flex-grow text-right`}>$ {getInvoiceTotal(item.quantity, item.price)}</p>
                           </div>
                         ))}
                       </div>
                     </div>
                     <div
-                      className="invoice_summary-total-group bg-[#373B53] rounded-b-[0.5rem] flex flex-row justify-between items-center px-8 py-6">
+                      className={`invoice_summary-total-group ${theme.summary_total} rounded-b-[0.5rem] flex flex-row justify-between items-center px-8 py-6`}>
                       <p className="body text-white mr-8">Amount Due</p>
                       <p className="heading-m text-white">$ {convertToCurrency(invoiceData.total)}</p>
                     </div>
@@ -374,7 +378,7 @@ export default function Page({params}) {
             <h1>Loading...</h1>
           </>
         )}
-    </>
+    </div>
   )
 
 
