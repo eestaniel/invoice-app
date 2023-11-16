@@ -54,7 +54,7 @@ export const InvoiceProvider = ({children}) => {
     filter_box: isNightMode ? 'border-4-base bg-3-dark' : ' group-hover:border-1-primary group-hover:bg-5-secondary',
     table_row: isNightMode ? 'bg-3-dark' : 'bg-white',
     text: isNightMode ? 'text-white' : 'text-8-text',
-    table_due: isNightMode ? 'text-5-secondary' : 'text-6-info',
+    table_due: isNightMode ? 'text-5-secondary' : 'text-6-muted',
     table_date: isNightMode ? 'text-5-secondary' : 'text-7-info',
     table_client_name: isNightMode ? 'text-white' : 'text-7-info',
 
@@ -73,6 +73,7 @@ export const InvoiceProvider = ({children}) => {
     summary_table: isNightMode ? 'bg-4-base' : 'bg-[#F9FAFE]',
     summary_total: isNightMode ? 'text-white bg-8-text' : 'bg-[#373B53] text-7-info',
     summary_text: isNightMode ? 'text-5-secondary' : 'text-8-text',
+    summary_price_info: isNightMode ? 'text-6-muted' : 'text-7-info',
 
     // Navigation
     navigation: isNightMode ? 'bg-3-dark' : 'bg-[#373B53]',
