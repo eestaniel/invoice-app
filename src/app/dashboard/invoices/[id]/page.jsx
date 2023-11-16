@@ -233,10 +233,8 @@ export default function Page({params}) {
 
               <div
                 className="invoice_summary-container flex h-fit gap-4 w-full justify-center">
-                <div
-                  className={`w-full lg:max-w-[730px] grow justify-center flex flex-col ${theme.table_row} p-6 lg:p-12 rounded-[0.5rem]`}>
-                  <div
-                    className="invoice_summary-header-group flex flex-col md:flex-row justify-between gap-8 lg:gap-0">
+                <div className={`w-full lg:max-w-[730px] grow justify-center flex flex-col ${theme.table_row} p-6 lg:p-12 rounded-[0.5rem]`}>
+                  <div className="invoice_summary-header-group flex flex-row md:flex-row justify-between gap-8 lg:gap-0">
                     <div className="summary_header gap-1 lg:gap-2 flex flex-col">
                       <h1 className="heading-s text-6-muted">#<span
                         className={`${theme.text}`}>{invoiceData.custom_id}</span>
@@ -298,10 +296,10 @@ export default function Page({params}) {
                         {invoiceData.itemlist.map((item, index) => (
                           <div key={index} className="item_table-body flex flex-row text-left flex-wrap h-full">
                             <p className={`heading-s ${theme.text} w-full lg:max-w-[16rem] lg:w-full `}>{item.item_name}</p>
-                            <p className={`heading-s ${theme.table_date} lg:w-full lg:max-w-[2rem] text-left lg:text-center`}>{item.quantity} <span
+                            <p className={`heading-s ${theme.summary_price_info} lg:${theme.table_date} lg:w-full lg:max-w-[2rem] text-left lg:text-center`}>{item.quantity} <span
                               className="lg:hidden mr-1">x</span></p>
                             <p
-                              className={`heading-s ${theme.table_date} text-left lg:text-right lg:max-w-[8rem] lg:w-full`}>$ {convertToCurrency(item.price)}</p>
+                              className={`heading-s ${theme.summary_price_info}  lg:${theme.table_date} text-left lg:text-right lg:max-w-[8rem] lg:w-full`}>$ {convertToCurrency(item.price)}</p>
                             <p
                               className={`heading-s ${theme.text} flex-grow text-right`}>$ {getInvoiceTotal(item.quantity, item.price)}</p>
                           </div>
