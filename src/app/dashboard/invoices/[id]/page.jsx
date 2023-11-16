@@ -26,7 +26,6 @@ export default function Page({params}) {
   const [invoiceData, setInvoiceData] = useState({})
   const [status, setStatus] = useState('')
   const [sheetOpen, setSheetOpen] = useState(false);
-  const [callback, setCallback] = useState(false);
   const {theme, shouldFetchInvoices} = useContext(InvoiceContext);
 
   const router = useRouter()
@@ -166,7 +165,7 @@ export default function Page({params}) {
                           </Button>
                         </SheetTrigger>
                         <SheetContent className={"w-[100%] overflow-y-scroll max-h-screen web hide-scrollbar"}>
-                          <SheetView setCallback={setCallback} setSheetOpen={setSheetOpen} sheetType={'edit'}
+                          <SheetView setSheetOpen={setSheetOpen} sheetType={'edit'}
                                      data={invoiceData}/>
                         </SheetContent>
                       </Sheet>

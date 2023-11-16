@@ -12,7 +12,7 @@ import {useContext, useEffect, useState} from "react";
 
 
 export default function SheetView({setSheetOpen, sheetType, data}) {
-  const {shouldFetchInvoices, toggleFetchInvoices, theme} = useContext(InvoiceContext);
+  const {toggleFetchInvoices, theme} = useContext(InvoiceContext);
   const [customId, setCustomId] = useState('');
 
   const methods = useForm({
