@@ -39,7 +39,7 @@ export default function InvoiceDetails() {
                 </svg>
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
+            <PopoverContent className={`w-auto p-0 ${theme.popup}`} align="start">
               <Calendar
                 mode="single"
                 selected={formValues.invoice_date}
@@ -81,39 +81,39 @@ export default function InvoiceDetails() {
               </div>
             </div>
           </PopoverTrigger>
-          <PopoverContent className="w-[15rem] p-0 ">
+          <PopoverContent className={`w-[15rem] p-0 ${theme.popup}`}>
             {/* Popover content */}
             <div className="w-full group">
               <p
-                className="heading-s-v text-8-text w-full pl-6 py-4 group-hover:cursor-pointer group-hover:text-1-primary"
+                className={`heading-s-v ${theme.summary_text} w-full pl-6 py-4 group-hover:cursor-pointer group-hover:text-1-primary`}
                 onClick={() => {
                   setValue('invoice_details.payment_terms', 'Net 1 Day');
                 }}
               >Net 1 Day
               </p>
-              <hr/>
+              <hr className={`${theme.payment_border}`}/>
             </div>
             <div className="w-full group">
               <p
-                className="heading-s-v text-8-text w-full pl-6 my-4 group-hover:cursor-pointer group-hover:text-1-primary"
+                className={`heading-s-v ${theme.summary_text} w-full pl-6 my-4 group-hover:cursor-pointer group-hover:text-1-primary`}
                 onClick={() => {
                   setValue('invoice_details.payment_terms', 'Net 7 Day');
                 }}
               >Net 7 Day</p>
-              <hr/>
+              <hr className={`${theme.payment_border}`}/>
             </div>
             <div className="w-full group">
               <p
-                className="heading-s-v text-8-text w-full pl-6 my-4 group-hover:cursor-pointer group-hover:text-1-primary"
+                className={`heading-s-v ${theme.summary_text} w-full pl-6 my-4 group-hover:cursor-pointer group-hover:text-1-primary`}
                 onClick={() => {
                   setValue('invoice_details.payment_terms', 'Net 14 Day');
                 }}
               >Net 14 Day</p>
-              <hr/>
+              <hr className={`${theme.payment_border}`}/>
             </div>
             <div className="w-full group">
               <p
-                className="heading-s-v text-8-text w-full pl-6 my-4 group-hover:cursor-pointer group-hover:text-1-primary"
+                className={`heading-s-v ${theme.summary_text} w-full pl-6 my-4 group-hover:cursor-pointer group-hover:text-1-primary`}
                 onClick={() => {
                   setValue('invoice_details.payment_terms', 'Net 30 Day');
                 }}
