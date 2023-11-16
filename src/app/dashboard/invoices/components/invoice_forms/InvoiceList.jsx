@@ -2,10 +2,13 @@ import {Label} from "@/@/components/ui/label";
 import {Input} from "@/@/components/ui/input";
 import {Button} from "@/@/components/ui/button";
 import {useFormContext} from "react-hook-form";
+import {InvoiceContext} from "@/app/dashboard/context/InvoiceContext";
+import {useContext} from "react";
+
 
 export default function InvoiceList({fields, onAppend, onRemove}) {
   const {register, watch, formState: {errors}} = useFormContext();
-
+  const {theme} = useContext(InvoiceContext);
 
   return (
     <div
@@ -27,11 +30,13 @@ export default function InvoiceList({fields, onAppend, onRemove}) {
                 {/* item name */}
                 <div className="item__name-group flex flex-col justify-start">
                   <div className="group flex flex-col w-full gap-[0.625rem]">
-                    <Label htmlFor="to_country" className="body-v text-7-info">Item Name</Label>
+                    <Label htmlFor="to_country" className={`${theme.sheet_label}`}>Item Name</Label>
                   </div>
                   <Input
                     {...register(`item_list.${index}.name`)}
-                    className={`border-5-secondary w-full lg:w-[214px] h-12 ${errors.item_list?.[index]?.name ? 'border-red-700 ' : ''}}`}
+                    className={`border-5-secondary w-full lg:w-[214px] h-12 
+                    ${theme.sheet_input}
+                    ${errors.item_list?.[index]?.name ? 'border-red-700 ' : ''}}`}
                   />
                 </div>
 
@@ -39,11 +44,11 @@ export default function InvoiceList({fields, onAppend, onRemove}) {
                   {/* item quantity */}
                   <div className="flex-none max-w-[18%] lg:max-w-[18%] grow">
                     <div className="group flex flex-col  gap-[0.625rem]">
-                      <Label htmlFor="to_country" className="body-v text-7-info grow-0">Qty.</Label>
+                      <Label htmlFor="to_country" className={`${theme.sheet_label} grow-0`}>Qty.</Label>
                     </div>
                     <Input
                       {...register(`item_list.${index}.quantity`)}
-                      className="w-full border-5-secondary hide-arrow-input h-12 grow-0"
+                      className={`w-full border-5-secondary hide-arrow-input h-12 grow-0 ${theme.sheet_input}`}
                       type="number" min="0" max="100" step="1" required="required"
                       pattern="[0-9]*"
                       placeholder="0"
@@ -53,12 +58,12 @@ export default function InvoiceList({fields, onAppend, onRemove}) {
                   {/* item price */}
                   <div className="flex-none max-w-[26%] lg:max-w-[32%] grow">
                     <div className="group flex flex-col gap-[0.625rem] mr-[3rem]">
-                      <Label htmlFor="to_country" className="body-v text-7-info">Price</Label>
+                      <Label htmlFor="to_country" className={`${theme.sheet_label}`}>Price</Label>
 
                     </div>
                     <Input
                       {...register(`item_list.${index}.price`)}
-                      className=" border-5-secondary hide-arrow-input h-12 grow"
+                      className={` border-5-secondary hide-arrow-input h-12 grow ${theme.sheet_input}`}
                       placeholder="0.00"
                       type="number" min="0" step="0.01" required="required"
                     />
@@ -67,7 +72,7 @@ export default function InvoiceList({fields, onAppend, onRemove}) {
 
                   {/* item total */}
                   <div className="group flex grow flex-col  h-auto max-w-[24%] grow">
-                    <Label htmlFor="to_country" className="body-v text-7-info text-left">Total</Label>
+                    <Label htmlFor="to_country" className={`${theme.sheet_label} text-left`}>Total</Label>
                     <p className=" h-full heading-s-v text-6-muted  flex  items-center ">
 
                       {total.toFixed(2)}
@@ -90,8 +95,8 @@ export default function InvoiceList({fields, onAppend, onRemove}) {
         </div>
 
       <Button
-        className="w-full h-[3rem] bg-[#F9FAFE] rounded-[1.5rem] heading-s-v text-7-info hover:cursor-pointer
-          hover:bg-5-secondary mt-[1rem]"
+        className={`w-full h-[3rem]  rounded-[1.5rem] heading-s-v  hover:cursor-pointer ${theme.sheet_add_button}
+           mt-[1rem]`}
         onClick={(e) => {
           e.preventDefault()
           onAppend({

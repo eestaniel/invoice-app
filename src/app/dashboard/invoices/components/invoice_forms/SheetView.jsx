@@ -12,7 +12,7 @@ import {useContext, useEffect, useState} from "react";
 
 
 export default function SheetView({setSheetOpen, sheetType, data}) {
-  const {shouldFetchInvoices, setShouldFetchInvoices} = useContext(InvoiceContext);
+  const {shouldFetchInvoices, setShouldFetchInvoices, theme} = useContext(InvoiceContext);
   const [customId, setCustomId] = useState('');
 
   const methods = useForm({
@@ -124,10 +124,10 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit, onInvalid)}>
+      <form onSubmit={methods.handleSubmit(onSubmit, onInvalid)} className={`${theme.sheet_bg}`}>
         <div id="thisForm"
-             className="px-6 lg:px-[3.5rem] mt-24 lg:mt-[8.75rem] xl:mt-[3.75rem]  xl:pl-[10.5rem] xl:pr-[3.5rem] w-full
-                        flex flex-col flex-grow h-fit">
+             className={`px-6 lg:px-[3.5rem] pt-24 lg:pt-[8.75rem] lg:mt-[0] xl:mt-[3.75rem]  xl:pl-[10.5rem] xl:pr-[3.5rem] w-full
+               flex flex-col flex-grow  ${theme.sheet_bg}`}>
 
           <div className="lg:hidden flex flex-row items-center gap-6 mb-6">
             <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
@@ -139,8 +139,8 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
           </div>
 
           {/* check if custom id*/}
-          {customId === '' ? <h1 className="heading-m">New Invoice</h1> :
-            <h1 className="heading-m">
+          {customId === '' ? <h1 className={`heading-m ${theme.text}`}>New Invoice</h1> :
+            <h1 className={`heading-m ${theme.text}`}>
               Edit <span className="text-7-info">#</span>{customId}</h1>}
 
           {/* Bill From*/}

@@ -58,6 +58,11 @@ export const InvoiceProvider = ({children}) => {
     table_date: isNightMode ? 'text-5-secondary' : 'text-7-info',
     table_client_name: isNightMode ? 'text-white' : 'text-7-info',
 
+    // Invoice Sheet
+    sheet_bg: isNightMode ? 'bg-12-subtext' : 'bg-white',
+    sheet_label: isNightMode ? 'body-v text-5-secondary' : 'body-v text-7-info',
+    sheet_input: isNightMode ? 'bg-3-dark border-3-dark text-white caret-1-primary heading-s-v ' : 'heading-s-v caret-1-primary',
+    sheet_add_button: isNightMode ? 'bg-4-base hover:brightness-150 text-white' : 'bg-[#F9FAFE] text-7-info hover:bg-5-secondary ',
   };
 
 

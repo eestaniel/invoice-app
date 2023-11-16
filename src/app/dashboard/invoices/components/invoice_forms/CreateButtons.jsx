@@ -2,10 +2,12 @@ import {SheetClose} from "@/@/components/ui/sheet";
 import {Button} from "@/@/components/ui/button";
 import React from "react";
 import {useFormContext} from "react-hook-form";
-
+import {InvoiceContext} from "@/app/dashboard/context/InvoiceContext";
+import {useContext} from "react";
 
 export default function CreateButtons() {
   const {register, setValue, getValues} = useFormContext();
+  const {theme} = useContext(InvoiceContext);
 
   const setDueDate = () => {
     const paymentTerms = getValues().invoice_details.payment_terms;
@@ -34,7 +36,8 @@ export default function CreateButtons() {
 
   return (
     <div
-      className="group-buttons flex flex-row justify-between items-center gap-[0.5rem] mt-[3rem] w-full h-full grow p-[1.5rem] shadow-[rgba(0,0,0,0.1)_1px_4px_100px_30px]">
+      className={` group-buttons flex flex-row justify-between items-center gap-[0.5rem] mt-[3rem] w-full h-full 
+        grow p-[3.5rem] shadow-[rgba(0,0,0,0.1)_1px_4px_100px_30px] ${theme.sheet_bg}`}>
       <SheetClose asChild>
         <Button
           className="w-[84px] lg:w-[6rem] h-[3rem] rounded-[1.5rem] bg-[#F9FAFE] text-7-info heading-s-v stick hover:bg-9-accent hover:text-8-text">
