@@ -1,13 +1,12 @@
 import { initializeApp } from "firebase/app";
-
 const firebaseConfig = {
 
-  apiKey: "AIzaSyD33AHNEkGdy9M11jOBsMApiSbNCqkAWTI",
-  authDomain: "invoice-app-49276.firebaseapp.com",
-  projectId: "invoice-app-49276",
-  storageBucket: "invoice-app-49276.appspot.com",
-  messagingSenderId: "810262694154",
-  appId: "1:810262694154:web:67fc6789efbb3ac0f852f3"
+  apiKey: process.env.NEXT_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_FIREBASE_APP_ID
 
 };
 

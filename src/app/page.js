@@ -25,16 +25,11 @@ export default function Home() {
   }, [currentUser])
 
   return (
-    <main className="flex flex-col w-full min-h-screen bg-11-light justify-center">
+    <main className="flex flex-col w-full min-h-screen bg-11-light justify-center ">
       {/* button to dashboard */}
       <div className="flex flex-col w-full justify-center">
-        <button className="text-white bg-blue-500 button1 p-2"
-                onClick={() => router.push('/dashboard/invoices')}
-        >
-          Dashboard
-        </button>
         <div className="signin__container mx-auto mt-10 p-8 bg-white shadow-md rounded-lg max-w-md">
-          <h1 className="signin__title text-2xl font-bold mb-4 text-center">Welcome to InvoiceApp</h1>
+          <h1 className="signin__title text-2xl font-bold mb-4 text-center">Welcome to the InvoiceApp</h1>
           <p className="signin__description text-sm text-gray-600 text-center mb-6">Sign in to manage your invoices
             efficiently</p>
           <div className="signin__button-container">
