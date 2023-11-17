@@ -12,6 +12,7 @@ export default function Filter() {
 
 
 
+
   return (
     <>
       {/* filter group */}
@@ -44,6 +45,7 @@ export default function Filter() {
                 checked={filterList.includes("draft")}
                 className={`group-hover:border-1-primary ${theme.filter_box}`}
                 onClick={() => {
+
                   setFilterList(prevSelection =>
                     prevSelection.includes("draft")
                       ? prevSelection.filter(item => item !== "draft")

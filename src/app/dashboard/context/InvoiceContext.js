@@ -42,6 +42,10 @@ export const InvoiceProvider = ({children}) => {
   }
 
   useEffect(() => {
+    console.log(filterList)
+  }, []);
+
+  useEffect(() => {
     fetchInvoices()
 
   }, [filterList, shouldFetchInvoices]);

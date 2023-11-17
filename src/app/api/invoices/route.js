@@ -15,7 +15,7 @@ export async function GET(req) {
     // Create an array to hold status filters
     const statusFilters = [];
     for (let i = 2; i <= 4; i++) {
-      const status = req.nextUrl.searchParams.get(`status${i}`);
+      const status = req.nextUrl.searchParams.get(`status${i-1}`);
       if (status) {
         statusFilters.push(status);
       }
