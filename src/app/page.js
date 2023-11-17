@@ -1,16 +1,15 @@
 "use client"
-import {useRouter} from "next/navigation";
+import {useRouter, redirect} from "next/navigation";
 import {loginWithGoogle} from "@/app/components/googleAuthService";
 import {useAuth} from "@/app/dashboard/context/AuthContext";
-
+import {useEffect} from "react";
 
 export default function Home() {
   const router = useRouter()
-  const {auth} = useAuth();
+  const {auth, currentUser} = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault()
-    console.log('login')
     try {
       await loginWithGoogle(auth)
       router.push('/dashboard')
@@ -19,12 +18,18 @@ export default function Home() {
     }
   }
 
+  useEffect(() => {
+    if(currentUser?.uid) {
+      redirect('/dashboard')
+    }
+  }, [currentUser])
+
   return (
     <main className="flex flex-col w-full min-h-screen bg-11-light justify-center">
       {/* button to dashboard */}
       <div className="flex flex-col w-full justify-center">
         <button className="text-white bg-blue-500 button1 p-2"
-                onClick={() => router.push('/dashboard')}
+                onClick={() => router.push('/dashboard/invoices')}
         >
           Dashboard
         </button>

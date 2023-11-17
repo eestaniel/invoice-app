@@ -1,36 +1,14 @@
 import {InvoiceContext} from "@/app/dashboard/context/InvoiceContext";
-import {useContext, useEffect, useState} from "react";
+import {useContext} from "react";
 import {useRouter} from "next/navigation";
 
 export default function InvoiceTable() {
   const router = useRouter();
-  const [invoiceArray, setInvoiceArray] = useState([]);
-  const {filterList, shouldFetchInvoices, theme} = useContext(InvoiceContext);
+
+  const {theme, invoiceList} = useContext(InvoiceContext);
 
 
-  useEffect(() => {
-    // send fetch get to /api/invoices to get object of invoices
-    const type = 'invoice-table'
-    let query = ''
-    // if filterList is not empty, create a query string, up to 3 max, dynamic naming, status1, status2, status3
-    if (filterList.length > 0) {
-      filterList.forEach((status, index) => {
-        query += `status${index + 1}=${status}&`
-      })
-      query = query.slice(0, -1)
-      fetch(`/api/invoices?type=${type}&${query}`).then(res => res.json()).then(data => {
-        // get invoice data by data asscending order
-        setInvoiceArray(data.body.invoices)
-      })
-    } else {
-      fetch(`/api/invoices?type=${type}`).then(res => res.json()).then(data => {
-        // get invoice data by data asscending order
-        setInvoiceArray(data.body.invoices)
-      })
-    }
 
-
-  }, [filterList, shouldFetchInvoices]);
 
 
   function getStatusClasses(status) {
@@ -53,7 +31,7 @@ export default function InvoiceTable() {
       <div className="hidden lg:inline">
         <table className="flex w-full text-center items-center justify-center">
           <tbody className="flex flex-col gap-4 text-center justify-center lg:basis-full flex-shrink">
-          {invoiceArray.map((invoice, key) => {
+          {invoiceList.map((invoice, key) => {
             return (
               <tr key={key} className={`row_contaienr flex flex-row  ${theme.table_row} h-[4.5rem] justify-start items-center basis-[730px]]
                 px-[2rem] hover:border-1-primary hover:border-[1px] hover:cursor-pointer hover:scale-110 rounded-[.5rem] gap-4`}
@@ -65,14 +43,17 @@ export default function InvoiceTable() {
                   className="text-7-info heading-s-v">#</span>
                   <div className={`heading-s-v ${theme.text}`}>{invoice.id}</div>
                 </td>
-                <td className="flex flex-row justify-start body-v text-7-info gap-2 basis[6.25rem] flex-grow  whitespace-nowrap">
-                  <p className={`${theme.table_due}`}>Due <span className={`${theme.table_date}`}>{invoice.due_date}</span></p>
+                <td
+                  className="flex flex-row justify-start body-v text-7-info gap-2 basis[6.25rem] flex-grow  whitespace-nowrap">
+                  <p className={`${theme.table_due}`}>Due <span
+                    className={`${theme.table_date}`}>{invoice.due_date}</span></p>
                 </td>
                 <td
                   className={`flex flex-row body-v ${theme.table_client_name} justify-left basis-[8rem] whitespace-nowrap`}>{invoice.clientName ? invoice.clientName : 'Not Available'}</td>
                 <td
                   className={`heading-s ${theme.text} flex flex-row justify-end   items-center basis-full] flex-grow whitespace-nowrap`}>$ {invoice.total}</td>
-                <td className={`w-fit h-fit p-4 flex items-center justify-end flex-grow flex-shrink-0  basis-[6.5rem] ${getStatusClasses(invoice.status)}`}>
+                <td
+                  className={`w-fit h-fit p-4 flex items-center justify-end flex-grow flex-shrink-0  basis-[6.5rem] ${getStatusClasses(invoice.status)}`}>
                   <li>{invoice.status}</li>
                 </td>
 
@@ -91,7 +72,7 @@ export default function InvoiceTable() {
       <div className="lg:hidden w-full">
         <table className="w-full text-center items-center justify-center">
           <tbody className="flex flex-col gap-4 w-full text-center lg:px-0">
-          {invoiceArray.map((invoice, key) => {
+          {invoiceList.map((invoice, key) => {
             return (
               <tr key={key}
                   className={`row_contaienr flex flex-row  ${theme.table_row} h-fit justify-between items-center w-full
@@ -108,7 +89,8 @@ export default function InvoiceTable() {
                     <div className={`heading-s-v ${theme.text}`}>{invoice.id}</div>
                   </div>
                   <div className="flex flex-row text-6-muted body-v mb-2">
-                    <p className={`${theme.table_date}`}><span className={`${theme.table_due}`}>Due </span> {invoice.due_date}</p>
+                    <p className={`${theme.table_date}`}><span
+                      className={`${theme.table_due}`}>Due </span> {invoice.due_date}</p>
 
                   </div>
                   <div className={`heading-s-v ${theme.text}`}>

@@ -3,10 +3,12 @@ import {Button} from "@/@/components/ui/button";
 import {useFormContext} from "react-hook-form";
 import {InvoiceContext} from "@/app/dashboard/context/InvoiceContext";
 import {useContext} from "react";
+import {AuthContext} from "@/app/dashboard/context/AuthContext";
 
 export default function EditButtons() {
   const {setValue, getValues} = useFormContext();
   const {theme} = useContext(InvoiceContext);
+  const {currentUser} = useContext(AuthContext);
 
 
   const setDueDate = () => {
@@ -48,6 +50,7 @@ export default function EditButtons() {
                     setTotal()
                     // generate and set custom_id: random 2 letters + 4 digits: XY1234
                     setValue('invoice_details.type', 'update')
+                    setValue('invoice_details.uid', currentUser.uid)
                   }}>
             Save Changes
           </Button>

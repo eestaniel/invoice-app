@@ -4,10 +4,14 @@ import React from "react";
 import {useFormContext} from "react-hook-form";
 import {InvoiceContext} from "@/app/dashboard/context/InvoiceContext";
 import {useContext} from "react";
+import {AuthContext} from "@/app/dashboard/context/AuthContext";
+
 
 export default function CreateButtons() {
   const {register, setValue, getValues} = useFormContext();
   const {theme} = useContext(InvoiceContext);
+
+  const {currentUser} = useContext(AuthContext);
 
   const setDueDate = () => {
     const paymentTerms = getValues().invoice_details.payment_terms;
@@ -79,6 +83,8 @@ export default function CreateButtons() {
             setCustomId()
             // set post request type to create
             setValue('invoice_details.type', 'create')
+            // set client uid
+            setValue('invoice_details.uid', currentUser.uid)
 
 
           }}

@@ -8,25 +8,13 @@ export async function GET(req) {
 
   // map nextUrl and create select: {item: true} object
   const type = req.nextUrl.searchParams.get('type')
+  const uid = req.nextUrl.searchParams.get('uid')
   let invoices
 
-  if (type === 'ids') {
-    // get invoices based
-    invoices = await prisma.invoices.findMany({
-      select: {
-        id: true
-      }
-    })
-    return Response.json({
-      status: '201',
-      body: {
-        invoices: invoices
-      }
-    })
-  } else if (type === 'invoice-table') {
+  if (type === 'invoice-table') {
     // Create an array to hold status filters
     const statusFilters = [];
-    for (let i = 1; i <= 3; i++) {
+    for (let i = 2; i <= 4; i++) {
       const status = req.nextUrl.searchParams.get(`status${i}`);
       if (status) {
         statusFilters.push(status);
@@ -35,10 +23,11 @@ export async function GET(req) {
 
     // Build the query conditionally based on status filters
     const whereCondition = statusFilters.length > 0 ? {
+      uid: uid,
       status: {
         in: statusFilters, // Filters the invoices by the specified statuses
       }
-    } : {};
+    } : {uid: uid};
 
     // from invoices get custom_id, invoice_date, total, status and billto.client_name
     invoices = await prisma.invoices.findMany({
@@ -105,6 +94,8 @@ export async function GET(req) {
   }
 }
 
+/* Post Requests */
+
 export async function POST(req) {
   // get body from request
   const body = await req.json()
@@ -118,6 +109,7 @@ export async function POST(req) {
     try {
       const invoice_id = await prisma.invoices.create({
         data: {
+          uid: body.invoice_details.uid,
           custom_id: body.invoice_details.custom_id,
           invoice_date: body.invoice_details.invoice_date,
           due_date: body.invoice_details.due_date,
@@ -250,10 +242,12 @@ export async function PUT(req) {
     });
 
     try {
+
       // update invoice
       await prisma.invoices.update({
         where: {
-          custom_id: body.invoice_details.custom_id
+          custom_id: body.invoice_details.custom_id,
+          uid: body.invoice_details.uid
         },
         data: {
           /* billfrom table */

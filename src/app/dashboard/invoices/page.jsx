@@ -1,26 +1,16 @@
 "use client"
 import HeaderGroup from "@/app/dashboard/invoices/components/HeaderGroup";
 import {InvoiceContext} from "@/app/dashboard/context/InvoiceContext";
-import {useContext, useEffect} from "react";
+import {useContext} from "react";
 import EmptyInvoice from "@/app/dashboard/invoices/components/EmptyInvoice";
 import InvoiceTable from "@/app/dashboard/invoices/components/InvoiceTable";
 
-
 export default function Page() {
-  const {invoiceList, setInvoices, shouldFetchInvoices} = useContext(InvoiceContext);
+  const {invoiceList} = useContext(InvoiceContext);
   const {theme} = useContext(InvoiceContext);
 
-  const fetchInvoices = () => {
-    const type = ['ids'];
-    fetch(`/api/invoices?type=${type}`).then(res => res.json()).then(data => {
-      setInvoices(data.body.invoices);
-    });
-  };
 
-  // useEffect that depends on the state updated by useCallback
-  useEffect(() => {
-    fetchInvoices();
-  }, [shouldFetchInvoices]);
+
 
 
   return (

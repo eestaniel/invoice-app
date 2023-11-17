@@ -24,6 +24,7 @@ export const invoiceFormSchema = z.object({
   invoice_details: z.object({
     id: z.string().optional(),
     custom_id: z.string().optional(),
+    uid: z.string().optional(),
     invoice_date: z.date(),
     due_date: z.date().optional(),
     payment_terms: z.string(),

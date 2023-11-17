@@ -1,5 +1,6 @@
 "use client"
-import {createContext, useState} from 'react';
+import {createContext, useEffect, useState, useContext} from 'react';
+import {AuthContext} from "@/app/dashboard/context/AuthContext";
 
 // Create a context
 export const InvoiceContext = createContext();
@@ -9,6 +10,38 @@ export const InvoiceProvider = ({children}) => {
   const [shouldFetchInvoices, setShouldFetchInvoices] = useState(false);
   const [filterList, setFilterList] = useState([]);
   const [isNightMode, setIsNightMode] = useState(false);
+  const {currentUser} = useContext(AuthContext)
+
+
+  useEffect(() => {
+    const type = 'invoice-table'
+
+    if (filterList.length === 0) {
+      fetch(`/api/invoices?type=${type}&uid=${currentUser?.uid}`).then(res => res.json()).then(data => {
+        // get invoice data by data ascending order
+        setInvoiceList(data.body.invoices)
+      })
+
+
+    } else  {
+      // send fetch get to /api/invoices to get object of invoices
+      let query = ''
+      // if filterList is not empty, create a query string, up to 3 max, dynamic naming, status1, status2, status3
+
+      filterList.forEach((status, index) => {
+        query += `status${index + 1}=${status}&`
+      })
+      query = query.slice(0, -1)
+      fetch(`/api/invoices?type=${type}&uid=${currentUser?.uid}&${query}`).then(res => res.json()).then(data => {
+        // get invoice data by data asscending order
+        setInvoiceList(data.body.invoices)
+      })
+    }
+
+
+
+  }, [filterList, shouldFetchInvoices]);
+
 
   /*#################### Invoice functions ####################*/
   // Function to update invoices
@@ -91,7 +124,7 @@ export const InvoiceProvider = ({children}) => {
       invoiceList, addInvoice, setInvoices, getInvoices, removeInvoice,
       shouldFetchInvoices, setShouldFetchInvoices, toggleFetchInvoices,
       filterList, setFilterList,
-      toggleNightMode, isNightMode,setIsNightMode, theme
+      toggleNightMode, isNightMode, setIsNightMode, theme
     }}>
       {children}
     </InvoiceContext.Provider>

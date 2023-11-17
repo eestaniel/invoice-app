@@ -21,7 +21,6 @@ export const AuthProvider = ({children}) => {
 
   useEffect(() => {
     if (currentUser) {
-      console.log('currentUser', currentUser)
     }
   }, [currentUser])
 
