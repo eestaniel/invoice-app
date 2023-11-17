@@ -105,6 +105,7 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
           'Content-Type': 'application/json'
         },
       }).then(res => res.json())
+
         .then(() => {
           setUpdateSummary(!updateSummary);
         })
