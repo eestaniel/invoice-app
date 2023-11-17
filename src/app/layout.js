@@ -1,5 +1,5 @@
 import './globals.css'
-
+import {AuthProvider} from "@/app/dashboard/context/AuthContext";
 
 export const metadata = {
   title: 'Create Next App',
@@ -11,7 +11,7 @@ export default function RootLayout({children}) {
     <html lang="en">
     <head>
 
-      <title>Title</title>
+      <title>Invoice App</title>
       <link rel="icon" href="favicon.ico"/>
       <link rel="shortcut icon" href="favicon.ico"/>
       <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -20,8 +20,10 @@ export default function RootLayout({children}) {
       <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500;700&display=swap" rel="stylesheet"/>
     </head>
 
+    <AuthProvider>
+      <body className={"w-full h-fit"}>{children}</body>
+    </AuthProvider>
 
-    <body className={"w-full h-fit"}>{children}</body>
 
     </html>
   )
