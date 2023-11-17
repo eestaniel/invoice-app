@@ -26,7 +26,6 @@ export const InvoiceProvider = ({children}) => {
         }
       })
     } else  {
-      console.log('fetching invoices')
       // send fetch get to /api/invoices to get object of invoices
       let query = ''
       // if filterList is not empty, create a query string, up to 3 max, dynamic naming, status1, status2, status3
