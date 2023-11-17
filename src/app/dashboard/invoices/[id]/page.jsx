@@ -17,7 +17,7 @@ import {
 } from "@/@/components/ui/alert-dialog"
 import {useContext} from "react";
 import {InvoiceContext} from "@/app/dashboard/context/InvoiceContext";
-
+import {AuthContext} from "@/app/dashboard/context/AuthContext";
 
 
 export default function Page({params}) {
@@ -26,7 +26,9 @@ export default function Page({params}) {
   const [invoiceData, setInvoiceData] = useState({})
   const [status, setStatus] = useState('')
   const [sheetOpen, setSheetOpen] = useState(false);
-  const {theme, shouldFetchInvoices} = useContext(InvoiceContext);
+  const {theme, updateSummary, toggleFetchInvoices} = useContext(InvoiceContext);
+  const {currentUser} = useContext(AuthContext);
+
 
   const router = useRouter()
 
@@ -86,12 +88,17 @@ export default function Page({params}) {
 
   const handleDelete = (id) => {
     // try if status not 201
-    fetch(`/api/invoices?id=${id}`, {
+    fetch(`/api/invoices?id=${id}&uid=${currentUser?.uid}`, {
       method: 'DELETE',
     })
       .then(res => res.json())
+      .then((delResp) => {
+        if (delResp.status === 201) {
+          toggleFetchInvoices();
+        }
+      })
       .then(() => {
-        router.back()
+        router.push('/dashboard/')
       })
   }
 
@@ -103,6 +110,7 @@ export default function Page({params}) {
     })
       .then(res => res.json())
       .then(() => {
+        toggleFetchInvoices();
         setStatus('paid')
       })
   }
@@ -115,13 +123,12 @@ export default function Page({params}) {
         setStatus(data.body.invoice.status)
       })
 
-  }, [shouldFetchInvoices]);
-
+  }, [updateSummary]);
 
 
   return (
     <div className={`${theme.background} min-h-screen`}>
-      {invoiceData.id ?
+      {invoiceData?.id ?
         (
           <>
             <div
@@ -223,8 +230,10 @@ export default function Page({params}) {
 
               <div
                 className="invoice_summary-container flex h-fit gap-4 w-full justify-center">
-                <div className={`w-full lg:max-w-[730px] grow justify-center flex flex-col ${theme.table_row} p-6 lg:p-12 rounded-[0.5rem]`}>
-                  <div className="invoice_summary-header-group flex flex-row md:flex-row justify-between gap-8 lg:gap-0">
+                <div
+                  className={`w-full lg:max-w-[730px] grow justify-center flex flex-col ${theme.table_row} p-6 lg:p-12 rounded-[0.5rem]`}>
+                  <div
+                    className="invoice_summary-header-group flex flex-row md:flex-row justify-between gap-8 lg:gap-0">
                     <div className="summary_header gap-1 lg:gap-2 flex flex-col">
                       <h1 className="heading-s text-6-muted">#<span
                         className={`${theme.text}`}>{invoiceData.custom_id}</span>
@@ -239,7 +248,8 @@ export default function Page({params}) {
                     </div>
                   </div>
 
-                  <div className="invoice_summary-billto-group flex flex-row mb-12 mt-8 lg:mt-0 flex-wrap md:flex-nowrap justify-between">
+                  <div
+                    className="invoice_summary-billto-group flex flex-row mb-12 mt-8 lg:mt-0 flex-wrap md:flex-nowrap justify-between">
                     <div className="invoice_payment-group flex flex-col gap-8 mr-[3.75rem] md:mr-0
                     md:justify-between">
                       <div className="invoice_date-group">
@@ -256,7 +266,8 @@ export default function Page({params}) {
 
                     <div className={`invoice_billto-group flex flex-col ${theme.table_date}`}>
                       <h2 className={`body-v ${theme.table_date} mb-3`}>Bill To</h2>
-                      <p className={`heading-s capitalize mb-2 whitespace-nowrap ${theme.text}`}>{invoiceData.billto[0].client_name}</p>
+                      <p
+                        className={`heading-s capitalize mb-2 whitespace-nowrap ${theme.text}`}>{invoiceData.billto[0].client_name}</p>
                       <p
                         className="body  capitalize whitespace-nowrap">{invoiceData.billto[0].street_address}</p>
                       <p className="body  capitalize">{invoiceData.billto[0].city}</p>
@@ -285,9 +296,12 @@ export default function Page({params}) {
                       <div className="item_table-body-group flex flex-col gap-4">
                         {invoiceData.itemlist.map((item, index) => (
                           <div key={index} className="item_table-body flex flex-row text-left flex-wrap h-full">
-                            <p className={`heading-s ${theme.text} w-full lg:max-w-[16rem] lg:w-full `}>{item.item_name}</p>
-                            <p className={`heading-s ${theme.summary_price_info} lg:${theme.table_date} lg:w-full lg:max-w-[2rem] text-left lg:text-center`}>{item.quantity} <span
-                              className="lg:hidden mr-1">x</span></p>
+                            <p
+                              className={`heading-s ${theme.text} w-full lg:max-w-[16rem] lg:w-full `}>{item.item_name}</p>
+                            <p
+                              className={`heading-s ${theme.summary_price_info} lg:${theme.table_date} lg:w-full lg:max-w-[2rem] text-left lg:text-center`}>{item.quantity}
+                              <span
+                                className="lg:hidden mr-1">x</span></p>
                             <p
                               className={`heading-s ${theme.summary_price_info}  lg:${theme.table_date} text-left lg:text-right lg:max-w-[8rem] lg:w-full`}>$ {convertToCurrency(item.price)}</p>
                             <p

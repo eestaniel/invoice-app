@@ -5,6 +5,9 @@ export function middleware(request) {
   if (request.nextUrl.pathname.startsWith('/dashboard')) {
     return NextResponse.redirect(new URL('/dashboard/invoices', request.url));
   }
+  else if (request.nextUrl.pathname.startsWith('/')) {
+    console.log('redirect to home')
+  }
 }
 
 

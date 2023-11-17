@@ -1,16 +1,19 @@
 "use client"
 import HeaderGroup from "@/app/dashboard/invoices/components/HeaderGroup";
 import {InvoiceContext} from "@/app/dashboard/context/InvoiceContext";
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 import EmptyInvoice from "@/app/dashboard/invoices/components/EmptyInvoice";
 import InvoiceTable from "@/app/dashboard/invoices/components/InvoiceTable";
 
 export default function Page() {
   const {invoiceList} = useContext(InvoiceContext);
-  const {theme} = useContext(InvoiceContext);
+  const {theme,fetchInvoices} = useContext(InvoiceContext);
 
 
+  useEffect(() => {
+    fetchInvoices();
 
+  }, []);
 
 
   return (

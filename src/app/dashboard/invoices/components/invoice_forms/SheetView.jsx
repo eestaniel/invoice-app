@@ -12,7 +12,7 @@ import {useContext, useEffect, useState} from "react";
 
 
 export default function SheetView({setSheetOpen, sheetType, data}) {
-  const {toggleFetchInvoices, theme} = useContext(InvoiceContext);
+  const {toggleFetchInvoices, theme, setUpdateSummary, updateSummary} = useContext(InvoiceContext);
   const [customId, setCustomId] = useState('');
 
   const methods = useForm({
@@ -106,7 +106,7 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
         },
       }).then(res => res.json())
         .then(() => {
-          toggleFetchInvoices();
+          setUpdateSummary(!updateSummary);
         })
         .catch(err => console.error(err))
         .finally(() => {
