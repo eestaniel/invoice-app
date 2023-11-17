@@ -4,14 +4,25 @@ import {loginWithGoogle} from "@/app/components/googleAuthService";
 import {useAuth} from "@/app/dashboard/context/AuthContext";
 import {useEffect} from "react";
 
+
 export default function Home() {
   const router = useRouter()
-  const {auth, currentUser} = useAuth();
+  const {auth, currentUser, handleSignInAnonymously} = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault()
     try {
       await loginWithGoogle(auth)
+      router.push('/dashboard')
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleGuestLogin = async (e) => {
+    e.preventDefault()
+    try {
+      await handleSignInAnonymously()
       router.push('/dashboard')
     } catch (error) {
       console.error(error)
@@ -32,13 +43,20 @@ export default function Home() {
           <h1 className="signin__title text-2xl font-bold mb-4 text-center">Welcome to the InvoiceApp</h1>
           <p className="signin__description text-sm text-gray-600 text-center mb-6">Sign in to manage your invoices
             efficiently</p>
-          <div className="signin__button-container">
+          <div className="signin__button-container flex flex-col gap-4">
             <button
               className="signin__google-button bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded w-full"
               onClick={(e) => handleLogin(e)}
             >
               Sign in with Google
             </button>
+            <button
+              className="signin__google-button bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded w-full"
+              onClick={(e) => handleGuestLogin(e)}
+            >
+              Guest Login
+            </button>
+
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 "use client"
 import {createContext, useContext, useEffect, useState} from 'react';
-import {getAuth, signOut} from 'firebase/auth';
+import {getAuth, signOut, signInAnonymously } from 'firebase/auth';
 import {app} from '@/app/firebase'; // adjust the import based on your file structure
 
 export const AuthContext = createContext();
@@ -12,6 +12,14 @@ export const useAuth = () => {
 export const AuthProvider = ({children}) => {
   const [currentUser, setCurrentUser] = useState(null);
   const auth = getAuth(app);
+
+  const handleSignInAnonymously = async () => {
+    try {
+      await signInAnonymously(auth)
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   useEffect(() => {
     return auth.onAuthStateChanged((user) => {
@@ -38,7 +46,8 @@ export const AuthProvider = ({children}) => {
   const value = {
     currentUser,
     auth,
-    logout
+    logout,
+    handleSignInAnonymously
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
