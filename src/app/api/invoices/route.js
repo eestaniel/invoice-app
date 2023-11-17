@@ -303,6 +303,7 @@ export async function PUT(req) {
           payment_terms: body.invoice_details.payment_terms,
           project_description: body.invoice_details.project_description,
           total: body.invoice_details.total,
+          status: body.invoice_details.status,
         },
       })
 

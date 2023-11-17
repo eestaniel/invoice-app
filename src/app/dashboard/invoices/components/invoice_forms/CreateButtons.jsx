@@ -65,6 +65,8 @@ export default function CreateButtons() {
             setCustomId()
             // set post request type to create
             setValue('invoice_details.type', 'create')
+            // set client uid
+            setValue('invoice_details.uid', currentUser.uid)
 
           }}>
           Save as Draft

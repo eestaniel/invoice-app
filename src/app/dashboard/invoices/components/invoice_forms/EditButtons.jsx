@@ -9,7 +9,7 @@ export default function EditButtons() {
   const {setValue, getValues} = useFormContext();
   const {theme} = useContext(InvoiceContext);
   const {currentUser} = useContext(AuthContext);
-
+  const status = getValues().invoice_details.status;
 
   const setDueDate = () => {
     const paymentTerms = getValues().invoice_details.payment_terms;
@@ -51,6 +51,12 @@ export default function EditButtons() {
                     // generate and set custom_id: random 2 letters + 4 digits: XY1234
                     setValue('invoice_details.type', 'update')
                     setValue('invoice_details.uid', currentUser.uid)
+
+                    // if status is draft, set to pending
+                    if (status === 'draft') {
+                      setValue('invoice_details.status', 'pending')
+                    }
+
                   }}>
             Save Changes
           </Button>
