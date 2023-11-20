@@ -234,10 +234,10 @@ export default function Page({params}) {
                       <p className={`body ${theme.table_date} uppercase `}>{selectedInvoice.invoice_details.project_description}</p>
                     </div>
                     <div className={`text-right summary_billfrom-group body ${theme.table_date}`}>
-                      <p className="capitalize">{selectedInvoice.billfrom.street_address}</p>
-                      <p className="capitalize">{selectedInvoice.billfrom.city}</p>
-                      <p>{selectedInvoice.billfrom.post_code}</p>
-                      <p className="capitalize">{selectedInvoice.billfrom.country}</p>
+                      <p className="capitalize">{selectedInvoice.bill_from.street_address}</p>
+                      <p className="capitalize">{selectedInvoice.bill_from.city}</p>
+                      <p>{selectedInvoice.bill_from.post_code}</p>
+                      <p className="capitalize">{selectedInvoice.bill_from.country}</p>
                     </div>
                   </div>
 
@@ -260,17 +260,17 @@ export default function Page({params}) {
                     <div className={`invoice_billto-group flex flex-col ${theme.table_date}`}>
                       <h2 className={`body-v ${theme.table_date} mb-3`}>Bill To</h2>
                       <p
-                        className={`heading-s capitalize mb-2 whitespace-nowrap ${theme.text}`}>{selectedInvoice.billto.client_name}</p>
+                        className={`heading-s capitalize mb-2 whitespace-nowrap ${theme.text}`}>{selectedInvoice.bill_to.client_name}</p>
                       <p
-                        className="body  capitalize whitespace-nowrap">{selectedInvoice.billto.street_address}</p>
-                      <p className="body  capitalize">{selectedInvoice.billto.city}</p>
-                      <p className="body  capitalize">{selectedInvoice.billto.post_code}</p>
-                      <p className="body  capitalize">{selectedInvoice.billto.country}</p>
+                        className="body  capitalize whitespace-nowrap">{selectedInvoice.bill_to.street_address}</p>
+                      <p className="body  capitalize">{selectedInvoice.bill_to.city}</p>
+                      <p className="body  capitalize">{selectedInvoice.bill_to.post_code}</p>
+                      <p className="body  capitalize">{selectedInvoice.bill_to.country}</p>
                     </div>
 
                     <div className="client_email-group flex flex-col w-full md:w-fit mt-8 md:mt-0 lg:mr-[8rem]">
                       <p className={`body-v ${theme.table_date} mb-3`}>Sent to</p>
-                      <p className={`heading-s capitalize ${theme.text}`}>{selectedInvoice.billto.client_email}</p>
+                      <p className={`heading-s capitalize ${theme.text}`}>{selectedInvoice.bill_to.client_email}</p>
                     </div>
                   </div>
 

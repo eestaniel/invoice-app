@@ -54,13 +54,8 @@ export async function GET(req) {
       const formattedDueDate = due_date.toLocaleDateString('en-US', options)
 
       newInvoices.push({
-        /*id: invoice.custom_id,
-        due_date: formattedDate,
-        clientName: invoice.billto[0].client_name,
-        total: invoice.total,
-        status: invoice.status*/
-        billfrom: invoice.billfrom[0],
-        billto: invoice.billto[0],
+        bill_from: invoice.billfrom[0],
+        bill_to: invoice.billto[0],
         invoice_details: {
           id: invoice.id,
           uid: invoice.uid,

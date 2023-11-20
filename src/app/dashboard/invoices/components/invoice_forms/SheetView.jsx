@@ -49,33 +49,9 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
   useEffect(() => {
     if (data) {
 
-      const newData = {
-        bill_from: data.billfrom[0],
-        bill_to: data.billto[0],
-        invoice_details: {
-          id: data.id,
-          custom_id: data.custom_id,
-          //
-          invoice_date: parseDateAsUTC(data.invoice_date),
-          due_date: parseDateAsUTC(data.due_date),
-          payment_terms: data.payment_terms,
-          status: data.status,
-          project_description: data.project_description,
-          total: data.total,
-        },
-        //convert itemlist to object instead ...
-        item_list: data.itemlist.map((item) => {
-          return {
-            id: item.id,
-            name: item.item_name,
-            quantity: item.quantity,
-            price: item.price,
-            total: item.total,
-          }
-        })
-      }
+      console.log('newData', data.invoice_details.invoice_date);
       setCustomId(data.custom_id);
-      reset(newData);
+      reset(data);
 
     }
   }, []);
