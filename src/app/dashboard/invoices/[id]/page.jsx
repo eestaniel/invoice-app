@@ -260,7 +260,7 @@ export default function Page({params}) {
                           </AlertDialog>
                           <Button
                             className="px-6 py-[1.125rem] rounded-[1.5rem] bg-1-primary text-white heading-s-v hover:bg-2-highlight"
-                            disabled={status === 'paid'}
+                            disabled={selectedInvoice.invoice_details.status === 'paid'}
                             onClick={() => handleMarkAsPaid(selectedInvoice.invoice_details.custom_id)}
                           >Mark as
                             Paid</Button>
