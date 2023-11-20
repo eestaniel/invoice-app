@@ -1,5 +1,5 @@
 "use client"
-import {createContext, useEffect, useState, useContext} from 'react';
+import {createContext, useEffect, useState, useContext, useRef} from 'react';
 import {AuthContext} from "@/app/dashboard/context/AuthContext";
 
 // Create a context
@@ -14,67 +14,44 @@ export const InvoiceProvider = ({children}) => {
   const [updateSummary, setUpdateSummary] = useState(false)
   const {currentUser} = useContext(AuthContext)
   const [loading, setLoading] = useState(false)
-  const [tempInvoiceList, setTempInvoiceList] = useState(null)
+  const originalInvoiceList = useRef(invoiceList);
 
   const fetchInvoices = () => {
     const type = 'invoice-table'
     setLoading(true)
-    if (filterList.length === 0) {
-      fetch(`/api/invoices?type=${type}&uid=${currentUser?.uid}`).then(res => res.json()).then(data => {
-        // get invoice data by data ascending order
-        if (data.body.invoices.length > 0) {
-          setInvoiceList(data.body.invoices)
-        } else {
-          setInvoiceList([])
-        }
-        setLoading(false)
-      })
-    } else {
-      // send fetch get to /api/invoices to get object of invoices
-      let query = ''
-      // if filterList is not empty, create a query string, up to 3 max, dynamic naming, status1, status2, status3
-
-      filterList.forEach((status, index) => {
-        query += `status${index + 1}=${status}&`
-      })
-      query = query.slice(0, -1)
-      fetch(`/api/invoices?type=${type}&uid=${currentUser?.uid}&${query}`).then(res => res.json()).then(data => {
-        // get invoice data by data asscending order
+    fetch(`/api/invoices?type=${type}&uid=${currentUser?.uid}`).then(res => res.json()).then(data => {
+      // get invoice data by data ascending order
+      if (data.body.invoices.length > 0) {
         setInvoiceList(data.body.invoices)
-      })
+      } else {
+        setInvoiceList([])
+      }
       setLoading(false)
-    }
+    })
   }
 
   useEffect(() => {
-    // create temp invoice list and append by filterList
-    // if filterList empty return original invoiceList
-    if (invoiceList && tempInvoiceList === null) {
-      setTempInvoiceList(invoiceList)
+    if(originalInvoiceList.current === null)
+    originalInvoiceList.current = invoiceList;
+  }, [invoiceList]);
+
+  useEffect(() => {
+    if (filterList.length > 0) {
+      // Filter the invoice list based on the filterList
+      const filteredInvoices = originalInvoiceList.current.filter(invoice =>
+        filterList.includes(invoice.invoice_details.status)
+      );
+      setInvoiceList(filteredInvoices);
+    } else {
+      // Restore the original invoice list when there are no filters
+      setInvoiceList(originalInvoiceList.current);
     }
-
-    if (filterList.length > 0 && tempInvoiceList) {
-      let temp = []
-      tempInvoiceList.forEach((invoice) => {
-        if (filterList.includes(invoice.invoice_details.status)) {
-          temp.push(invoice)
-        }
-      })
-      setInvoiceList(temp)
-    } else if (filterList.length === 0 && tempInvoiceList) {
-      setInvoiceList(tempInvoiceList)
-      setTempInvoiceList(null)
-    }
-
-
   }, [filterList]);
 
   useEffect(() => {
     // initial fetch invoices
     if (invoiceList === null) {
       fetchInvoices()
-    } else {
-
     }
 
   }, []);
