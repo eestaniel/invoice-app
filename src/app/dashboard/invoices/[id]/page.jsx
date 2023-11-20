@@ -277,8 +277,8 @@ export default function Page({params}) {
                           className="status-group flex flex-row items-center h-full w-full justify-between gap-5 body-v text-[#858BB2]">
                           <p>Status</p>
                           <div
-                            className={`status-button flex flex-row justify-center items-center w-[6.5rem] h-[2.75rem] rounded-[0.375rem] mr-[1.25rem] heading-s-v capitalize bg-opacity-[6%] ${getStatusClasses(status)}`}>
-                            <li>{status}</li>
+                            className={`status-button flex flex-row justify-center items-center w-[6.5rem] h-[2.75rem] rounded-[0.375rem] mr-[1.25rem] heading-s-v capitalize bg-opacity-[6%] ${getStatusClasses(selectedInvoice.invoice_details.status)}`}>
+                            <li>{selectedInvoice.invoice_details.status}</li>
                           </div>
                         </div>
                       </div>

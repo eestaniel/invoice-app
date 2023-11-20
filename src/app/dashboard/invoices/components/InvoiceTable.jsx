@@ -85,29 +85,29 @@ export default function InvoiceTable() {
                     hover:border-[1px] hover:cursor-pointer hover:scale-110 rounded-[.5rem]`}
 
                   onClick={() => {
-                    router.push(`/dashboard/invoices/${invoice.id}`)
+                    handleViewInvoice(invoice.invoice_details.custom_id)
                   }}
               >
                 <td className="flex flex-col justify-start text-left w-full lg:w-[6rem] group ">
                   <div className="flex flex-row mb-6">
                     <span className="text-7-info heading-s-v">#</span>
-                    <div className={`heading-s-v ${theme.text}`}>{invoice.id}</div>
+                    <div className={`heading-s-v ${theme.text}`}>{invoice.invoice_details.custom_id}</div>
                   </div>
                   <div className="flex flex-row text-6-muted body-v mb-2">
                     <p className={`${theme.table_date}`}><span
-                      className={`${theme.table_due}`}>Due </span> {invoice.due_date}</p>
+                      className={`${theme.table_due}`}>Due </span> {invoice.invoice_details.due_date}</p>
 
                   </div>
                   <div className={`heading-s-v ${theme.text}`}>
-                    $ {invoice.total}
+                    $ {invoice.invoice_details.total}
                   </div>
                 </td>
                 <td className="flex flex-col body-v text-7-info w-fit gap-6">
                   <div className={`flex flex-row whitespace-nowrap justify-end ${theme.table_client_name}`}>
-                    {invoice.clientName ? invoice.clientName : 'Not Available'}
+                    {invoice.bill_to.client_name ? invoice.bill_to.client_name : 'Not Available'}
                   </div>
-                  <div className={`${getStatusClasses(invoice.status)} h-9 w-[6rem]`}>
-                    <li>{invoice.status}</li>
+                  <div className={`${getStatusClasses(invoice.invoice_details.status)} h-9 w-[6rem]`}>
+                    <li>{invoice.invoice_details.status}</li>
                   </div>
                 </td>
               </tr>

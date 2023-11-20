@@ -14,6 +14,7 @@ export const InvoiceProvider = ({children}) => {
   const [updateSummary, setUpdateSummary] = useState(false)
   const {currentUser} = useContext(AuthContext)
   const [loading, setLoading] = useState(false)
+  const [tempInvoiceList, setTempInvoiceList] = useState(null)
 
   const fetchInvoices = () => {
     const type = 'invoice-table'
@@ -45,6 +46,28 @@ export const InvoiceProvider = ({children}) => {
     }
   }
 
+  useEffect(() => {
+    // create temp invoice list and append by filterList
+    // if filterList empty return original invoiceList
+    if (invoiceList && tempInvoiceList === null) {
+      setTempInvoiceList(invoiceList)
+    }
+
+    if (filterList.length > 0 && tempInvoiceList) {
+      let temp = []
+      tempInvoiceList.forEach((invoice) => {
+        if (filterList.includes(invoice.invoice_details.status)) {
+          temp.push(invoice)
+        }
+      })
+      setInvoiceList(temp)
+    } else if (filterList.length === 0 && tempInvoiceList) {
+      setInvoiceList(tempInvoiceList)
+      setTempInvoiceList(null)
+    }
+
+
+  }, [filterList]);
 
   useEffect(() => {
     // initial fetch invoices
@@ -54,7 +77,7 @@ export const InvoiceProvider = ({children}) => {
 
     }
 
-  }, [filterList, shouldFetchInvoices]);
+  }, []);
 
   useEffect(() => {
     console.log('invoiceList', invoiceList)
