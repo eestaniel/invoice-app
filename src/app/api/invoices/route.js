@@ -42,7 +42,6 @@ export async function GET(req) {
         due_date: 'asc'
       }
     });
-    console.log(invoices)
     let newInvoices = []
 
     invoices.forEach((invoice) => {

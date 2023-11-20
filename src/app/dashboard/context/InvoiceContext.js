@@ -56,9 +56,6 @@ export const InvoiceProvider = ({children}) => {
 
   }, []);
 
-  useEffect(() => {
-    console.log('invoiceList', invoiceList)
-  }, [invoiceList]);
 
   /*#################### Invoice functions ####################*/
   // Function to update invoices

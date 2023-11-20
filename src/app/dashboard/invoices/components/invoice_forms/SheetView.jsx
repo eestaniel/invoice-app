@@ -55,8 +55,6 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
     if (data) {
       setCustomId(data.custom_id);
       reset(data);
-      console.log('data', data)
-
     }
   }, []);
 
@@ -150,8 +148,6 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
       ...invoiceList.slice(index + 1)
     ])
 
-    console.log('invoiceList updated', invoiceList)
-
     return {updatedInvoiceList: 'Success'}
   }
 
@@ -163,8 +159,7 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
       Promise.all([
         sendPostRequest(data),
         appendToInvoiceList(data)
-      ]).then((res) => {
-        console.log('res', res)
+      ]).then(() => {
       })
     } else if (data.invoice_details.type === 'update') {
       // concurrency/ promiseAll:
@@ -177,8 +172,7 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
         updateSelectedInvoice(data),
         updateInvoiceList(data)
 
-      ]).then((res) => {
-        console.log('res', res)
+      ]).then(() => {
       })
     }
   };

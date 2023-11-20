@@ -135,7 +135,6 @@ export default function Page({params}) {
   }
 
   const updateInvoiceList = async (id) => {
-    console.log(id)
     // find index of selectedInvoice in invoiceList and update status
     const index = invoiceList.findIndex((invoice) => invoice.invoice_details.custom_id === id);
     const updatedInvoiceList = [...invoiceList.slice(0, index),
@@ -155,8 +154,8 @@ export default function Page({params}) {
       updateSelectedInvoice(),
       updateInvoiceList(id)
 
-    ]).then((res) => {
-      console.log(res)
+    ]).then(() => {
+
     })
   }
 
