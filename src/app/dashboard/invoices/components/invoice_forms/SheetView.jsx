@@ -53,7 +53,7 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
 
   useEffect(() => {
     if (data) {
-      setCustomId(data.custom_id);
+      setCustomId(data.invoice_details.custom_id);
       reset(data);
     }
   }, []);

@@ -31,8 +31,12 @@ export const InvoiceProvider = ({children}) => {
   }
 
   useEffect(() => {
-    if(originalInvoiceList.current === null)
-    originalInvoiceList.current = invoiceList;
+    if(originalInvoiceList.current === null) {
+      originalInvoiceList.current = invoiceList;
+    } else if(filterList.length === 0) {
+      originalInvoiceList.current = invoiceList;
+    }
+
   }, [invoiceList]);
 
   useEffect(() => {

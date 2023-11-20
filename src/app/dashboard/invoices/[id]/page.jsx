@@ -29,7 +29,8 @@ export default function Page({params}) {
     selectedInvoice,
     setSelectedInvoice,
     invoiceList,
-    setInvoiceList
+    setInvoiceList,
+    setFilterList,
   } = useContext(InvoiceContext);
   const {currentUser} = useContext(AuthContext);
   const [deleting, setDeleting] = useState(false);
@@ -160,7 +161,7 @@ export default function Page({params}) {
   }
 
   useEffect(() => {
-
+    setFilterList([])
   }, []);
 
 
