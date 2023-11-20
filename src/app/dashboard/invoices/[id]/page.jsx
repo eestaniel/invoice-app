@@ -23,10 +23,9 @@ import {AuthContext} from "@/app/dashboard/context/AuthContext";
 export default function Page({params}) {
   const {id} = params
   const type = 'summary'
-  const [invoiceData, setInvoiceData] = useState({})
   const [status, setStatus] = useState('')
   const [sheetOpen, setSheetOpen] = useState(false);
-  const {theme, updateSummary, toggleFetchInvoices} = useContext(InvoiceContext);
+  const {theme, updateSummary, toggleFetchInvoices, selectedInvoice, setSelectedInvoice} = useContext(InvoiceContext);
   const {currentUser} = useContext(AuthContext);
 
 
@@ -55,11 +54,11 @@ export default function Page({params}) {
   }
 
   const getPaymentDueDate = () => {
-    // get invoiceData.payment_terms, split "Net 30 days" and grab 30, convert to integer, add to invoiceData.invoice_date
+    // get selectedInvoice.invoice_details.payment_terms, split "Net 30 days" and grab 30, convert to integer, add to selectedInvoice.invoice_details.invoice_date
     // convert to data using convertDate()
-    const paymentTerms = invoiceData.payment_terms
+    const paymentTerms = selectedInvoice.invoice_details.payment_terms
     const paymentTermsNum = parseInt(paymentTerms.split(' ')[1])
-    const invoiceDate = new Date(invoiceData.invoice_date)
+    const invoiceDate = new Date(selectedInvoice.invoice_details.invoice_date)
     const paymentDueDate = invoiceDate.setDate(invoiceDate.getDate() + paymentTermsNum)
     return convertDate(paymentDueDate)
   }
@@ -116,19 +115,13 @@ export default function Page({params}) {
   }
 
   useEffect(() => {
-    fetch(`/api/invoices?type=${type}&id=${id}`)
-      .then(res => res.json())
-      .then(data => {
-        setInvoiceData(data.body.invoice)
-        setStatus(data.body.invoice.status)
-      })
 
-  }, [updateSummary]);
+  }, []);
 
 
   return (
     <div className={`${theme.background} min-h-screen`}>
-      {invoiceData?.id ?
+      {selectedInvoice ?
         (
           <>
             <div
@@ -157,8 +150,8 @@ export default function Page({params}) {
                     <div className="status-group flex flex-row items-center h-full gap-5 body-v text-[#858BB2]">
                       <p>Status</p>
                       <div
-                        className={`status-button flex flex-row justify-center items-center w-[6.5rem] h-[2.75rem] rounded-[0.375rem] mr-[1.25rem] heading-s-v capitalize bg-opacity-[6%] ${getStatusClasses(status)}`}>
-                        <li>{status}</li>
+                        className={`status-button flex flex-row justify-center items-center w-[6.5rem] h-[2.75rem] rounded-[0.375rem] mr-[1.25rem] heading-s-v capitalize bg-opacity-[6%] ${getStatusClasses(selectedInvoice.invoice_details.status)}`}>
+                        <li>{selectedInvoice.invoice_details.status}</li>
                       </div>
                     </div>
                     <div className="button-group flex flex-row gap-2">
@@ -173,7 +166,7 @@ export default function Page({params}) {
                         </SheetTrigger>
                         <SheetContent className={"w-[100%] overflow-y-scroll max-h-screen web hide-scrollbar"}>
                           <SheetView setSheetOpen={setSheetOpen} sheetType={'edit'}
-                                     data={invoiceData}/>
+                                     data={selectedInvoice}/>
                         </SheetContent>
                       </Sheet>
 
@@ -190,21 +183,21 @@ export default function Page({params}) {
                           <AlertDialogHeader>
                             <AlertDialogTitle className={`heading-m ${theme.text}`}>Confirm Deletion</AlertDialogTitle>
                             <AlertDialogDescription className={"body text-6-muted"}>
-                              Are you sure you want to delete invoice #{invoiceData.custom_id}? This action cannot be.
+                              Are you sure you want to delete invoice #{selectedInvoice.invoice_details.custom_id}? This action cannot be.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter className={"mt-4"}>
                             <AlertDialogCancel
                               className={`rounded-[1.5rem] ${theme.cancel_button}`}>Cancel</AlertDialogCancel>
                             <AlertDialogAction className={"rounded-[1.5rem] bg-9-accent text-white hover:brightness-75"}
-                                               onClick={() => handleDelete(invoiceData.custom_id)}>Delete</AlertDialogAction>
+                                               onClick={() => handleDelete(selectedInvoice.invoice_details.custom_id)}>Delete</AlertDialogAction>
                           </AlertDialogFooter>
                         </AlertDialogContent>
                       </AlertDialog>
                       <Button
                         className="px-6 py-[1.125rem] rounded-[1.5rem] bg-1-primary text-white heading-s-v hover:bg-2-highlight"
                         disabled={status === 'paid'}
-                        onClick={() => handleMarkAsPaid(invoiceData.custom_id)}
+                        onClick={() => handleMarkAsPaid(selectedInvoice.invoice_details.custom_id)}
                       >Mark as
                         Paid</Button>
                     </div>
@@ -236,15 +229,15 @@ export default function Page({params}) {
                     className="invoice_summary-header-group flex flex-row md:flex-row justify-between gap-8 lg:gap-0">
                     <div className="summary_header gap-1 lg:gap-2 flex flex-col">
                       <h1 className="heading-s text-6-muted">#<span
-                        className={`${theme.text}`}>{invoiceData.custom_id}</span>
+                        className={`${theme.text}`}>{selectedInvoice.invoice_details.custom_id}</span>
                       </h1>
-                      <p className={`body ${theme.table_date} uppercase `}>{invoiceData.project_description}</p>
+                      <p className={`body ${theme.table_date} uppercase `}>{selectedInvoice.invoice_details.project_description}</p>
                     </div>
                     <div className={`text-right summary_billfrom-group body ${theme.table_date}`}>
-                      <p className="capitalize">{invoiceData.billfrom[0].street_address}</p>
-                      <p className="capitalize">{invoiceData.billfrom[0].city}</p>
-                      <p>{invoiceData.billfrom[0].post_code}</p>
-                      <p className="capitalize">{invoiceData.billfrom[0].country}</p>
+                      <p className="capitalize">{selectedInvoice.billfrom.street_address}</p>
+                      <p className="capitalize">{selectedInvoice.billfrom.city}</p>
+                      <p>{selectedInvoice.billfrom.post_code}</p>
+                      <p className="capitalize">{selectedInvoice.billfrom.country}</p>
                     </div>
                   </div>
 
@@ -255,29 +248,29 @@ export default function Page({params}) {
                       <div className="invoice_date-group">
                         <p className={`payment_due_text ${theme.table_date} body-v mb-3 `}>Invoice Date</p>
                         <p
-                          className={`payment_due_date heading-s ${theme.text} whitespace-nowrap`}>{convertDate(invoiceData.invoice_date)}</p>
+                          className={`payment_due_date heading-s ${theme.text} whitespace-nowrap`}>{convertDate(selectedInvoice.invoice_details.invoice_date)}</p>
                       </div>
                       <div className="invoice_due_date-group">
                         <p className={`payment_due_text ${theme.table_date} body-v mb-3`}>Payment Due</p>
                         <p
-                          className={`payment_due_date heading-s ${theme.text}`}>{getPaymentDueDate(invoiceData.invoice_date)}</p>
+                          className={`payment_due_date heading-s ${theme.text}`}>{getPaymentDueDate(selectedInvoice.invoice_details.invoice_date)}</p>
                       </div>
                     </div>
 
                     <div className={`invoice_billto-group flex flex-col ${theme.table_date}`}>
                       <h2 className={`body-v ${theme.table_date} mb-3`}>Bill To</h2>
                       <p
-                        className={`heading-s capitalize mb-2 whitespace-nowrap ${theme.text}`}>{invoiceData.billto[0].client_name}</p>
+                        className={`heading-s capitalize mb-2 whitespace-nowrap ${theme.text}`}>{selectedInvoice.billto.client_name}</p>
                       <p
-                        className="body  capitalize whitespace-nowrap">{invoiceData.billto[0].street_address}</p>
-                      <p className="body  capitalize">{invoiceData.billto[0].city}</p>
-                      <p className="body  capitalize">{invoiceData.billto[0].post_code}</p>
-                      <p className="body  capitalize">{invoiceData.billto[0].country}</p>
+                        className="body  capitalize whitespace-nowrap">{selectedInvoice.billto.street_address}</p>
+                      <p className="body  capitalize">{selectedInvoice.billto.city}</p>
+                      <p className="body  capitalize">{selectedInvoice.billto.post_code}</p>
+                      <p className="body  capitalize">{selectedInvoice.billto.country}</p>
                     </div>
 
                     <div className="client_email-group flex flex-col w-full md:w-fit mt-8 md:mt-0 lg:mr-[8rem]">
                       <p className={`body-v ${theme.table_date} mb-3`}>Sent to</p>
-                      <p className={`heading-s capitalize ${theme.text}`}>{invoiceData.billto[0].client_email}</p>
+                      <p className={`heading-s capitalize ${theme.text}`}>{selectedInvoice.billto.client_email}</p>
                     </div>
                   </div>
 
@@ -294,7 +287,7 @@ export default function Page({params}) {
                         </div>
                       </div>
                       <div className="item_table-body-group flex flex-col gap-4">
-                        {invoiceData.itemlist.map((item, index) => (
+                        {selectedInvoice.item_list.map((item, index) => (
                           <div key={index} className="item_table-body flex flex-row text-left flex-wrap h-full">
                             <p
                               className={`heading-s ${theme.text} w-full lg:max-w-[16rem] lg:w-full `}>{item.item_name}</p>
@@ -313,7 +306,7 @@ export default function Page({params}) {
                     <div
                       className={`invoice_summary-total-group ${theme.summary_total} rounded-b-[0.5rem] flex flex-row justify-between items-center px-8 py-6`}>
                       <p className="body text-white mr-8">Amount Due</p>
-                      <p className="heading-m text-white">$ {convertToCurrency(invoiceData.total)}</p>
+                      <p className="heading-m text-white">$ {convertToCurrency(selectedInvoice.invoice_details.total)}</p>
                     </div>
                   </div>
                 </div>
@@ -334,7 +327,7 @@ export default function Page({params}) {
                       </SheetTrigger>
                       <SheetContent className={"w-[100%] overflow-y-scroll max-h-screen web hide-scrollbar"}>
                         <SheetView setSheetOpen={setSheetOpen} sheetType={'edit'}
-                                   data={invoiceData}/>
+                                   data={selectedInvoice}/>
                       </SheetContent>
                     </Sheet>
 
@@ -342,7 +335,6 @@ export default function Page({params}) {
                       <AlertDialogTrigger asChild>
                         <Button
                           className="px-6 py-[1.5rem] flex grow rounded-[1.5rem] bg-9-accent text-white heading-s-v hover:bg-10-soft-red"
-
                         >
                           Delete
                         </Button>
@@ -351,21 +343,21 @@ export default function Page({params}) {
                         <AlertDialogHeader>
                           <AlertDialogTitle className={`heading-m ${theme.text}`}>Confirm Deletion</AlertDialogTitle>
                           <AlertDialogDescription className={"body text-6-muted"}>
-                            Are you sure you want to delete invoice #{invoiceData.custom_id}? This action cannot be.
+                            Are you sure you want to delete invoice #{selectedInvoice.invoice_details.custom_id}? This action cannot be.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter className={"mt-4"}>
                           <AlertDialogCancel
                             className={`rounded-[1.5rem] ${theme.cancel_button}`}>Cancel</AlertDialogCancel>
                           <AlertDialogAction className={"rounded-[1.5rem] bg-9-accent text-white hover:bg-10-soft-red"}
-                                             onClick={() => handleDelete(invoiceData.custom_id)}>Delete</AlertDialogAction>
+                                             onClick={() => handleDelete(selectedInvoice.invoice_details.custom_id)}>Delete</AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
                     <Button
                       className="px-6 py-[1.5rem] flex grow rounded-[1.5rem] bg-1-primary text-white heading-s-v hover:bg-2-highlight"
                       disabled={status === 'paid'}
-                      onClick={() => handleMarkAsPaid(invoiceData.custom_id)}
+                      onClick={() => handleMarkAsPaid(selectedInvoice.invoice_details.custom_id)}
                     >Mark as
                       Paid</Button>
                   </div>
@@ -376,9 +368,20 @@ export default function Page({params}) {
         )
         :
         (
-          <>
-            <h1>Loading...</h1>
-          </>
+
+          <div role="status" className="flex w-full min-h-screen justify-center items-center">
+            <svg aria-hidden="true" className="w-24 h-24 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                 viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                fill="currentColor"/>
+              <path
+                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                fill="currentFill"/>
+            </svg>
+            <span className="sr-only">Loading...</span>
+          </div>
+
         )}
     </div>
   )

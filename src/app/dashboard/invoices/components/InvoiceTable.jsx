@@ -5,10 +5,15 @@ import {useRouter} from "next/navigation";
 export default function InvoiceTable() {
   const router = useRouter();
 
-  const {theme, invoiceList} = useContext(InvoiceContext);
+  const {theme, invoiceList, setSelectedInvoice} = useContext(InvoiceContext);
 
 
-
+  const handleViewInvoice = (custom_id) => {
+   // get object from invoiceList that contains the custom_id
+    const invoice = invoiceList.find((invoice) => invoice.invoice_details.custom_id === custom_id);
+    setSelectedInvoice(invoice);
+    router.push(`/dashboard/invoices/${invoice.invoice_details.custom_id}`);
+  }
 
 
   function getStatusClasses(status) {
@@ -36,25 +41,25 @@ export default function InvoiceTable() {
               <tr key={key} className={`row_contaienr flex flex-row  ${theme.table_row} h-[4.5rem] justify-start items-center basis-[730px]]
                 px-[2rem] hover:border-1-primary hover:border-[1px] hover:cursor-pointer hover:scale-110 rounded-[.5rem] gap-4`}
                   onClick={() => {
-                    router.push(`/dashboard/invoices/${invoice.id}`)
+                    handleViewInvoice(invoice.invoice_details.custom_id);
                   }}
               >
                 <td className="flex flex-row justify-start items-center group flex-grow basis-[3.75rem] "><span
                   className="text-7-info heading-s-v">#</span>
-                  <div className={`heading-s-v ${theme.text}`}>{invoice.id}</div>
+                  <div className={`heading-s-v ${theme.text}`}>{invoice.invoice_details.custom_id}</div>
                 </td>
                 <td
                   className="flex flex-row justify-start body-v text-7-info gap-2 basis[6.25rem] flex-grow  whitespace-nowrap">
                   <p className={`${theme.table_due}`}>Due <span
-                    className={`${theme.table_date}`}>{invoice.due_date}</span></p>
+                    className={`${theme.table_date}`}>{invoice.invoice_details.due_date}</span></p>
                 </td>
                 <td
-                  className={`flex flex-row body-v ${theme.table_client_name} justify-left basis-[8rem] whitespace-nowrap`}>{invoice.clientName ? invoice.clientName : 'Not Available'}</td>
+                  className={`flex flex-row body-v ${theme.table_client_name} justify-left basis-[8rem] whitespace-nowrap`}>{invoice.billto?.client_name ? invoice.billto?.client_name : 'Not Available'}</td>
                 <td
-                  className={`heading-s ${theme.text} flex flex-row justify-end   items-center basis-full] flex-grow whitespace-nowrap`}>$ {invoice.total}</td>
+                  className={`heading-s ${theme.text} flex flex-row justify-end   items-center basis-full] flex-grow whitespace-nowrap`}>$ {invoice.invoice_details.total}</td>
                 <td
-                  className={`w-fit h-fit p-4 flex items-center justify-end flex-grow flex-shrink-0  basis-[6.5rem] ${getStatusClasses(invoice.status)}`}>
-                  <li>{invoice.status}</li>
+                  className={`w-fit h-fit p-4 flex items-center justify-end flex-grow flex-shrink-0  basis-[6.5rem] ${getStatusClasses(invoice.invoice_details.status)}`}>
+                  <li>{invoice.invoice_details.status}</li>
                 </td>
 
                 <td>

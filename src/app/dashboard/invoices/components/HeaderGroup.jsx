@@ -20,10 +20,10 @@ export default function HeaderGroup() {
             <h1 className={`heading-m lg:heading-l ${theme.page_header}`}>Invoices</h1>
             <p className="body-v text-6-muted">
               {/* Default text for smaller screens */}
-              <span className="lg:hidden">{invoiceList.length} invoices</span>
+              <span className="lg:hidden">{invoiceList?.length} invoices</span>
 
               {/* Text for xl screens and larger */}
-              <span className="hidden lg:inline  ">There are {invoiceList.length} total invoices</span>
+              <span className="hidden lg:inline  ">There are {invoiceList?.length} total invoices</span>
             </p>
           </div>
         </div>

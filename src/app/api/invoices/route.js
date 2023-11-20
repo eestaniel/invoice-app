@@ -15,7 +15,7 @@ export async function GET(req) {
     // Create an array to hold status filters
     const statusFilters = [];
     for (let i = 2; i <= 4; i++) {
-      const status = req.nextUrl.searchParams.get(`status${i-1}`);
+      const status = req.nextUrl.searchParams.get(`status${i - 1}`);
       if (status) {
         statusFilters.push(status);
       }
@@ -32,35 +32,54 @@ export async function GET(req) {
     // from invoices get custom_id, invoice_date, total, status and billto.client_name
     invoices = await prisma.invoices.findMany({
       where: whereCondition,
-      select: {
-        custom_id: true,
-        due_date: true,
-        total: true,
-        status: true,
-        billto: {
-          select: {
-            client_name: true
-          }
-        }
+      include: {
+        billfrom: true,
+        billto: true,
+        itemlist: true,
+
       },
       orderBy: {
         due_date: 'asc'
       }
     });
+    console.log(invoices)
     let newInvoices = []
 
     invoices.forEach((invoice) => {
       // convert 2023-11-09T00:00:00.000Z to 09 Nov 2023
-      const date = new Date(invoice.due_date)
+      const date = new Date(invoice.invoice_date)
+      const due_date = new Date(invoice.due_date)
       const options = {year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC'}
-      const formattedDate = date.toLocaleDateString('en-GB', options)
+      const formattedDate = date.toLocaleDateString('en-US', options)
+      const formattedDueDate = due_date.toLocaleDateString('en-US', options)
 
       newInvoices.push({
-        id: invoice.custom_id,
+        /*id: invoice.custom_id,
         due_date: formattedDate,
         clientName: invoice.billto[0].client_name,
         total: invoice.total,
-        status: invoice.status
+        status: invoice.status*/
+        billfrom: invoice.billfrom[0],
+        billto: invoice.billto[0],
+        invoice_details: {
+          id: invoice.id,
+          uid: invoice.uid,
+          custom_id: invoice.custom_id,
+          invoice_date: formattedDate,
+          due_date: formattedDueDate,
+          payment_terms: invoice.payment_terms,
+          project_description: invoice.project_description,
+          status: invoice.status,
+          total: invoice.total,
+        },
+        item_list: invoice.itemlist.map((item) => {
+          return {
+            id: item.id,
+            name: item.item_name,
+            quantity: item.quantity,
+            price: item.price,
+          }
+        })
       })
     })
 

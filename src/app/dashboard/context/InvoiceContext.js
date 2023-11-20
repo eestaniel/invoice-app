@@ -6,16 +6,18 @@ import {AuthContext} from "@/app/dashboard/context/AuthContext";
 export const InvoiceContext = createContext();
 
 export const InvoiceProvider = ({children}) => {
-  const [invoiceList, setInvoiceList] = useState([]);
+  const [invoiceList, setInvoiceList] = useState(null);
+  const [selectedInvoice, setSelectedInvoice] = useState(null);
   const [shouldFetchInvoices, setShouldFetchInvoices] = useState(false);
   const [filterList, setFilterList] = useState([]);
   const [isNightMode, setIsNightMode] = useState(false);
   const [updateSummary, setUpdateSummary] = useState(false)
   const {currentUser} = useContext(AuthContext)
+  const [loading, setLoading] = useState(false)
 
   const fetchInvoices = () => {
     const type = 'invoice-table'
-
+    setLoading(true)
     if (filterList.length === 0) {
       fetch(`/api/invoices?type=${type}&uid=${currentUser?.uid}`).then(res => res.json()).then(data => {
         // get invoice data by data ascending order
@@ -24,8 +26,9 @@ export const InvoiceProvider = ({children}) => {
         } else {
           setInvoiceList([])
         }
+        setLoading(false)
       })
-    } else  {
+    } else {
       // send fetch get to /api/invoices to get object of invoices
       let query = ''
       // if filterList is not empty, create a query string, up to 3 max, dynamic naming, status1, status2, status3
@@ -38,18 +41,24 @@ export const InvoiceProvider = ({children}) => {
         // get invoice data by data asscending order
         setInvoiceList(data.body.invoices)
       })
+      setLoading(false)
     }
   }
 
-  useEffect(() => {
-    console.log(filterList)
-  }, []);
 
   useEffect(() => {
-    fetchInvoices()
+    // initial fetch invoices
+    if (invoiceList === null) {
+      fetchInvoices()
+    } else {
+
+    }
 
   }, [filterList, shouldFetchInvoices]);
 
+  useEffect(() => {
+    console.log('invoiceList', invoiceList)
+  }, [invoiceList]);
 
   /*#################### Invoice functions ####################*/
   // Function to update invoices
@@ -133,7 +142,9 @@ export const InvoiceProvider = ({children}) => {
       shouldFetchInvoices, setShouldFetchInvoices, toggleFetchInvoices,
       filterList, setFilterList,
       toggleNightMode, isNightMode, setIsNightMode, theme,
-      updateSummary, setUpdateSummary, fetchInvoices
+      updateSummary, setUpdateSummary, fetchInvoices,
+      loading, setLoading,
+      selectedInvoice, setSelectedInvoice
     }}>
       {children}
     </InvoiceContext.Provider>

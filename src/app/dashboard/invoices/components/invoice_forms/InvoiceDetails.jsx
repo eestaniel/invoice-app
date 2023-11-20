@@ -17,7 +17,6 @@ export default function InvoiceDetails() {
   const {register, getValues, setValue, formState: {errors}} = useFormContext();
   const formValues = getValues().invoice_details;
 
-
   return (
     <div className="bill-to-group flex flex-row mb-[1.5rem] mt-[2rem] w-full h-fit flex-wrap gap-2 justify-between">
 
@@ -31,7 +30,8 @@ export default function InvoiceDetails() {
                 variant={"outline"}
                 className={`w-full h-12 justify-between text-left heading-s-v opacity-50 group-hover:cursor-pointer group-hover:border-1-primary group-hover:opacity-100
                 ${theme.sheet_input}`}>
-                {formValues.invoice_date && format(formValues.invoice_date, 'd MMM yyyy')}
+               {/* {formValues.invoice_date && format(formValues.invoice_date, 'd MMM yyyy')}*/}
+                {new Date(formValues.invoice_date).toLocaleDateString('en-US', )}
                 <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
                   <path className="group group-hover:fill-1-primary"
                     d="M14 2h-.667V.667A.667.667 0 0012.667 0H12a.667.667 0 00-.667.667V2H4.667V.667A.667.667 0 004 0h-.667a.667.667 0 00-.666.667V2H2C.897 2 0 2.897 0 4v10c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zm.667 12c0 .367-.3.667-.667.667H2A.668.668 0 011.333 14V6.693h13.334V14z"
