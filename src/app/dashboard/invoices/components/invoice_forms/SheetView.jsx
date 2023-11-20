@@ -13,10 +13,7 @@ import {useContext, useEffect, useState} from "react";
 
 export default function SheetView({setSheetOpen, sheetType, data}) {
   const {
-    toggleFetchInvoices,
     theme,
-    setUpdateSummary,
-    updateSummary,
     setSelectedInvoice,
     setInvoiceList,
     invoiceList
@@ -63,6 +60,21 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
     }
   }, []);
 
+  const sendPostRequest = async (data) => {
+    try {
+      await fetch('/api/invoices', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+      return {createdInvoiceDB: 'success'}
+    } catch (err) {
+      return Response.error(err)
+    }
+  }
+
   const sendPutRequest = async (data) => {
     try {
       const res = await fetch(`/api/invoices?type=${data.invoice_details.type}`, {
@@ -73,7 +85,7 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
         },
       })
 
-      const json = await res.json()
+      await res.json()
       return {updatedInvoiceDB: 'success'}
     } catch (err) {
       return Response.error(err)
@@ -97,6 +109,24 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
 
 
     return {updatedSelectedInvoice: 'Success'}
+  }
+  const appendToInvoiceList = async (data) => {
+    // convert due_date to "Dec 17, 2023" format
+    data.invoice_details.due_date = parseDateAsUTC(data.invoice_details.due_date).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+
+    data.invoice_details.invoice_date = parseDateAsUTC(data.invoice_details.invoice_date).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+    // append data to invoiceList and sort by due_date ascending
+    setInvoiceList([...invoiceList, data].sort((a, b) => {
+      return new Date(a.invoice_details.due_date) - new Date(b.invoice_details.due_date);
+    }))
   }
 
   const updateInvoiceList = async (data) => {
@@ -130,19 +160,12 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
     setSheetOpen(false);
 
     if (data.invoice_details.type === 'create') {
-      fetch('/api/invoices', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      }).then(res => res.json())
-        .then(() => {
-          toggleFetchInvoices();
-        })
-        .catch(err => console.error(err))
-        .finally(() => {
-        })
+      Promise.all([
+        sendPostRequest(data),
+        appendToInvoiceList(data)
+      ]).then((res) => {
+        console.log('res', res)
+      })
     } else if (data.invoice_details.type === 'update') {
       // concurrency/ promiseAll:
       // 1. send put request to update invoice
