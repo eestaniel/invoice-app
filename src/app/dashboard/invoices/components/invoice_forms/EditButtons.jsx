@@ -4,12 +4,15 @@ import {useFormContext} from "react-hook-form";
 import {InvoiceContext} from "@/app/dashboard/context/InvoiceContext";
 import {useContext} from "react";
 import {AuthContext} from "@/app/dashboard/context/AuthContext";
+import {Toaster} from "@/@/components/ui/toaster"
+import {useToast} from "@/@/components/ui/use-toast"
 
 export default function EditButtons() {
   const {setValue, getValues} = useFormContext();
   const {theme} = useContext(InvoiceContext);
   const {currentUser} = useContext(AuthContext);
   const status = getValues().invoice_details.status;
+  const {toast} = useToast()
 
   const setDueDate = () => {
     const paymentTerms = getValues().invoice_details.payment_terms;
@@ -63,6 +66,12 @@ export default function EditButtons() {
                     if (status === 'draft') {
                       setValue('invoice_details.status', 'pending')
                     }
+
+                    toast({
+                      variant: 'success',
+                      title: "Saving your invoice",
+                      description: "Your invoice is being saved. Please wait a moment.",
+                    })
 
                   }}>
             Save Changes

@@ -18,7 +18,9 @@ import {
 import {useContext} from "react";
 import {InvoiceContext} from "@/app/dashboard/context/InvoiceContext";
 import {AuthContext} from "@/app/dashboard/context/AuthContext";
-
+import {ToastAction} from "@/@/components/ui/toast"
+import {Toaster} from "@/@/components/ui/toaster"
+import {useToast} from "@/@/components/ui/use-toast"
 
 export default function Page({params}) {
   const {id} = params
@@ -31,10 +33,11 @@ export default function Page({params}) {
     invoiceList,
     setInvoiceList,
     setFilterList,
+    isSaving
   } = useContext(InvoiceContext);
   const {currentUser} = useContext(AuthContext);
   const [deleting, setDeleting] = useState(false);
-
+  const {toast} = useToast()
 
   const router = useRouter()
 
@@ -180,6 +183,7 @@ export default function Page({params}) {
         <span className="sr-only">Loading...</span>
       </div>) : (
         <div className={`${theme.background} min-h-screen`}>
+          <Toaster/>
           {selectedInvoice ?
             (
               <>
@@ -187,7 +191,19 @@ export default function Page({params}) {
                   className={`page_container  px-6
                 pt-8 lg:pt-[4.0625rem] ${theme.background} min-h-screen h-fit w-full justify-center flex flex-col`}>
                   <div className="w-full flex justify-center">
-                    <div
+                    {isSaving
+                      ? <div
+                      className="back_group flex flex-row items-center justify-start w-full h-[1rem] gap-[1.5rem] heading-s-v text-8-text mb-[2rem]
+                  max-w-[730px] "
+
+                    >
+                      <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.342.886L2.114 5.114l4.228 4.228" stroke="#9277FF" strokeWidth="2" fill="none"
+                              fillRule="evenodd"/>
+                      </svg>
+                      <p className={`text-gray-400`}>Go back</p>
+                    </div>
+                      :<div
                       className="back_group flex flex-row items-center justify-start w-full h-[1rem] gap-[1.5rem] heading-s-v text-8-text mb-[2rem]
                   max-w-[730px] hover:cursor-pointer group"
                       onClick={() => {
@@ -201,6 +217,7 @@ export default function Page({params}) {
                       </svg>
                       <p className={`${theme.go_back}`}>Go back</p>
                     </div>
+                    }
                   </div>
 
                   <div className="hidden lg:inline">

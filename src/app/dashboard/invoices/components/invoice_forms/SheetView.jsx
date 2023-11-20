@@ -16,7 +16,8 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
     theme,
     setSelectedInvoice,
     setInvoiceList,
-    invoiceList
+    invoiceList,
+    isSaving, setIsSaving
   } = useContext(InvoiceContext);
   const [customId, setCustomId] = useState('');
 
@@ -166,13 +167,13 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
       // 1. send put request to update invoice
       // 2. update context selectedInvoice
       // 3. update context invoiceList object with updated invoice by custom id
-
       Promise.all([
         sendPutRequest(data),
         updateSelectedInvoice(data),
-        updateInvoiceList(data)
-
+        updateInvoiceList(data),
+        setIsSaving(true)
       ]).then(() => {
+        setIsSaving(false)
       })
     }
   };

@@ -15,6 +15,7 @@ export const InvoiceProvider = ({children}) => {
   const {currentUser} = useContext(AuthContext)
   const [loading, setLoading] = useState(false)
   const originalInvoiceList = useRef(invoiceList);
+  const [isSaving, setIsSaving] = useState(false);
 
   const fetchInvoices = () => {
     const type = 'invoice-table'
@@ -145,7 +146,8 @@ export const InvoiceProvider = ({children}) => {
       toggleNightMode, isNightMode, setIsNightMode, theme,
       updateSummary, setUpdateSummary, fetchInvoices,
       loading, setLoading,
-      selectedInvoice, setSelectedInvoice
+      selectedInvoice, setSelectedInvoice,
+      isSaving, setIsSaving,
     }}>
       {children}
     </InvoiceContext.Provider>
