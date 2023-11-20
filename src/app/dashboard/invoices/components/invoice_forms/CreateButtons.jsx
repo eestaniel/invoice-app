@@ -40,7 +40,7 @@ export default function CreateButtons() {
 
   return (
     <div
-      className={` group-buttons flex flex-row justify-between items-center gap-[0.5rem] mt-[3rem] w-full h-full 
+      className={`group-buttons flex flex-row justify-between items-center gap-[0.5rem] mt-[3rem] w-full h-full 
         grow p-[3.5rem] shadow-[rgba(0,0,0,0.1)_1px_4px_100px_30px] ${theme.sheet_bg}`}>
       <SheetClose asChild>
         <Button

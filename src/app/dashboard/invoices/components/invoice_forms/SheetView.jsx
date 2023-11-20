@@ -221,7 +221,7 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
         </div>
         {/* Button Groups*/}
         <div
-          className={`container-bottom-nav w-full h-fit lg:h-[6.875rem] lg:sticky lg:bottom-0 ${theme.background} xl:pl-[7rem]`}>
+          className={`container-bottom-nav w-full h-fit lg:h-[6.875rem] lg:sticky lg:bottom-0 ${theme.background} xl:pl-[6rem]`}>
           {sheetType !== 'edit' ?
             <CreateButtons/>
             :
