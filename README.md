@@ -16,8 +16,8 @@ Invoice App is a full-stack application designed to simplify the process of crea
 - **Item Addition:** Functionality to add new items to the invoice, with fields for item name, quantity, and price. Items can be removed as needed.
 - **Invoice Management:** Users have the option to discard invoices, save them as drafts, or finalize them for sending.
 - **Invoice Viewing:** The app provides a summary view of all created invoices, where users can mark invoices as paid, edit, or delete them.
-- **Night Mode:** Implement a night mode feature to offer a dark theme interface, reducing eye strain and enhancing usability in low-light conditions.
-- **Implement Authentication:** The next step is to add user authentication to provide secure access and personalized user experiences.
+- **Night Mode:** Nightight mode featurs a dark theme interface, reducing eye strain and enhancing usability in low-light conditions.
+- **Implement Authentication:** User authentication to provide secure access and personalized user experiences.
 
 
 ## Tech Stack
