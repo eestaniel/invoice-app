@@ -132,6 +132,7 @@ export default function Page({params}) {
                   className="back_group flex flex-row items-center justify-start w-full h-[1rem] gap-[1.5rem] heading-s-v text-8-text mb-[2rem]
                   max-w-[730px] hover:cursor-pointer group"
                   onClick={() => {
+                    setSelectedInvoice(null)
                     router.back()
                   }}
                 >
@@ -290,7 +291,7 @@ export default function Page({params}) {
                         {selectedInvoice.item_list.map((item, index) => (
                           <div key={index} className="item_table-body flex flex-row text-left flex-wrap h-full">
                             <p
-                              className={`heading-s ${theme.text} w-full lg:max-w-[16rem] lg:w-full `}>{item.item_name}</p>
+                              className={`heading-s ${theme.text} w-full lg:max-w-[16rem] lg:w-full `}>{item.name}</p>
                             <p
                               className={`heading-s ${theme.summary_price_info} lg:${theme.table_date} lg:w-full lg:max-w-[2rem] text-left lg:text-center`}>{item.quantity}
                               <span

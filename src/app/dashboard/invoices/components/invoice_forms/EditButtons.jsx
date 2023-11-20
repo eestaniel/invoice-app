@@ -16,6 +16,9 @@ export default function EditButtons() {
     const invoiceDate = getValues().invoice_details.invoice_date;
     const dueDate = new Date(invoiceDate);
     dueDate.setDate(dueDate.getDate() + parseInt(paymentTerms.replace(/\D/g, '')));
+
+    //convert dueDate to string
+
     setValue('invoice_details.due_date', dueDate);
   }
 
@@ -51,7 +54,11 @@ export default function EditButtons() {
                     // generate and set custom_id: random 2 letters + 4 digits: XY1234
                     setValue('invoice_details.type', 'update')
                     setValue('invoice_details.uid', currentUser.uid)
-
+                    // convert data.invoice_details.invoice_date to Date object
+                    const invoiceDate = getValues().invoice_details.invoice_date;
+                    setValue('invoice_details.invoice_date', new Date(invoiceDate))
+                    // convert due_date to Date object using format(new Date(formValues.invoice_date), 'd MMM yyyy')
+                    const dueData = getValues().invoice_details.due_date;
                     // if status is draft, set to pending
                     if (status === 'draft') {
                       setValue('invoice_details.status', 'pending')

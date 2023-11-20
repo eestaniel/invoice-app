@@ -54,7 +54,7 @@ export default function InvoiceTable() {
                     className={`${theme.table_date}`}>{invoice.invoice_details.due_date}</span></p>
                 </td>
                 <td
-                  className={`flex flex-row body-v ${theme.table_client_name} justify-left basis-[8rem] whitespace-nowrap`}>{invoice.billto?.client_name ? invoice.billto?.client_name : 'Not Available'}</td>
+                  className={`flex flex-row body-v ${theme.table_client_name} justify-left basis-[8rem] whitespace-nowrap`}>{invoice.bill_to?.client_name ? invoice.bill_to?.client_name : 'Not Available'}</td>
                 <td
                   className={`heading-s ${theme.text} flex flex-row justify-end   items-center basis-full] flex-grow whitespace-nowrap`}>$ {invoice.invoice_details.total}</td>
                 <td

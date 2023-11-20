@@ -138,7 +138,7 @@ export const InvoiceProvider = ({children}) => {
 
   return (
     < InvoiceContext.Provider value={{
-      invoiceList, addInvoice, setInvoices, getInvoices, removeInvoice,
+      invoiceList, setInvoiceList, addInvoice, setInvoices, getInvoices, removeInvoice,
       shouldFetchInvoices, setShouldFetchInvoices, toggleFetchInvoices,
       filterList, setFilterList,
       toggleNightMode, isNightMode, setIsNightMode, theme,

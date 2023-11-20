@@ -4,7 +4,7 @@ import InvoiceDetails from "@/app/dashboard/invoices/components/invoice_forms/In
 import InvoiceList from "@/app/dashboard/invoices/components/invoice_forms/InvoiceList";
 import CreateButtons from "@/app/dashboard/invoices/components/invoice_forms/CreateButtons";
 import EditButtons from "@/app/dashboard/invoices/components/invoice_forms/EditButtons";
-import {useForm, FormProvider, useFieldArray} from 'react-hook-form';
+import {FormProvider, useFieldArray, useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {invoiceFormSchema} from "@/app/dashboard/invoices/components/invoice_forms/schemas/invoiceSchema";
 import {InvoiceContext} from "@/app/dashboard/context/InvoiceContext";
@@ -12,7 +12,15 @@ import {useContext, useEffect, useState} from "react";
 
 
 export default function SheetView({setSheetOpen, sheetType, data}) {
-  const {toggleFetchInvoices, theme, setUpdateSummary, updateSummary} = useContext(InvoiceContext);
+  const {
+    toggleFetchInvoices,
+    theme,
+    setUpdateSummary,
+    updateSummary,
+    setSelectedInvoice,
+    setInvoiceList,
+    invoiceList
+  } = useContext(InvoiceContext);
   const [customId, setCustomId] = useState('');
 
   const methods = useForm({
@@ -48,13 +56,75 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
 
   useEffect(() => {
     if (data) {
-
-      console.log('newData', data.invoice_details.invoice_date);
       setCustomId(data.custom_id);
       reset(data);
+      console.log('data', data)
 
     }
   }, []);
+
+  const sendPutRequest = async (data) => {
+    try {
+      const res = await fetch(`/api/invoices?type=${data.invoice_details.type}`, {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+
+      const json = await res.json()
+      return {updatedInvoiceDB: 'success'}
+    } catch (err) {
+      return Response.error(err)
+    }
+  }
+  const updateSelectedInvoice = async (data) => {
+    // convert due_date to "Dec 17, 2023" format
+    data.invoice_details.due_date = parseDateAsUTC(data.invoice_details.due_date).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+
+    data.invoice_details.invoice_date = parseDateAsUTC(data.invoice_details.invoice_date).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+    // update context selectedInvoice
+    setSelectedInvoice(data);
+
+
+    return {updatedSelectedInvoice: 'Success'}
+  }
+
+  const updateInvoiceList = async (data) => {
+    // convert due_date to "Dec 17, 2023" format
+    data.invoice_details.due_date = parseDateAsUTC(data.invoice_details.due_date).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+
+    data.invoice_details.invoice_date = parseDateAsUTC(data.invoice_details.invoice_date).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+
+    const index = invoiceList.findIndex((invoice) => invoice.invoice_details.custom_id === data.invoice_details.custom_id);
+    setInvoiceList([
+      ...invoiceList.slice(0, index),
+      data,
+      ...invoiceList.slice(index + 1)
+    ])
+
+    console.log('invoiceList updated', invoiceList)
+
+    return {updatedInvoiceList: 'Success'}
+  }
+
 
   const onSubmit = (data) => {
     setSheetOpen(false);
@@ -74,20 +144,19 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
         .finally(() => {
         })
     } else if (data.invoice_details.type === 'update') {
-      fetch(`/api/invoices?type=${data.invoice_details.type}`, {
-        method: 'PUT',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      }).then(res => res.json())
+      // concurrency/ promiseAll:
+      // 1. send put request to update invoice
+      // 2. update context selectedInvoice
+      // 3. update context invoiceList object with updated invoice by custom id
 
-        .then(() => {
-          setUpdateSummary(!updateSummary);
-        })
-        .catch(err => console.error(err))
-        .finally(() => {
-        })
+      Promise.all([
+        sendPutRequest(data),
+        updateSelectedInvoice(data),
+        updateInvoiceList(data)
+
+      ]).then((res) => {
+        console.log('res', res)
+      })
     }
   };
   const onInvalid = (errors) => console.error(errors)
@@ -105,9 +174,9 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
                     fillRule="evenodd"/>
             </svg>
             <p className={`heading-s ${theme.go_back} hover:cursor-pointer`}
-                onClick={() => {
-                  setSheetOpen(false);
-                }}
+               onClick={() => {
+                 setSheetOpen(false);
+               }}
             >
               Go back
             </p>
@@ -133,7 +202,8 @@ export default function SheetView({setSheetOpen, sheetType, data}) {
 
         </div>
         {/* Button Groups*/}
-        <div className={`container-bottom-nav w-full h-fit lg:h-[6.875rem] lg:sticky lg:bottom-0 ${theme.background} xl:pl-[7rem]`}>
+        <div
+          className={`container-bottom-nav w-full h-fit lg:h-[6.875rem] lg:sticky lg:bottom-0 ${theme.background} xl:pl-[7rem]`}>
           {sheetType !== 'edit' ?
             <CreateButtons/>
             :

@@ -60,6 +60,7 @@ export async function GET(req) {
           id: invoice.id,
           uid: invoice.uid,
           custom_id: invoice.custom_id,
+          //set invoice_date to date object
           invoice_date: formattedDate,
           due_date: formattedDueDate,
           payment_terms: invoice.payment_terms,
